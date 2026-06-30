@@ -48,6 +48,20 @@ The PR template requires evidence for requirement trace, user story, acceptance 
 
 `.github/workflows/se-quality-gate.yml` checks that governance files exist and validates the PR checklist and traceability matrix. It also runs npm or Python tests only when the target repository actually contains those project types.
 
+## Automated Tests
+
+This project supports pytest for script-level automated tests. Run the governance checks and unit tests before changing the governor:
+
+```bash
+python3 scripts/se_gate.py
+python3 scripts/validate_pr_checklist.py
+python3 scripts/validate_traceability.py
+python3 scripts/scan_for_engineering_smells.py
+python3 -m pytest
+```
+
+The tests exercise normal and failure paths for the governance scripts, including missing artifacts, dangerous text detection, malformed PR templates, incomplete traceability, scaffold generation, bad arguments, and smell warnings.
+
 ## Pre-commit
 
 The pre-commit config runs the standard-library Python gates:

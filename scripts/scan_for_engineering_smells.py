@@ -13,9 +13,12 @@ TEXT_SUFFIXES = {".py", ".js", ".ts", ".jsx", ".tsx", ".java", ".cs", ".go", ".r
 
 RISK_PATTERNS = [
     ("TODO/FIXME", re.compile(r"\b(TODO|FIXME)\b", re.IGNORECASE)),
-    ("dynamic code execution", re.compile(r"\b(ev" + "al|ex" + "ec)\s*\(", re.IGNORECASE)),
+    ("dynamic code execution", re.compile(r"\b(?:eval|exec)\s*\(", re.IGNORECASE)),
     ("hardcoded secret", re.compile(r"(password|token|api[_-]?key|secret)\s*[:=]\s*['\"][^'\"]{6,}", re.IGNORECASE)),
 ]
+
+ENGINEERING_ID = re.compile(r"\b(?:FR|NFR|AC|TC|R|T|A|RC)-\d{3,}\b")
+NUMBER_PATTERN = re.compile(r"(?<![A-Za-z0-9_])\d{3,}(?![A-Za-z0-9_])")
 
 
 def iter_files(paths):
@@ -62,7 +65,8 @@ def main(argv):
             for label, pattern in RISK_PATTERNS:
                 if pattern.search(line):
                     warn(path, i, label)
-            for number in re.findall(r"(?<![A-Za-z0-9_])\d{3,}(?![A-Za-z0-9_])", line):
+            line_without_ids = ENGINEERING_ID.sub("", line)
+            for number in NUMBER_PATTERN.findall(line_without_ids):
                 if number not in {"200", "404", "500", "1000"}:
                     warn(path, i, f"possible magic number {number}")
             stripped = line.strip()
