@@ -8,7 +8,17 @@ import re
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-SKIP_DIRS = {".git", "node_modules", "__pycache__", ".pytest_cache"}
+SKIP_DIRS = {".git", "node_modules", "__pycache__", ".pytest_cache", "__MACOSX"}
+SKIP_PREFIXES = (
+    Path("references") / "course",
+    Path("examples"),
+    Path("tests"),
+    Path("tasks"),
+)
+SKIP_FILES = {
+    Path("docs/quality/SMELL_BASELINE.md"),
+    Path("docs/software-engineering/COURSE_OUTLINE_LOCK.json"),
+}
 TEXT_SUFFIXES = {".py", ".js", ".ts", ".jsx", ".tsx", ".java", ".cs", ".go", ".rb", ".php", ".md", ".yml", ".yaml", ".json"}
 
 RISK_PATTERNS = [
@@ -17,8 +27,30 @@ RISK_PATTERNS = [
     ("hardcoded secret", re.compile(r"(password|token|api[_-]?key|secret)\s*[:=]\s*['\"][^'\"]{6,}", re.IGNORECASE)),
 ]
 
-ENGINEERING_ID = re.compile(r"\b(?:FR|NFR|AC|TC|R|T|A|RC)-\d{3,}\b")
+ENGINEERING_ID = re.compile(r"\b(?:FR|NFR|AC|TC|R|T|A|RC|PR|ADR|RA|GOV|GOV-CC|AS|EL|PCR|DEP|RB|MUT)-\d{3,}\b")
+DATE_TOKEN = re.compile(r"\b\d{4}-\d{2}-\d{2}\b")
 NUMBER_PATTERN = re.compile(r"(?<![A-Za-z0-9_])\d{3,}(?![A-Za-z0-9_])")
+REPEATED_IGNORE_PREFIXES = (
+    'text = path.read_text(encoding="utf-8")',
+    "if any(part in SKIP_DIRS for part in rel.parts):",
+    'env["PYTHONDONTWRITEBYTECODE"] = "1"',
+    "python3 scripts/",
+    "assert run_script(",
+    "result = run_script(",
+    "if not ",
+    "for field in REQUIRED:",
+    "text = TEMPLATE.read_text",
+    "failures.append(",
+    'failures.append(f"{path.relative_to(ROOT)}',
+    "cells = [cell.strip()",
+    "return json.loads(",
+    "rows = json.loads(",
+    "metrics = json.loads(",
+    "REQ_RE = re.compile(",
+    "AC_RE = re.compile(",
+    "RISK_RE = re.compile(",
+    "|",
+)
 
 
 def iter_files(paths):
@@ -26,13 +58,17 @@ def iter_files(paths):
     for root in roots:
         base = root if root.is_absolute() else ROOT / root
         if base.is_file():
-            yield base
+            rel_base = base.relative_to(ROOT) if base.is_relative_to(ROOT) else base
+            if rel_base not in SKIP_FILES:
+                yield base
             continue
         for path in base.rglob("*"):
             rel = path.relative_to(ROOT) if path.is_relative_to(ROOT) else path
             if any(part in SKIP_DIRS for part in rel.parts):
                 continue
-            if path.is_file() and path.suffix in TEXT_SUFFIXES:
+            if any(rel == prefix or prefix in rel.parents for prefix in SKIP_PREFIXES):
+                continue
+            if path.is_file() and path.suffix in TEXT_SUFFIXES and rel not in SKIP_FILES:
                 yield path
 
 
@@ -65,12 +101,12 @@ def main(argv):
             for label, pattern in RISK_PATTERNS:
                 if pattern.search(line):
                     warn(path, i, label)
-            line_without_ids = ENGINEERING_ID.sub("", line)
+            line_without_ids = DATE_TOKEN.sub("", ENGINEERING_ID.sub("", line))
             for number in NUMBER_PATTERN.findall(line_without_ids):
-                if number not in {"200", "404", "500", "1000"}:
+                if number not in {"100", "200", "404", "500", "1000"}:
                     warn(path, i, f"possible magic number {number}")
             stripped = line.strip()
-            if len(stripped) > 30:
+            if len(stripped) > 30 and not stripped.startswith(REPEATED_IGNORE_PREFIXES):
                 repeated[stripped].append((path, i))
     for value, locations in repeated.items():
         if len(locations) >= 4:

@@ -13,6 +13,7 @@ REQUIRED = [
     "Implementation quality",
     "Testing",
     "Security",
+    "AI Usage Review",
     "Documentation",
     "Risk",
     "Rollback",
