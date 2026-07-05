@@ -1,0 +1,3884 @@
+[
+  {
+    "section": "1",
+    "title": "软件工程导论（Introduction to Software Engineering）",
+    "chapter": "1",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "1.1",
+    "title": "本章内容",
+    "chapter": "1",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "1.2",
+    "title": "软件的含义",
+    "chapter": "1",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "1.2.1",
+    "title": "软件不只是程序",
+    "chapter": "1",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "1.3",
+    "title": "软件类型",
+    "chapter": "1",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "1.3.1",
+    "title": "系统软件与应用软件",
+    "chapter": "1",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "1.3.2",
+    "title": "按设备或架构划分应用软件",
+    "chapter": "1",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "1.3.3",
+    "title": "按目的或任务划分应用软件",
+    "chapter": "1",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "1.3.4",
+    "title": "按开发方式划分应用软件",
+    "chapter": "1",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "1.4",
+    "title": "好软件的质量属性",
+    "chapter": "1",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "1.4.1",
+    "title": "为什么要从不同视角讨论好软件",
+    "chapter": "1",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "1.4.2",
+    "title": "用户视角的软件质量属性",
+    "chapter": "1",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "1.4.3",
+    "title": "开发者视角的软件质量属性",
+    "chapter": "1",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "1.5",
+    "title": "软件工程的含义",
+    "chapter": "1",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "1.5.1",
+    "title": "三个定义",
+    "chapter": "1",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "1.5.2",
+    "title": "软件工程的关键活动",
+    "chapter": "1",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "1.6",
+    "title": "软件工程的分层技术",
+    "chapter": "1",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "1.7",
+    "title": "为什么需要软件工程",
+    "chapter": "1",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "1.8",
+    "title": "软件工程的重要性",
+    "chapter": "1",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "1.9",
+    "title": "软件失败",
+    "chapter": "1",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "1.10",
+    "title": "软件工程中的挑战",
+    "chapter": "1",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "1.11",
+    "title": "人工智能在软件工程中的使用",
+    "chapter": "1",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "1.12",
+    "title": "本章总结",
+    "chapter": "1",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "2",
+    "title": "敏捷软件开发（Agile Software Development）",
+    "chapter": "2",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "2.1",
+    "title": "本章内容",
+    "chapter": "2",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "2.2",
+    "title": "软件过程",
+    "chapter": "2",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "2.2.1",
+    "title": "软件过程的含义",
+    "chapter": "2",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "2.2.2",
+    "title": "各开发活动的产出",
+    "chapter": "2",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "2.2.3",
+    "title": "维护与演化",
+    "chapter": "2",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "2.3",
+    "title": "软件过程模型",
+    "chapter": "2",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "2.3.1",
+    "title": "为什么需要过程模型",
+    "chapter": "2",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "2.3.2",
+    "title": "经典软件过程模型",
+    "chapter": "2",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "2.4",
+    "title": "瀑布模型",
+    "chapter": "2",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "2.4.1",
+    "title": "瀑布模型的阶段",
+    "chapter": "2",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "2.4.2",
+    "title": "瀑布模型的优点",
+    "chapter": "2",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "2.4.3",
+    "title": "瀑布模型的问题",
+    "chapter": "2",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "2.4.4",
+    "title": "瀑布模型适合的项目",
+    "chapter": "2",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "2.5",
+    "title": "敏捷过程",
+    "chapter": "2",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "2.5.1",
+    "title": "敏捷过程的基本想法",
+    "chapter": "2",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "2.5.2",
+    "title": "敏捷迭代与发布循环",
+    "chapter": "2",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "2.5.3",
+    "title": "敏捷适合的项目",
+    "chapter": "2",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "2.5.4",
+    "title": "瀑布与敏捷的进度含义",
+    "chapter": "2",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "2.6",
+    "title": "什么是敏捷软件开发",
+    "chapter": "2",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "2.6.1",
+    "title": "敏捷是一组最佳实践",
+    "chapter": "2",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "2.6.2",
+    "title": "敏捷关注什么",
+    "chapter": "2",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "2.7",
+    "title": "集成与发布",
+    "chapter": "2",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "2.7.1",
+    "title": "频繁集成",
+    "chapter": "2",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "2.7.2",
+    "title": "小而频繁的发布",
+    "chapter": "2",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "2.8",
+    "title": "敏捷宣言",
+    "chapter": "2",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "2.9",
+    "title": "敏捷团队",
+    "chapter": "2",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "2.10",
+    "title": "敏捷中的该做与不该做",
+    "chapter": "2",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "2.11",
+    "title": "敏捷原则",
+    "chapter": "2",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "2.11.1",
+    "title": "五个简要原则",
+    "chapter": "2",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "2.11.2",
+    "title": "十二条敏捷原则",
+    "chapter": "2",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "2.12",
+    "title": "敏捷的问题",
+    "chapter": "2",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "2.13",
+    "title": "敏捷需要什么条件",
+    "chapter": "2",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "2.14",
+    "title": "本章总结",
+    "chapter": "2",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3",
+    "title": "需求（Requirements）",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.1",
+    "title": "本章内容",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.2",
+    "title": "需求是什么",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.2.1",
+    "title": "需求的基本含义",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.2.2",
+    "title": "谁会提供需求",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.3",
+    "title": "利益相关者",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.3.1",
+    "title": "利益相关者的定义",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.3.2",
+    "title": "CRM 系统中的不同视角",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.4",
+    "title": "识别需求为什么困难",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.4.1",
+    "title": "识别需求的基本做法",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.4.2",
+    "title": "需求理解中的常见问题",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.5",
+    "title": "为什么需求重要",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.5.1",
+    "title": "需求错误的经济成本",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.6",
+    "title": "需求工程",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.7",
+    "title": "需求分类",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.7.1",
+    "title": "功能需求与非功能需求",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.8",
+    "title": "功能需求",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.8.1",
+    "title": "功能需求的含义",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.8.2",
+    "title": "好的功能需求需要完整和一致",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.9",
+    "title": "非功能需求",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.9.1",
+    "title": "非功能需求的含义",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.9.2",
+    "title": "非功能需求的三个例子",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.9.3",
+    "title": "非功能需求的分类",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.10",
+    "title": "识别和度量非功能需求",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.10.1",
+    "title": "非功能需求必须可以验证",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.10.2",
+    "title": "从系统目标到可验证需求",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.10.3",
+    "title": "常见非功能属性的度量指标",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.11",
+    "title": "需求冲突",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.11.1",
+    "title": "需求冲突很常见",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.11.2",
+    "title": "数字图书馆冲突的处理选项",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.12",
+    "title": "需求获取",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.12.1",
+    "title": "需求获取要回答什么",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.12.2",
+    "title": "事实发现技术",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.12.3",
+    "title": "背景阅读",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.12.4",
+    "title": "访谈",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.12.5",
+    "title": "观察",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.12.6",
+    "title": "文档分析",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.12.7",
+    "title": "问卷",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "3.13",
+    "title": "本章总结",
+    "chapter": "3",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4",
+    "title": "用户故事与原型（User Stories and Prototyping）",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.1",
+    "title": "本章内容",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.2",
+    "title": "用户故事的基本思想",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.2.1",
+    "title": "敏捷中的需求表达",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.2.2",
+    "title": "用户故事与任务",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.3",
+    "title": "用户故事怎样写",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.3.1",
+    "title": "用户故事模板",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.3.2",
+    "title": "天气应用中的用户故事",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.3.3",
+    "title": "不同产品中的用户故事",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.4",
+    "title": "故事卡与故事墙",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.4.1",
+    "title": "故事卡",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.4.2",
+    "title": "典型故事卡模板",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.4.3",
+    "title": "故事墙",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.5",
+    "title": "项目术语表",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.5.1",
+    "title": "为什么需要术语表",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.5.2",
+    "title": "停车管理系统（术语表示例）",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.6",
+    "title": "Epic：较大的用户故事",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.6.1",
+    "title": "Epic 的含义",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.6.2",
+    "title": "硬盘备份 Epic 的拆分",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.6.3",
+    "title": "天气应用 Epic 的拆分",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.7",
+    "title": "验收标准",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.7.1",
+    "title": "验收标准的含义",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.7.2",
+    "title": "节假日广告活动分析的验收标准",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.7.3",
+    "title": "保存搜索默认城市名的验收标准",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.8",
+    "title": "非功能需求也可以写成用户故事",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.8.1",
+    "title": "把约束写成用户故事",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.9",
+    "title": "谁写用户故事，什么时候写",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.9.1",
+    "title": "谁可以写用户故事",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.9.2",
+    "title": "不要把需求沟通和编码切开",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.9.3",
+    "title": "用户故事什么时候写",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.10",
+    "title": "产品待办列表",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.10.1",
+    "title": "产品待办列表的含义",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.10.2",
+    "title": "Epic、Story 和 Task 的层次",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.10.3",
+    "title": "用电子表格管理产品待办列表",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.11",
+    "title": "用户故事的优先级",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.11.1",
+    "title": "为什么要排序",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.11.2",
+    "title": "ROI 的基本计算",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.11.3",
+    "title": "MoSCoW 优先级法",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.11.4",
+    "title": "支付处理故事的 MoSCoW 示例",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.12",
+    "title": "估算",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.12.1",
+    "title": "估算要回答什么",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.12.2",
+    "title": "故事点与 Fibonacci 式尺度",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.12.3",
+    "title": "团队怎样统一故事点",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.13",
+    "title": "好的用户故事：INVEST",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.13.1",
+    "title": "INVEST 六个标准",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.14",
+    "title": "原型设计",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.14.1",
+    "title": "为什么需要原型",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.14.2",
+    "title": "低保真原型",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.14.3",
+    "title": "中保真原型",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.14.4",
+    "title": "高保真原型",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.14.5",
+    "title": "低、中、高保真的对比",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "4.15",
+    "title": "本章总结",
+    "chapter": "4",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "5",
+    "title": "分析（Analysis）",
+    "chapter": "5",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "5.1",
+    "title": "本章内容",
+    "chapter": "5",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "5.2",
+    "title": "什么是分析",
+    "chapter": "5",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "5.2.1",
+    "title": "分析的一般含义",
+    "chapter": "5",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "5.2.2",
+    "title": "什么内容算本质",
+    "chapter": "5",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "5.2.3",
+    "title": "为什么客户没有直接说出来",
+    "chapter": "5",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "5.3",
+    "title": "从需求走向分析",
+    "chapter": "5",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "5.3.1",
+    "title": "获取需求、真实环境分析与架构",
+    "chapter": "5",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "5.3.2",
+    "title": "类从哪里来",
+    "chapter": "5",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "5.4",
+    "title": "为什么要分析",
+    "chapter": "5",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "5.4.1",
+    "title": "关注点转向开发者和系统内部",
+    "chapter": "5",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "5.4.2",
+    "title": "分析关心什么",
+    "chapter": "5",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "5.5",
+    "title": "概念建模",
+    "chapter": "5",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "5.5.1",
+    "title": "概念模型的目的",
+    "chapter": "5",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "5.5.2",
+    "title": "类与对象",
+    "chapter": "5",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "5.6",
+    "title": "分析类的三种基本类型",
+    "chapter": "5",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "5.6.1",
+    "title": "Stereotype 的含义",
+    "chapter": "5",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "5.6.2",
+    "title": "实体类",
+    "chapter": "5",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "5.6.3",
+    "title": "边界类",
+    "chapter": "5",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "5.6.4",
+    "title": "控制类",
+    "chapter": "5",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "5.7",
+    "title": "实体 - 边界 - 控制模式",
+    "chapter": "5",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "5.7.1",
+    "title": "三类对象怎样协作",
+    "chapter": "5",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "5.7.2",
+    "title": "EBC 的工程价值",
+    "chapter": "5",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "5.8",
+    "title": "类关系",
+    "chapter": "5",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "5.8.1",
+    "title": "为什么需要类关系",
+    "chapter": "5",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "5.9",
+    "title": "关联",
+    "chapter": "5",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "5.9.1",
+    "title": "关联的基本含义",
+    "chapter": "5",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "5.9.2",
+    "title": "关联示例",
+    "chapter": "5",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "5.9.3",
+    "title": "多重性",
+    "chapter": "5",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "5.10",
+    "title": "继承",
+    "chapter": "5",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "5.10.1",
+    "title": "继承的基本含义",
+    "chapter": "5",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "5.10.2",
+    "title": "继承与分类层次",
+    "chapter": "5",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "5.11",
+    "title": "分析步骤",
+    "chapter": "5",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "5.12",
+    "title": "本章总结",
+    "chapter": "5",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6",
+    "title": "设计（Design）",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.1",
+    "title": "本章内容",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.2",
+    "title": "设计是什么",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.2.1",
+    "title": "从分析到设计",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.2.2",
+    "title": "设计的共同特征",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.2.3",
+    "title": "软件设计的定义",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.2.4",
+    "title": "设计阶段的角色",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.3",
+    "title": "UML 设计图",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.3.1",
+    "title": "从分析模型到设计模型",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.3.2",
+    "title": "银行系统设计图中的类",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.3.3",
+    "title": "银行系统设计图中的关系和约束",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.4",
+    "title": "设计质量",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.4.1",
+    "title": "好的软件设计应当满足什么",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.4.2",
+    "title": "基础设计概念",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.5",
+    "title": "封装",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.5.1",
+    "title": "封装的含义",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.6",
+    "title": "抽象",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.6.1",
+    "title": "抽象类和接口",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.6.2",
+    "title": "什么时候用接口，什么时候用抽象类",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.6.3",
+    "title": "Shape、draw 与多态",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.7",
+    "title": "耦合",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.7.1",
+    "title": "耦合的含义",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.7.2",
+    "title": "紧耦合代码示例",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.7.3",
+    "title": "松耦合代码示例",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.7.4",
+    "title": "紧耦合与松耦合的对比",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.8",
+    "title": "内聚",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.8.1",
+    "title": "内聚的含义",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.8.2",
+    "title": "高内聚与低内聚的直观区别",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.9",
+    "title": "模块化",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.9.1",
+    "title": "模块化的含义",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.9.2",
+    "title": "没有模块化的代码",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.9.3",
+    "title": "模块化后的代码",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.9.4",
+    "title": "模块化、耦合和内聚的关系",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.10",
+    "title": "重构",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.10.1",
+    "title": "重构的含义",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.10.2",
+    "title": "重构示例：字符串拼接",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.10.3",
+    "title": "重构示例：去掉不必要的临时变量",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "6.11",
+    "title": "本章总结",
+    "chapter": "6",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7",
+    "title": "实现（Implementation）",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.1",
+    "title": "本章内容",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.1.1",
+    "title": "编程与实现的区别",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.2",
+    "title": "代码质量与编码标准",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.2.1",
+    "title": "代码质量",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.2.2",
+    "title": "编码标准",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.3",
+    "title": "Poor vs Good：代码质量示例",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.3.1",
+    "title": "命名要表达含义",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.3.2",
+    "title": "避免魔法数字",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.3.3",
+    "title": "重复逻辑应当抽出来",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.3.4",
+    "title": "用早返回减少嵌套",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.3.5",
+    "title": "类不应承担太多职责",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.4",
+    "title": "Code smell 与重构",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.5",
+    "title": "面向对象映射",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.5.1",
+    "title": "从设计关系到代码关系",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.6",
+    "title": "关联的一对一映射",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.6.1",
+    "title": "单向一对一关联",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.6.2",
+    "title": "Student 与 Address 示例",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.7",
+    "title": "关联的一对多映射",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.7.1",
+    "title": "为什么需要集合",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.7.2",
+    "title": "User 与 Book 示例",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.8",
+    "title": "继承的实现",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.8.1",
+    "title": "继承带来的能力",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.8.2",
+    "title": "五种常见继承形态",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.9",
+    "title": "实现流水线",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.9.1",
+    "title": "版本控制作为策略",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.9.2",
+    "title": "自动化测试",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.9.3",
+    "title": "构建工作流",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.10",
+    "title": "代码评审与结对编程",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.10.1",
+    "title": "代码评审",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.10.2",
+    "title": "结对编程",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.11",
+    "title": "构建与集成",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.11.1",
+    "title": "增量构建",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.11.2",
+    "title": "组件",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.11.3",
+    "title": "可追踪性",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.12",
+    "title": "持续集成与集成构建计划",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.12.1",
+    "title": "持续集成",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.12.2",
+    "title": "集成构建计划",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.13",
+    "title": "极限编程中的实现实践",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.14",
+    "title": "文档",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.14.1",
+    "title": "文档的作用和类型",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.14.2",
+    "title": "代码注释",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.14.3",
+    "title": "API 文档",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.14.4",
+    "title": "README",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "7.15",
+    "title": "本章总结",
+    "chapter": "7",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8",
+    "title": "测试（Testing）",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.1",
+    "title": "本章内容",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.1.1",
+    "title": "测试能说明什么",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.1.2",
+    "title": "谁来测试软件",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.2",
+    "title": "测试目标",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.2.1",
+    "title": "验证测试",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.2.2",
+    "title": "缺陷测试",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.3",
+    "title": "测试过程与测试模型",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.3.1",
+    "title": "三个基本测试阶段",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.3.2",
+    "title": "软件测试模型",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.4",
+    "title": "测试策略",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.4.1",
+    "title": "运行哪些测试",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.4.2",
+    "title": "怎样运行测试",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.4.3",
+    "title": "什么时候运行测试",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.5",
+    "title": "测试用例设计",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.5.1",
+    "title": "为什么需要设计测试用例",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.5.2",
+    "title": "用户认证测试用例示例",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.5.3",
+    "title": "单元测试矩阵示例",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.5.4",
+    "title": "验收测试矩阵示例",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.6",
+    "title": "测试技术：黑盒与白盒",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.7",
+    "title": "黑盒测试",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.7.1",
+    "title": "黑盒测试寻找什么错误",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.7.2",
+    "title": "输入、输出与异常行为",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.7.3",
+    "title": "回归测试",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.7.4",
+    "title": "划分测试",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.7.5",
+    "title": "等价划分示例：食谱配料数量",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.7.6",
+    "title": "等价划分示例：五位整数",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.7.7",
+    "title": "票价折扣测试用例设计",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.8",
+    "title": "白盒测试",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.8.1",
+    "title": "白盒测试的目标",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.8.2",
+    "title": "语句覆盖",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.8.3",
+    "title": "分支覆盖",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.8.4",
+    "title": "条件覆盖",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.8.5",
+    "title": "基本路径测试与圈复杂度",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.8.6",
+    "title": "路径覆盖",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.9",
+    "title": "测试驱动开发与 JUnit",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.9.1",
+    "title": "传统测试写法",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.9.2",
+    "title": "TDD 的基本思想",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.9.3",
+    "title": "TDD 循环",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.9.4",
+    "title": "JUnit",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.9.5",
+    "title": "常用断言方法",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.9.6",
+    "title": "TDD 示例：票价计算",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.10",
+    "title": "变异测试",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.10.1",
+    "title": "变异测试的目的",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.10.2",
+    "title": "变异怎样产生",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.10.3",
+    "title": "Calculator 变异示例与变异分数",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.10.4",
+    "title": "自动化变异测试",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "8.11",
+    "title": "本章总结",
+    "chapter": "8",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9",
+    "title": "软件架构（Software Architecture）",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.1",
+    "title": "本章内容",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.1.1",
+    "title": "软件架构的定义",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.1.2",
+    "title": "为什么需要软件架构",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.1.3",
+    "title": "软件架构师的角色",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.2",
+    "title": "系统复杂性、组件与连接器",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.2.1",
+    "title": "复杂性从哪里来",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.2.2",
+    "title": "ATM 系统的架构示例",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.3",
+    "title": "架构模型与架构关注点",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.3.1",
+    "title": "架构模型的表达方式",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.3.2",
+    "title": "专门的架构描述语言",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.3.3",
+    "title": "关注架构的优势",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.4",
+    "title": "4+1 架构视图模型",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.4.1",
+    "title": "为什么需要多个视图",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.4.2",
+    "title": "四个主要视图",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.4.3",
+    "title": "+1 视图：场景",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.5",
+    "title": "敏捷开发与架构",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.5.1",
+    "title": "敏捷是否还需要架构设计",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.5.2",
+    "title": "项目上下文会驱动架构活动",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.6",
+    "title": "架构模式",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.6.1",
+    "title": "架构模式的含义",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.7",
+    "title": "分层架构",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.7.1",
+    "title": "分层架构的结构",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.7.2",
+    "title": "分层架构的缺点",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.8",
+    "title": "Web 架构",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.8.1",
+    "title": "客户端 - 服务器与多层组织",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.8.2",
+    "title": "Web 交互方式的演化",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.8.3",
+    "title": "MVC：模型、视图和控制器",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.9",
+    "title": "分布式系统架构",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.9.1",
+    "title": "为什么需要分布式架构",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.9.2",
+    "title": "云计算",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.9.3",
+    "title": "负载均衡",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.10",
+    "title": "RESTful 架构",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.10.1",
+    "title": "REST 的基本含义",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.10.2",
+    "title": "REST 的六个架构约束",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.11",
+    "title": "移动应用架构",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.11.1",
+    "title": "移动应用的分层",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.11.2",
+    "title": "移动设备与远程基础设施",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "9.12",
+    "title": "本章总结",
+    "chapter": "9",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "10",
+    "title": "项目管理（Project Management）",
+    "chapter": "10",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "10.1",
+    "title": "本章内容",
+    "chapter": "10",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "10.1.1",
+    "title": "项目中常见的问题",
+    "chapter": "10",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "10.1.2",
+    "title": "软件项目和其他项目的区别",
+    "chapter": "10",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "10.1.3",
+    "title": "项目管理活动",
+    "chapter": "10",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "10.2",
+    "title": "项目计划",
+    "chapter": "10",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "10.2.1",
+    "title": "项目计划过程",
+    "chapter": "10",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "10.2.2",
+    "title": "活动组织、里程碑和交付物",
+    "chapter": "10",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "10.3",
+    "title": "项目进度安排",
+    "chapter": "10",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "10.3.1",
+    "title": "进度安排中的缓冲",
+    "chapter": "10",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "10.3.2",
+    "title": "进度图表",
+    "chapter": "10",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "10.3.3",
+    "title": "任务表示例",
+    "chapter": "10",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "10.3.4",
+    "title": "活动网络和关键路径推导",
+    "chapter": "10",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "10.3.5",
+    "title": "甘特图和人员分配",
+    "chapter": "10",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "10.4",
+    "title": "活动网络图",
+    "chapter": "10",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "10.4.1",
+    "title": "AON 与 AOA 示例",
+    "chapter": "10",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "10.4.2",
+    "title": "构造项目网络的术语",
+    "chapter": "10",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "10.4.3",
+    "title": "构造网络的基本规则",
+    "chapter": "10",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "10.4.4",
+    "title": "网络基本模式",
+    "chapter": "10",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "10.5",
+    "title": "项目监控与汇报",
+    "chapter": "10",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "10.6",
+    "title": "人员管理与相关方参与",
+    "chapter": "10",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "10.6.1",
+    "title": "人员管理因素",
+    "chapter": "10",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "10.6.2",
+    "title": "团队管理",
+    "chapter": "10",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "10.6.3",
+    "title": "相关方参与",
+    "chapter": "10",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "10.7",
+    "title": "敏捷项目管理",
+    "chapter": "10",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "10.7.1",
+    "title": "Scrum master 和敏捷团队",
+    "chapter": "10",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "10.7.2",
+    "title": "Scrum 方法",
+    "chapter": "10",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "10.8",
+    "title": "AI 在项目管理中的应用",
+    "chapter": "10",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "10.8.1",
+    "title": "AI 项目管理用例",
+    "chapter": "10",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "10.8.2",
+    "title": "传统项目管理与 AI 驱动项目管理",
+    "chapter": "10",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "10.8.3",
+    "title": "项目管理中使用的 AI 模型和技术",
+    "chapter": "10",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "10.8.4",
+    "title": "项目管理中的聊天机器人",
+    "chapter": "10",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "10.9",
+    "title": "本章总结",
+    "chapter": "10",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "11",
+    "title": "软件工程中的伦理与 AI（Ethics and AI in Software Engineering）",
+    "chapter": "11",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "11.1",
+    "title": "本章内容",
+    "chapter": "11",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "11.2",
+    "title": "软件和 AI 是否应该公平",
+    "chapter": "11",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "11.2.1",
+    "title": "技术正在替代部分人类决策",
+    "chapter": "11",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "11.2.2",
+    "title": "信息不是中性的",
+    "chapter": "11",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "11.3",
+    "title": "偏见怎样进入软件和 AI",
+    "chapter": "11",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "11.3.1",
+    "title": "选择偏见",
+    "chapter": "11",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "11.3.2",
+    "title": "标注偏见与模型偏见",
+    "chapter": "11",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "11.3.3",
+    "title": "无意识偏见和不确定性",
+    "chapter": "11",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "11.3.4",
+    "title": "AI 会放大偏见和错误信息",
+    "chapter": "11",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "11.4",
+    "title": "人类与机器决策",
+    "chapter": "11",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "11.4.1",
+    "title": "机器不等于天然客观",
+    "chapter": "11",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "11.4.2",
+    "title": "算法公平性要回答的问题",
+    "chapter": "11",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "11.5",
+    "title": "公平性概念一：统计平等",
+    "chapter": "11",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "11.5.1",
+    "title": "二元决策与录取示例",
+    "chapter": "11",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "11.5.2",
+    "title": "统计平等是否一定公平",
+    "chapter": "11",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "11.6",
+    "title": "公平性概念二：预测平等",
+    "chapter": "11",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "11.6.1",
+    "title": "条件准确率",
+    "chapter": "11",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "11.6.2",
+    "title": "跨群体的条件准确率平等",
+    "chapter": "11",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "11.6.3",
+    "title": "为什么公平性概念会互相冲突",
+    "chapter": "11",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "11.7",
+    "title": "算法怎样追求公平",
+    "chapter": "11",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "11.7.1",
+    "title": "朴素做法：遮蔽敏感特征",
+    "chapter": "11",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "11.7.2",
+    "title": "遮蔽相关特征的代价",
+    "chapter": "11",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "11.7.3",
+    "title": "增加相关特征",
+    "chapter": "11",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "11.7.4",
+    "title": "预处理和后处理",
+    "chapter": "11",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "11.7.5",
+    "title": "显式奖励公平行为",
+    "chapter": "11",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "11.8",
+    "title": "审计算法公平性",
+    "chapter": "11",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "11.8.1",
+    "title": "审计结果、过程和算法",
+    "chapter": "11",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "11.8.2",
+    "title": "透明、问责和个人数据保护",
+    "chapter": "11",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "11.9",
+    "title": "职业伦理与行为准则",
+    "chapter": "11",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "11.9.1",
+    "title": "专业组织的行为规范",
+    "chapter": "11",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "11.9.2",
+    "title": "ACM/IEEE 软件工程伦理准则",
+    "chapter": "11",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "11.10",
+    "title": "本章总结",
+    "chapter": "11",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "12",
+    "title": "风险与质量管理（Risk and Quality Management）",
+    "chapter": "12",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "12.1",
+    "title": "本章内容",
+    "chapter": "12",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "12.2",
+    "title": "风险管理",
+    "chapter": "12",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "12.2.1",
+    "title": "软件项目中的常见问题",
+    "chapter": "12",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "12.2.2",
+    "title": "为什么需要管理风险",
+    "chapter": "12",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "12.2.3",
+    "title": "风险的含义和类型",
+    "chapter": "12",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "12.2.4",
+    "title": "为意外延迟和失败准备替代方案",
+    "chapter": "12",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "12.2.5",
+    "title": "风险管理过程",
+    "chapter": "12",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "12.2.6",
+    "title": "软件风险度量",
+    "chapter": "12",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "12.2.7",
+    "title": "降低和避免风险的策略",
+    "chapter": "12",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "12.2.8",
+    "title": "应急方案、损害限制和最小化策略",
+    "chapter": "12",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "12.2.9",
+    "title": "敏捷开发中的风险管理",
+    "chapter": "12",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "12.3",
+    "title": "质量管理",
+    "chapter": "12",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "12.3.1",
+    "title": "质量管理的含义",
+    "chapter": "12",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "12.3.2",
+    "title": "瀑布式和敏捷式质量管理",
+    "chapter": "12",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "12.3.3",
+    "title": "什么是高质量软件",
+    "chapter": "12",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "12.3.4",
+    "title": "适合用途与“足够好”的软件",
+    "chapter": "12",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "12.3.5",
+    "title": "Bug 还是 Feature",
+    "chapter": "12",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "12.3.6",
+    "title": "质量属性与取舍",
+    "chapter": "12",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "12.3.7",
+    "title": "可见质量与不可见质量",
+    "chapter": "12",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "12.3.8",
+    "title": "性能分析",
+    "chapter": "12",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "12.3.9",
+    "title": "软件可靠性",
+    "chapter": "12",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "12.3.10",
+    "title": "安全与韧性",
+    "chapter": "12",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "12.3.11",
+    "title": "软件韧性投资",
+    "chapter": "12",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "12.3.12",
+    "title": "软件标准的重要性",
+    "chapter": "12",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "12.3.13",
+    "title": "标准可能带来的问题",
+    "chapter": "12",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "12.4",
+    "title": "高质量软件开发的其他考虑",
+    "chapter": "12",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "12.4.1",
+    "title": "增加人手可能让项目更慢",
+    "chapter": "12",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "12.4.2",
+    "title": "外包带来的问题",
+    "chapter": "12",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "12.4.3",
+    "title": "程序员作为工匠",
+    "chapter": "12",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "12.4.4",
+    "title": "敏捷开发兴起的原因和边界",
+    "chapter": "12",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "12.5",
+    "title": "本章总结",
+    "chapter": "12",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "13",
+    "title": "安全软件开发（Secure Software Development）",
+    "chapter": "13",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "13.1",
+    "title": "本章内容",
+    "chapter": "13",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "13.1.1",
+    "title": "应掌握的能力",
+    "chapter": "13",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "13.2",
+    "title": "为什么需要安全软件开发",
+    "chapter": "13",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "13.2.1",
+    "title": "保护用户数据",
+    "chapter": "13",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "13.2.2",
+    "title": "防止金钱损失",
+    "chapter": "13",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "13.2.3",
+    "title": "保护公司声誉",
+    "chapter": "13",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "13.2.4",
+    "title": "遵守法律",
+    "chapter": "13",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "13.3",
+    "title": "AI 编码怎样改变安全风险",
+    "chapter": "13",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "13.3.1",
+    "title": "从传统错误到 AI 生成风险",
+    "chapter": "13",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "13.3.2",
+    "title": "AI 可能生成不安全代码",
+    "chapter": "13",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "13.3.3",
+    "title": "AI agent 带来的自动化风险",
+    "chapter": "13",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "13.4",
+    "title": "怎样评价 AI 生成代码的安全性",
+    "chapter": "13",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "13.4.1",
+    "title": "漏洞率",
+    "chapter": "13",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "13.4.2",
+    "title": "风险严重程度",
+    "chapter": "13",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "13.4.3",
+    "title": "安全编码合规",
+    "chapter": "13",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "13.4.4",
+    "title": "假安全感",
+    "chapter": "13",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "13.5",
+    "title": "Web 应用接入 AI 模型后的隐藏风险",
+    "chapter": "13",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "13.6",
+    "title": "SafeGenBench 与安全评价方法",
+    "chapter": "13",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "13.7",
+    "title": "提示词能否改善安全",
+    "chapter": "13",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "13.7.1",
+    "title": "提示词会影响安全结果",
+    "chapter": "13",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "13.7.2",
+    "title": "安全导向提示词的常见技巧",
+    "chapter": "13",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "13.8",
+    "title": "安全使用 AI 编码工具的工作流",
+    "chapter": "13",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "13.8.1",
+    "title": "建立安全心态",
+    "chapter": "13",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "13.8.2",
+    "title": "五步安全流程",
+    "chapter": "13",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "13.9",
+    "title": "课程作业安全检查表",
+    "chapter": "13",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "13.9.1",
+    "title": "安全检查",
+    "chapter": "13",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "13.9.2",
+    "title": "审查检查",
+    "chapter": "13",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "13.9.3",
+    "title": "测试检查",
+    "chapter": "13",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "13.10",
+    "title": "本章总结",
+    "chapter": "13",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14",
+    "title": "设计原则（Design Principles）",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.1",
+    "title": "本章内容",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.2",
+    "title": "低质量设计的危险",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.3",
+    "title": "代码交互与安全问题",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.4",
+    "title": "代码复用",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.4.1",
+    "title": "为什么要复用代码",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.4.2",
+    "title": "复用代码的来源",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.5",
+    "title": "SOLID 原则的整体含义",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.6",
+    "title": "单一职责原则 SRP",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.6.1",
+    "title": "SRP 的基本含义",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.6.2",
+    "title": "内聚与耦合",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.6.3",
+    "title": "Employee 反例",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.6.4",
+    "title": "委托带来的改进",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.6.5",
+    "title": "GameResult 反例",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.7",
+    "title": "依赖的基本概念",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.8",
+    "title": "开闭原则 OCP",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.8.1",
+    "title": "OCP 的基本含义",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.8.2",
+    "title": "抽象的层次：排序例子",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.8.3",
+    "title": "抽象的几种形式",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.8.4",
+    "title": "编写抽象代码",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.8.5",
+    "title": "GraphicEditor 反例",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.8.6",
+    "title": "用抽象 draw() 改进设计",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.9",
+    "title": "里氏替换原则 LSP",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.9.1",
+    "title": "LSP 的基本含义",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.9.2",
+    "title": "Vehicle 例子",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.9.3",
+    "title": "Bird 与 RubberDuck 反例",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.9.4",
+    "title": "ShapeRenderer 的坏例子和好例子",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.9.5",
+    "title": "LSP 的好处",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.10",
+    "title": "接口隔离原则 ISP",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.10.1",
+    "title": "ISP 的基本含义",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.10.2",
+    "title": "Multi 接口反例",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.10.3",
+    "title": "拆分接口后的设计",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.10.4",
+    "title": "识别 ISP 违反",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.11",
+    "title": "依赖倒置原则 DIP",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.11.1",
+    "title": "DIP 的基本含义",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.11.2",
+    "title": "Calculator 图示",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.11.3",
+    "title": "Gradebook 与 Database 反例",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.11.4",
+    "title": "引入 GradeDatabase 接口",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "14.12",
+    "title": "本章总结",
+    "chapter": "14",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15",
+    "title": "设计模式（Design Patterns）",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.1",
+    "title": "本章内容",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.2",
+    "title": "为什么需要设计模式",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.2.1",
+    "title": "有经验设计者怎样使用模式",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.2.2",
+    "title": "初学者怎样使用模式",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.3",
+    "title": "设计模式的组成",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.4",
+    "title": "常见设计模式速览",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.5",
+    "title": "Façade 模式：给复杂子系统一个简单入口",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.5.1",
+    "title": "问题场景：教室控制系统",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.5.2",
+    "title": "直接调用带来的重复",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.5.3",
+    "title": "解决思路：增加 LectureTheatre 外观类",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.5.4",
+    "title": "Façade 模式的结构和后果",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.5.5",
+    "title": "Least Knowledge 原则",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.6",
+    "title": "Observer 模式：对象变化后自动通知依赖者",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.6.1",
+    "title": "问题场景：天气预报系统",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.6.2",
+    "title": "简单做法的问题",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.6.3",
+    "title": "解决思路：Subject 和 Observer",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.6.4",
+    "title": "Observer 模式代码",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.6.5",
+    "title": "Observer 模式的结构和后果",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.7",
+    "title": "Proxy 模式：用代理控制对真实对象的访问",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.7.1",
+    "title": "问题场景：并不总要直接访问真实对象",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.7.2",
+    "title": "解决思路：代理对象代替真实对象",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.7.3",
+    "title": "Proxy 模式的结构和后果",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.7.4",
+    "title": "Proxy 的常见应用",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.8",
+    "title": "Singleton 模式：确保一个类只有一个实例",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.8.1",
+    "title": "问题场景：有些对象只能有一个",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.8.2",
+    "title": "第一步：私有构造方法",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.8.3",
+    "title": "第二步：静态变量保存唯一实例",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.8.4",
+    "title": "Singleton 模式的结构",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.8.5",
+    "title": "多线程问题",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.8.6",
+    "title": "提前创建实例",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.8.7",
+    "title": "双重检查锁",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.8.8",
+    "title": "使用 Singleton 时的提醒",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.9",
+    "title": "Strategy 模式：把可变算法封装起来",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.9.1",
+    "title": "问题场景：不同型号音乐播放器",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.9.2",
+    "title": "方案一：把 viewPhoto 放进父类",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.9.3",
+    "title": "方案二：创建 PhotoViewable 接口",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.9.4",
+    "title": "设计思考：把变化部分拿出来",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.9.5",
+    "title": "解决思路：PhotoFunction 策略",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.9.6",
+    "title": "扩展到多个功能",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.9.7",
+    "title": "Strategy 模式的结构和后果",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.10",
+    "title": "Factory 模式：把对象创建的变化拿出去",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.10.1",
+    "title": "问题场景：用 new 创建具体账户",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.10.2",
+    "title": "解决思路：BankAccountFactory",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.10.3",
+    "title": "Factory 模式的结构和后果",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.11",
+    "title": "Adapter 模式：让不兼容接口一起工作",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.11.1",
+    "title": "现实类比：电源适配器",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.11.2",
+    "title": "解决思路：中间增加 Adapter",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.11.3",
+    "title": "Adapter 模式的结构",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "15.12",
+    "title": "本章总结",
+    "chapter": "15",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "16",
+    "title": "AI 辅助软件开发（AI for Software Development）",
+    "chapter": "16",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "16.1",
+    "title": "本章内容",
+    "chapter": "16",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "16.2",
+    "title": "开发体验的变化",
+    "chapter": "16",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "16.2.1",
+    "title": "从孤立解决问题到互动式协助",
+    "chapter": "16",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "16.2.2",
+    "title": "有效使用 AI 的前提",
+    "chapter": "16",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "16.3",
+    "title": "使用意识与伦理边界",
+    "chapter": "16",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "16.4",
+    "title": "AI 工具嵌入开发工作流",
+    "chapter": "16",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "16.5",
+    "title": "软件开发生命周期中的 AI",
+    "chapter": "16",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "16.6",
+    "title": "选择合适的 AI 工具",
+    "chapter": "16",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "16.6.1",
+    "title": "GitHub Copilot 示例",
+    "chapter": "16",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "16.7",
+    "title": "用 AI 澄清需求",
+    "chapter": "16",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "16.8",
+    "title": "用 AI 自动化设计过程",
+    "chapter": "16",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "16.9",
+    "title": "用 AI 生成代码",
+    "chapter": "16",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "16.9.1",
+    "title": "IDE 中的实时补全",
+    "chapter": "16",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "16.9.2",
+    "title": "多行代码和完整函数生成",
+    "chapter": "16",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "16.9.3",
+    "title": "迭代式修改",
+    "chapter": "16",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "16.10",
+    "title": "用 AI 做重构",
+    "chapter": "16",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "16.11",
+    "title": "用 AI 调试",
+    "chapter": "16",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "16.11.1",
+    "title": "结合 IDE 诊断和 AI 修复",
+    "chapter": "16",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "16.12",
+    "title": "用 AI 生成测试用例",
+    "chapter": "16",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "16.13",
+    "title": "使用 AI 的整体工作模式",
+    "chapter": "16",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "16.14",
+    "title": "防护栏与采用建议",
+    "chapter": "16",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "16.14.1",
+    "title": "使用防护栏",
+    "chapter": "16",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "16.14.2",
+    "title": "逐步采用",
+    "chapter": "16",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "16.15",
+    "title": "本章总结",
+    "chapter": "16",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17",
+    "title": "知识回顾（Revision）",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.1",
+    "title": "本章内容",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.2",
+    "title": "软件与软件工程：先理解问题本身",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.2.1",
+    "title": "不同类型的软件系统",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.2.2",
+    "title": "软件质量与度量",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.2.3",
+    "title": "软件工程活动与工作流",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.2.4",
+    "title": "软件工程的重要性与挑战",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.2.5",
+    "title": "软件失败的原因与案例分析",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.3",
+    "title": "软件过程与敏捷：为项目选择合适做法",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.3.1",
+    "title": "选择并论证软件过程",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.3.2",
+    "title": "传统过程与现代过程的比较",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.3.3",
+    "title": "敏捷价值观、原则与迭代交付",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.3.4",
+    "title": "敏捷团队角色与责任",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.3.5",
+    "title": "敏捷的收益与挑战",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.4",
+    "title": "需求、用户故事与低保真原型",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.4.1",
+    "title": "利益相关者与需求优先级",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.4.2",
+    "title": "功能需求与非功能需求",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.4.3",
+    "title": "需求获取技术",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.4.4",
+    "title": "用户故事、估算、优先级与计划",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.4.5",
+    "title": "低保真原型",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.5",
+    "title": "分析、设计与软件架构",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.5.1",
+    "title": "基本设计概念",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.5.2",
+    "title": "类的 stereotype 与关系",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.5.3",
+    "title": "UML 类图建模",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.5.4",
+    "title": "比较设计方案并用质量属性论证",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.5.5",
+    "title": "重构差设计",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.5.6",
+    "title": "常见软件架构",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.6",
+    "title": "实现与测试",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.6.1",
+    "title": "清晰、可读、结构良好的代码",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.6.2",
+    "title": "版本控制与团队协作",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.6.3",
+    "title": "缺陷测试与确认测试",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.6.4",
+    "title": "测试层级",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.6.5",
+    "title": "设计有效测试用例",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.6.6",
+    "title": "JUnit 与自动化测试",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.7",
+    "title": "项目管理、风险管理与质量管理",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.7.1",
+    "title": "软件项目管理活动",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.7.2",
+    "title": "项目管理工具",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.7.3",
+    "title": "项目排期与现实计划",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.7.4",
+    "title": "项目风险与技术风险",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.7.5",
+    "title": "质量属性与取舍",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.8",
+    "title": "伦理、安全与 AI 辅助软件开发",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.8.1",
+    "title": "伦理责任与职业规范",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.8.2",
+    "title": "算法和数据偏见",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.8.3",
+    "title": "安全审查、测试与验证",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.8.4",
+    "title": "AI 在软件开发中的作用",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.8.5",
+    "title": "评价 AI 生成代码的质量",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.9",
+    "title": "设计原则与设计模式",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.9.1",
+    "title": "SOLID 原则",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.9.2",
+    "title": "用 SOLID 重构代码",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.9.3",
+    "title": "设计模式的目的与适用上下文",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.9.4",
+    "title": "模式用于设计和重构",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.9.5",
+    "title": "模式取舍、误用与过度设计",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  },
+  {
+    "section": "17.9.6",
+    "title": "设计原则与设计模式的关系",
+    "chapter": "17",
+    "source": "references/course/软件工程全整理.md"
+  }
+]
