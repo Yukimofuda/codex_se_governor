@@ -1,4 +1,4 @@
-# Final Engineering Report: Login Failure Rate Limit
+# Final Engineering Report: Login Failure Module Refactor
 
 ## Requirements Satisfied
 

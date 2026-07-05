@@ -1,4 +1,4 @@
-# Final Engineering Report: Login Failure Rate Limit
+# Final Engineering Report: Authentication Rate-Limit Architecture Change
 
 ## Requirements Satisfied
 

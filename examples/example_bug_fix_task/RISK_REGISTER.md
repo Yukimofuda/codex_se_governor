@@ -1,4 +1,4 @@
-# Risk Register: Login Failure Rate Limit
+# Risk Register: Login Failure Counter Bug Fix
 
 | Risk ID | Description | Category | Probability | Impact | Exposure | Mitigation | Contingency | Residual risk | Trigger | Detection method | Review cadence | Owner | Status |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|

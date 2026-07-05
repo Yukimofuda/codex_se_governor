@@ -1,4 +1,4 @@
-# Risk Register: Login Failure Rate Limit
+# Risk Register: Authentication Rate-Limit Architecture Change
 
 | Risk ID | Description | Category | Probability | Impact | Exposure | Mitigation | Contingency | Residual risk | Trigger | Detection method | Review cadence | Owner | Status |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|

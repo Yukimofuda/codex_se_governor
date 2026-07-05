@@ -1,4 +1,4 @@
-# Security Review: Login Failure Rate Limit
+# Security Review: Login Failure Counter Bug Fix
 
 ## Threat Model
 

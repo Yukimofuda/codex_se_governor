@@ -1,4 +1,4 @@
-# Security Review: Login Failure Rate Limit
+# Security Review: Authentication Security Review
 
 ## Threat Model
 
