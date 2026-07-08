@@ -1,7 +1,11 @@
 import json
 import zipfile
+import pytest
 
 from tests.helpers import copy_full_repo, run_script
+
+
+pytestmark = pytest.mark.e2e
 
 
 def prepare_smoke_tests(repo):
@@ -37,3 +41,8 @@ def test_package_release_uses_v07_config_archive_path(tmp_path):
     assert run_script(repo, "validate_outer_archive.py", str(archive)).returncode == 0
     with zipfile.ZipFile(archive) as zf:
         assert all("__MACOSX/" not in name for name in zf.namelist())
+        assert any(name.endswith("references/course/软件工程全整理.md") for name in zf.namelist())
+    extract_dir = tmp_path / "extract"
+    with zipfile.ZipFile(archive) as zf:
+        zf.extractall(extract_dir)
+    assert (extract_dir / "codex-se-governor" / "references" / "course" / "软件工程全整理.md").exists()

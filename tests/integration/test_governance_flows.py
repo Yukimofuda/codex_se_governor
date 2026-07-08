@@ -132,3 +132,33 @@ def test_governance_metrics_is_side_effect_free(tmp_path):
     (tests / "test_smoke.py").write_text("def test_smoke():\n    assert True\n", encoding="utf-8")
     result = run_script(repo, "validate_no_side_effects.py", "--", sys.executable, "scripts/governance_metrics.py")
     assert result.returncode == 0
+
+
+def test_governance_metrics_does_not_reference_recursive_test_commands(tmp_path):
+    repo = copy_full_repo(tmp_path)
+    metrics = repo / "scripts" / "governance_metrics.py"
+    text = metrics.read_text(encoding="utf-8")
+    assert 'status_script("validate_test_performance.py")' not in text
+    assert 'run_script("validate_test_performance.py")' not in text
+    assert 'run_script("run_tests_clean.py")' not in text
+    assert 'run_script("generate_governance_maturity_report.py")' not in text
+
+
+def test_generate_governance_maturity_report_completes_without_recursion(tmp_path):
+    repo = copy_full_repo(tmp_path)
+    result = run_script(repo, "generate_governance_maturity_report.py")
+    assert result.returncode == 0
+    assert "PASS wrote" in result.stdout
+
+
+def test_validate_test_performance_uses_fast_mode(tmp_path):
+    repo = copy_full_repo(tmp_path)
+    text = (repo / "scripts" / "validate_test_performance.py").read_text(encoding="utf-8")
+    assert "--fast" in text
+
+
+def test_default_pytest_configuration_excludes_e2e(tmp_path):
+    repo = copy_full_repo(tmp_path)
+    config = repo / "pytest.ini"
+    assert config.exists()
+    assert 'not e2e' in config.read_text(encoding="utf-8")

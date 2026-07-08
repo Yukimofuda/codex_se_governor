@@ -31,6 +31,7 @@ Each release must record:
 
 - validation command output
 - archive validation result
+- confirmation that `references/course/软件工程全整理.md` exists in the archive
 - version or tag
 - known limitations
 - rollback strategy

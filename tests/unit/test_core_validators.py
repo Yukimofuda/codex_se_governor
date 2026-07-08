@@ -136,6 +136,16 @@ def test_validate_outer_archive_detects_macos_artifacts(tmp_path):
     assert "generated artifact in outer archive" in result.stdout
 
 
+def test_validate_outer_archive_detects_missing_required_utf8_path(tmp_path):
+    repo = copy_subset_repo(tmp_path, ["scripts/validate_outer_archive.py", "scripts/archive_rules.py"])
+    archive = tmp_path / "missing-path.zip"
+    with zipfile.ZipFile(archive, "w") as zf:
+        zf.writestr("codex-se-governor/README.md", "ok")
+    result = run_script(repo, "validate_outer_archive.py", str(archive))
+    assert result.returncode == 1
+    assert "required archive path missing" in result.stdout
+
+
 def test_validate_governor_config_passes_and_fails(tmp_path):
     repo = copy_subset_repo(
         tmp_path,

@@ -18,7 +18,7 @@ This report summarizes whether `codex-se-governor` is behaving like an evidence-
 | Ethics/AI maturity | 5 | PASS | v0.7 |
 | Risk/quality maturity | 4 | PASS | v0.7 |
 | Project management maturity | 4 | PASS | v0.7 |
-| Release/maintenance maturity | 3 | WATCH | v0.8 |
+| Release/maintenance maturity | 5 | PASS | v0.7 |
 | Traceability maturity | 5 | PASS | v0.7 |
 
 ## Supporting Evidence
@@ -26,7 +26,7 @@ This report summarizes whether `codex-se-governor` is behaving like an evidence-
 | Evidence Area | Evidence | Status |
 |---|---|---|
 | Course semantic coverage | 55 semantic clusters, 0 missing sections | PASS |
-| Clean package | 2 generated artifact violations | WATCH |
+| Clean package | 0 generated artifact violations | PASS |
 | Traceability graph | pass | PASS |
 | AI review evidence | average score 10.0 | PASS |
 | Complexity governance | 0 threshold violations | PASS |
