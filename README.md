@@ -120,6 +120,15 @@ For pytest without retained cache artifacts, use:
 python3 scripts/run_tests_clean.py
 ```
 
+Modes:
+
+```bash
+python3 scripts/run_tests_clean.py --fast
+python3 scripts/run_tests_clean.py --e2e
+```
+
+Default `python3 -m pytest` is now fast-only through `pytest.ini` and excludes `e2e` tests. End-to-end validation smoke runs only when explicitly requested.
+
 ## Governance Metrics
 
 Use metrics to review governor health without turning every warning into an immediate failure:
@@ -161,7 +170,7 @@ python3 scripts/validate_release_archive.py dist/codex-se-governor-v0.7.zip
 python3 scripts/validate_outer_archive.py dist/codex-se-governor-v0.7.zip
 ```
 
-The archive excludes macOS archive artifacts, cache directories, pyc files, local virtual environments, logs, dist output, and temporary smoke-test directories.
+The archive excludes macOS archive artifacts, cache directories, pyc files, local virtual environments, logs, dist output, and temporary smoke-test directories. Both archive validators also require the exact UTF-8 course path `references/course/软件工程全整理.md`.
 
 Do not create release zips with Finder or a manual macOS archive operation. Use [docs/release/RELEASE_PACKAGING_GUIDE.md](docs/release/RELEASE_PACKAGING_GUIDE.md) so `__MACOSX/`, `.DS_Store`, cache directories, and pyc files are excluded and verified. If you wrap the release archive in another uploaded zip, validate that exact outer zip too.
 
@@ -215,7 +224,7 @@ python3 scripts/run_tests_clean.py
 python3 scripts/validate_test_performance.py
 ```
 
-`run_tests_clean.py` disables pytest cache, measures elapsed time, removes generated artifacts, and revalidates the package afterward.
+`run_tests_clean.py` disables pytest cache, measures elapsed time, removes generated artifacts, and revalidates the package afterward. `validate_test_performance.py` uses the fast suite only; it does not recurse into e2e full-validation smoke.
 
 ## Adoption Checker
 
@@ -377,6 +386,8 @@ v0.7 hardens the governor from v0.6 evidence structure into a reliability-focuse
 - outer archive validation for uploaded zip files
 - test architecture split into unit, integration, and e2e layers
 - performance-aware clean pytest wrapper
+- default fast pytest mode with explicit e2e execution
+- non-recursive metrics and maturity generation
 
 ## v0.4 Validation Command Sequence
 
@@ -445,7 +456,8 @@ Use this sequence for current development and release evidence:
 
 ```bash
 python3 scripts/run_full_validation.py
-python3 scripts/run_tests_clean.py
+python3 scripts/run_tests_clean.py --fast
+python3 scripts/run_tests_clean.py --e2e
 python3 scripts/validate_clean_package.py
 python3 scripts/semantic_coverage_score.py
 python3 scripts/validate_semantic_coverage_score.py
