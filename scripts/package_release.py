@@ -33,7 +33,7 @@ def main(argv=None):
     archive_path.parent.mkdir(exist_ok=True)
     if archive_path.exists():
         archive_path.unlink()
-    with zipfile.ZipFile(archive_path, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+    with zipfile.ZipFile(archive_path, "w", compression=zipfile.ZIP_DEFLATED, strict_timestamps=False) as archive:
         for path in sorted(ROOT.rglob("*")):
             if include(path):
                 archive.write(path, Path("codex-se-governor") / path.relative_to(ROOT))

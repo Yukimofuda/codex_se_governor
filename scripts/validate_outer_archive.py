@@ -7,7 +7,7 @@ import zipfile
 
 sys.dont_write_bytecode = True
 
-from archive_rules import bad_entry
+from archive_rules import bad_entry, has_required_paths
 
 
 def main(argv):
@@ -19,10 +19,18 @@ def main(argv):
         print(f"FAIL missing archive: {archive_path}")
         return 1
     failures = []
-    with zipfile.ZipFile(archive_path) as archive:
-        for name in archive.namelist():
-            if bad_entry(name):
-                failures.append(f"generated artifact in outer archive: {name}")
+    try:
+        with zipfile.ZipFile(archive_path) as archive:
+            names = archive.namelist()
+            for name in names:
+                if bad_entry(name):
+                    failures.append(f"generated artifact in outer archive: {name}")
+            for path in has_required_paths(names):
+                failures.append(f"required archive path missing: {path}")
+    except zipfile.BadZipFile:
+        print("FAIL")
+        print(f"- invalid zip archive: {archive_path}")
+        return 1
     if failures:
         print("FAIL")
         for failure in failures:

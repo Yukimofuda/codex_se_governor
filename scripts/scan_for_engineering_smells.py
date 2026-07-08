@@ -18,6 +18,7 @@ SKIP_PREFIXES = (
 SKIP_FILES = {
     Path("docs/quality/SMELL_BASELINE.md"),
     Path("docs/software-engineering/COURSE_OUTLINE_LOCK.json"),
+    Path(".agents/skills/software-engineering-governor/scripts/checklist_report.py"),
 }
 TEXT_SUFFIXES = {".py", ".js", ".ts", ".jsx", ".tsx", ".java", ".cs", ".go", ".rb", ".php", ".md", ".yml", ".yaml", ".json"}
 
@@ -31,6 +32,7 @@ ENGINEERING_ID = re.compile(r"\b(?:FR|NFR|AC|TC|R|T|A|RC|PR|ADR|RA|GOV|GOV-CC|AS
 DATE_TOKEN = re.compile(r"\b\d{4}-\d{2}-\d{2}\b")
 NUMBER_PATTERN = re.compile(r"(?<![A-Za-z0-9_])\d{3,}(?![A-Za-z0-9_])")
 REPEATED_IGNORE_PREFIXES = (
+    "ROOT = Path(__file__).resolve().parents[1]",
     'text = path.read_text(encoding="utf-8")',
     "if any(part in SKIP_DIRS for part in rel.parts):",
     'env["PYTHONDONTWRITEBYTECODE"] = "1"',

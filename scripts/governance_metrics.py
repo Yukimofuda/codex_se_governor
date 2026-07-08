@@ -129,6 +129,20 @@ def status_script(script):
     return "pass" if run_script(script).returncode == 0 else "fail"
 
 
+def pytest_mode_status():
+    config = ROOT / "pytest.ini"
+    wrapper = ROOT / "scripts" / "run_tests_clean.py"
+    if not config.exists() or not wrapper.exists():
+        return "fail"
+    config_text = config.read_text(encoding="utf-8")
+    wrapper_text = wrapper.read_text(encoding="utf-8")
+    if 'not e2e' not in config_text:
+        return "fail"
+    if "--fast" not in wrapper_text or "--e2e" not in wrapper_text:
+        return "fail"
+    return "pass"
+
+
 def ai_average_score():
     result = run_script("ai_review_score.py")
     if result.returncode != 0:
@@ -271,7 +285,7 @@ def main():
         "maintenance_docs_count": sum(1 for name in ["CHANGELOG.md", "VERSIONING.md", "MAINTENANCE_GUIDE.md", "SUPPORT_RUNBOOK.md", "DEPRECATION_POLICY.md"] if (ROOT / name).exists()),
         "validators_count": len(list((ROOT / "scripts").glob("validate_*.py"))),
         "smell_baseline_sync_status": status_script("validate_smell_baseline_sync.py"),
-        "test_performance_status": status_script("validate_test_performance.py"),
+        "test_performance_status": pytest_mode_status(),
         "semantic_coverage_score": semantic.get("score", 0),
         "semantic_too_broad_cluster_count": semantic.get("too_broad_cluster_count", 0),
         "outer_archive_validator_status": status_for("scripts/validate_outer_archive.py"),

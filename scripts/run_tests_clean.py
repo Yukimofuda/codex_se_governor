@@ -20,13 +20,18 @@ def run(command, env):
 def parse_args(argv):
     args = []
     timing_json = None
+    mode = "fast"
     iterator = iter(argv)
     for item in iterator:
         if item == "--timing-json":
             timing_json = Path(next(iterator))
+        elif item == "--fast":
+            mode = "fast"
+        elif item == "--e2e":
+            mode = "e2e"
         else:
             args.append(item)
-    return args, timing_json
+    return args, timing_json, mode
 
 
 def parse_slowest(output):
@@ -35,10 +40,11 @@ def parse_slowest(output):
 
 
 def main(argv=None):
-    args, timing_json = parse_args(list(argv or sys.argv[1:]))
+    args, timing_json, mode = parse_args(list(argv or sys.argv[1:]))
     env = os.environ.copy()
     env["PYTHONDONTWRITEBYTECODE"] = "1"
-    pytest_command = [sys.executable, "-m", "pytest", "-p", "no:cacheprovider", "--durations=10", "--durations-min=0.01", *args]
+    marker_args = ["-m", "not e2e"] if mode == "fast" else ["-m", "e2e"]
+    pytest_command = [sys.executable, "-m", "pytest", "-p", "no:cacheprovider", "--durations=10", "--durations-min=0.01", *marker_args, *args]
     started = time.monotonic()
     pytest_result = run(pytest_command, env)
     elapsed = time.monotonic() - started

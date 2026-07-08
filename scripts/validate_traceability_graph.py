@@ -10,6 +10,13 @@ EXAMPLES = ROOT / "examples"
 REQ_RE = re.compile(r"\b(?:FR|NFR)-\d{3}\b")
 AC_RE = re.compile(r"\bAC-\d{3}\b")
 RISK_RE = re.compile(r"\bR-\d{3}\b")
+ARTIFACT_FILES = {
+    "requirements": "REQUIREMENTS.md",
+    "matrix": "TEST_CASE_MATRIX.md",
+    "risk": "RISK_REGISTER.md",
+    "security": "SECURITY_REVIEW.md",
+    "final": "FINAL_REPORT.md",
+}
 
 
 def read(path):
@@ -18,11 +25,12 @@ def read(path):
 
 def validate_dir(path):
     failures = []
-    req = read(path / "REQUIREMENTS.md")
-    matrix = read(path / "TEST_CASE_MATRIX.md")
-    risk = read(path / "RISK_REGISTER.md")
-    security = read(path / "SECURITY_REVIEW.md")
-    final = read(path / "FINAL_REPORT.md")
+    docs = {name: read(path / filename) for name, filename in ARTIFACT_FILES.items()}
+    req = docs["requirements"]
+    matrix = docs["matrix"]
+    risk = docs["risk"]
+    security = docs["security"]
+    final = docs["final"]
     combined_downstream = "\n".join([matrix, risk, security, final])
     for requirement_id in sorted(set(REQ_RE.findall(req))):
         if requirement_id not in combined_downstream:

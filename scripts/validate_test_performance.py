@@ -28,7 +28,7 @@ def main():
     with tempfile.NamedTemporaryFile(prefix="test-timing-", suffix=".json", delete=False) as handle:
         timing_path = Path(handle.name)
     result = subprocess.run(
-        [sys.executable, str(ROOT / "scripts" / "run_tests_clean.py"), "--timing-json", str(timing_path)],
+        [sys.executable, str(ROOT / "scripts" / "run_tests_clean.py"), "--fast", "--timing-json", str(timing_path)],
         cwd=ROOT,
         text=True,
         capture_output=True,
