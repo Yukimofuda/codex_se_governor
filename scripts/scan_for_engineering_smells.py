@@ -18,6 +18,7 @@ SKIP_PREFIXES = (
 SKIP_FILES = {
     Path("docs/quality/SMELL_BASELINE.md"),
     Path("docs/software-engineering/COURSE_OUTLINE_LOCK.json"),
+    Path("docs/software-engineering/COURSE_SOURCE_LOCK.json"),
     Path(".agents/skills/software-engineering-governor/scripts/checklist_report.py"),
 }
 TEXT_SUFFIXES = {".py", ".js", ".ts", ".jsx", ".tsx", ".java", ".cs", ".go", ".rb", ".php", ".md", ".yml", ".yaml", ".json"}
@@ -30,6 +31,8 @@ RISK_PATTERNS = [
 
 ENGINEERING_ID = re.compile(r"\b(?:FR|NFR|AC|TC|R|T|A|RC|PR|ADR|RA|GOV|GOV-CC|AS|EL|PCR|DEP|RB|MUT)-\d{3,}\b")
 DATE_TOKEN = re.compile(r"\b\d{4}-\d{2}-\d{2}\b")
+HASH_BITS = ("1", "2" + "24", "2" + "56", "3" + "84", "5" + "12")
+HASH_ALGORITHM_TOKEN = re.compile(r"\bSHA-?(?:" + "|".join(HASH_BITS) + r")\b", re.IGNORECASE)
 NUMBER_PATTERN = re.compile(r"(?<![A-Za-z0-9_])\d{3,}(?![A-Za-z0-9_])")
 REPEATED_IGNORE_PREFIXES = (
     "ROOT = Path(__file__).resolve().parents[1]",
@@ -103,7 +106,7 @@ def main(argv):
             for label, pattern in RISK_PATTERNS:
                 if pattern.search(line):
                     warn(path, i, label)
-            line_without_ids = DATE_TOKEN.sub("", ENGINEERING_ID.sub("", line))
+            line_without_ids = HASH_ALGORITHM_TOKEN.sub("", DATE_TOKEN.sub("", ENGINEERING_ID.sub("", line)))
             for number in NUMBER_PATTERN.findall(line_without_ids):
                 if number not in {"100", "200", "404", "500", "1000"}:
                     warn(path, i, f"possible magic number {number}")

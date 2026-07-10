@@ -43,6 +43,7 @@ def score(value, watch=3, strong=4):
 
 def render(metrics):
     semantic_ok = metrics.get("semantic_coverage_missing_count", 1) == 0 and metrics.get("semantic_cluster_count", 0) >= 40
+    source_ok = metrics.get("course_source_lock_status") == "pass"
     clean_ok = metrics.get("clean_package_violation_count", 1) == 0
     trace_ok = metrics.get("traceability_graph_status") == "pass"
     ai_ok = metrics.get("ai_review_average_score", 0) >= 8
@@ -58,8 +59,8 @@ def render(metrics):
         ("Ethics/AI maturity", 5 if metrics.get("ai_review_average_score", 0) >= 8 else 3),
         ("Risk/quality maturity", 4 if metrics.get("task_artifact_validation_status") == "pass" else 3),
         ("Project management maturity", 4 if metrics.get("maintenance_docs_count", 0) >= 5 else 3),
-        ("Release/maintenance maturity", 5 if metrics.get("clean_package_violation_count", 1) == 0 else 3),
-        ("Traceability maturity", 5 if trace_ok and semantic_ok else 3),
+        ("Release/maintenance maturity", 5 if clean_ok and source_ok else 3),
+        ("Traceability maturity", 5 if trace_ok and semantic_ok and source_ok else 3),
     ]
     rows = "\n".join(
         f"| {area} | {area_score} | {'PASS' if area_score >= 4 else 'WATCH'} | {'v0.7' if area_score >= 4 else 'v0.8'} |"
@@ -82,6 +83,7 @@ This report summarizes whether `codex-se-governor` is behaving like an evidence-
 | Evidence Area | Evidence | Status |
 |---|---|---|
 | Course semantic coverage | {metrics.get('semantic_cluster_count', 0)} semantic clusters, {metrics.get('semantic_coverage_missing_count', 0)} missing sections | {status(semantic_ok)} |
+| Course source integrity | {metrics.get('course_source_lock_status', 'unknown')} | {status(source_ok)} |
 | Clean package | {metrics.get('clean_package_violation_count', 0)} generated artifact violations | {status(clean_ok)} |
 | Traceability graph | {metrics.get('traceability_graph_status', 'unknown')} | {status(trace_ok)} |
 | AI review evidence | average score {metrics.get('ai_review_average_score', 0)} | {status(ai_ok)} |

@@ -110,13 +110,8 @@ def validate_artifact_targets(index, artifact, depth, enforcement):
     return failures
 
 
-def validate_row(index, row, known, title_by_section):
+def validate_row_contract(index, rule, artifact, enforcement, depth):
     failures = []
-    sections, concept, meaning, rule, artifact, enforcement, depth, evidence, limitation = row
-    row_text = " ".join(row).lower()
-    expanded = expand_sections(sections, known)
-    if any(phrase in row_text for phrase in GENERIC_PHRASES):
-        failures.append(f"row {index} uses generic coverage language")
     if not rule or len(rule) < 12:
         failures.append(f"row {index} has weak Codex rule")
     if not artifact or (artifact == "reference-only" and depth != "reference-only"):
@@ -126,25 +121,55 @@ def validate_row(index, row, known, title_by_section):
     if not any(term in enforcement.lower() for term in ENFORCEMENT_TERMS):
         failures.append(f"row {index} has unenforceable enforcement method: {enforcement}")
     failures.extend(validate_artifact_targets(index, artifact, depth, enforcement))
-    if not expanded:
-        failures.append(f"row {index} maps no known course sections")
-        return failures, expanded
-    if len(expanded) > MAX_CLUSTER_SECTIONS and "justification:" not in limitation.lower():
-        failures.append(f"row {index} covers {len(expanded)} sections without broad-cluster justification")
+    return failures
+
+
+def aligns_with_titles(expanded, title_by_section, concept, meaning, rule):
     title_text = " ".join(title_by_section.get(section, "") for section in expanded)
     title_terms = text_keywords(title_text)
     row_terms = text_keywords(" ".join([concept, meaning, rule]))
-    aligned = bool(title_terms.intersection(row_terms))
-    if not aligned:
-        aligned = any(title in row_term or row_term in title for title in title_terms for row_term in row_terms if len(title) >= 2 and len(row_term) >= 2)
-    if title_terms and row_terms and not aligned:
-        failures.append(f"row {index} concept does not align with covered section titles")
+    if not title_terms or not row_terms:
+        return True, title_text
+    if title_terms.intersection(row_terms):
+        return True, title_text
+    aligned = any(
+        title in row_term or row_term in title
+        for title in title_terms
+        for row_term in row_terms
+        if len(title) >= 2 and len(row_term) >= 2
+    )
+    return aligned, title_text
+
+
+def validate_cluster_policy(index, expanded, row_text, title_text, depth, limitation):
+    failures = []
+    if len(expanded) > MAX_CLUSTER_SECTIONS and "justification:" not in limitation.lower():
+        failures.append(f"row {index} covers {len(expanded)} sections without broad-cluster justification")
     if any(keyword in row_text for keyword in NON_REFERENCE_KEYWORDS) and depth == "reference-only":
         failures.append(f"row {index} high-value engineering topic cannot be reference-only")
     combined = title_text.lower() + " " + row_text
-    if any(any(term in combined for term in terms) for terms in STRONG_KEYWORDS.values()):
-        if depth in {"human-review-required", "reference-only"} and "justification" not in limitation.lower() and "manual-only" not in limitation.lower():
-            failures.append(f"row {index} weak depth for high-risk topic without justification")
+    high_risk = any(any(term in combined for term in terms) for terms in STRONG_KEYWORDS.values())
+    weak_depth = depth in {"human-review-required", "reference-only"}
+    justified = "justification" in limitation.lower() or "manual-only" in limitation.lower()
+    if high_risk and weak_depth and not justified:
+        failures.append(f"row {index} weak depth for high-risk topic without justification")
+    return failures
+
+
+def validate_row(index, row, known, title_by_section):
+    sections, concept, meaning, rule, artifact, enforcement, depth, evidence, limitation = row
+    row_text = " ".join(row).lower()
+    expanded = expand_sections(sections, known)
+    failures = validate_row_contract(index, rule, artifact, enforcement, depth)
+    if any(phrase in row_text for phrase in GENERIC_PHRASES):
+        failures.append(f"row {index} uses generic coverage language")
+    if not expanded:
+        failures.append(f"row {index} maps no known course sections")
+        return failures, expanded
+    aligned, title_text = aligns_with_titles(expanded, title_by_section, concept, meaning, rule)
+    if not aligned:
+        failures.append(f"row {index} concept does not align with covered section titles")
+    failures.extend(validate_cluster_policy(index, expanded, row_text, title_text, depth, limitation))
     return failures, expanded
 
 

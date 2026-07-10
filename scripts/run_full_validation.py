@@ -22,6 +22,7 @@ COMMANDS = [
     ["python3", "scripts/validate_skill.py"],
     ["python3", "scripts/validate_smell_baseline.py"],
     ["python3", "scripts/validate_smell_baseline_sync.py"],
+    ["python3", "scripts/validate_course_source_lock.py"],
     ["python3", "scripts/validate_course_outline_lock.py"],
     ["python3", "scripts/validate_course_coverage.py"],
     ["python3", "scripts/validate_course_semantic_coverage.py"],

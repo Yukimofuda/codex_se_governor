@@ -159,8 +159,9 @@ def ai_average_score():
 def complexity_baseline_counts():
     path = ROOT / "docs" / "quality" / "COMPLEXITY_BASELINE.md"
     if not path.exists():
-        return 0, 0, 0
+        return 0, 0, 0, 0
     exceptions = 0
+    temporary = 0
     over_20 = 0
     expired = 0
     current = load_config()["version"]
@@ -170,6 +171,8 @@ def complexity_baseline_counts():
         cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
         if len(cells) >= 11:
             exceptions += 1
+            if cells[3] == "temporary-exception":
+                temporary += 1
             try:
                 if int(cells[2]) > 20:
                     over_20 += 1
@@ -177,7 +180,7 @@ def complexity_baseline_counts():
                 pass
             if cells[3] == "temporary-exception" and version_is_expired(cells[8], current):
                 expired += 1
-    return exceptions, over_20, expired
+    return exceptions, temporary, over_20, expired
 
 
 def evidence_package_average():
@@ -225,7 +228,7 @@ def main():
     coverage_count, coverage_missing = course_coverage_counts()
     semantic_rows, semantic_missing = semantic_coverage_stats()
     course_refs, course_ref_lines = course_reference_stats()
-    complexity_exception_count, complexity_over_20_count, complexity_expired_count = complexity_baseline_counts()
+    complexity_exception_count, complexity_temporary_count, complexity_over_20_count, complexity_expired_count = complexity_baseline_counts()
     semantic = semantic_score()
     config = load_config()
     matrix = ROOT / "docs" / "software-engineering" / "18_TRACEABILITY_MATRIX.md"
@@ -257,6 +260,7 @@ def main():
         "semantic_cluster_minimum_pass": semantic_rows >= 40,
         "clean_package_violation_count": missing_count(clean_result.stdout),
         "outline_lock_status": "pass" if run_script("validate_course_outline_lock.py").returncode == 0 else "fail",
+        "course_source_lock_status": "pass" if run_script("validate_course_source_lock.py").returncode == 0 else "fail",
         "no_side_effect_validation_status": status_for("scripts/validate_no_side_effects.py"),
         "release_archive_validator_status": status_for("scripts/validate_release_archive.py"),
         "test_traceability_status": "pass" if run_script("validate_test_traceability.py").returncode == 0 else "fail",
@@ -270,7 +274,7 @@ def main():
         "ai_review_average_score": ai_average_score(),
         "complexity_exception_count": complexity_exception_count,
         "complexity_over_20_count": complexity_over_20_count,
-        "complexity_temporary_exception_count": complexity_exception_count,
+        "complexity_temporary_exception_count": complexity_temporary_count,
         "complexity_expired_exception_count": complexity_expired_count,
         "maturity_report_status": status_for("docs/reports/GOVERNANCE_MATURITY_REPORT.md"),
         "mutation_plan_template_status": status_for("templates/MUTATION_TESTING_PLAN.md"),

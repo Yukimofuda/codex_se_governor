@@ -105,6 +105,7 @@ SUBTOPICS = [
     "AI guardrails",
     "human oversight",
     "low-risk high-value AI adoption",
+    "course source integrity",
 ]
 
 
