@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "source": "references/course/软件工程全整理.md",
+  "sha256": "8fc99f99689b5a7edb704a2212194dfb44239253c682c7f01150ece8e267bd07",
+  "byte_count": 857777,
+  "newline_count": 14828,
+  "course_section_count": 647,
+  "origin": {
+    "filename": "软件工程全整理(3).pdf",
+    "sha256": "7f74280801a24567a5361638a7a33208fa60243f3b35ba166de3da34db51761d",
+    "pages": 266
+  }
+}

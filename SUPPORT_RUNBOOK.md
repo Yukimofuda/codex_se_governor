@@ -11,6 +11,7 @@
 | Clean package validation fails | Generated local files are present | Run `python3 scripts/clean_artifacts.py` |
 | Course coverage fails | New or changed course section is unmapped | Update `19_COURSE_SECTION_COVERAGE.md` |
 | Semantic coverage fails | A course concept lacks concrete rule, artifact, depth, or evidence | Update `20_COURSE_SEMANTIC_COVERAGE.md` |
+| Course source lock fails | Authoritative text changed or lock metadata drifted | Review the PDF/source diff, then update `COURSE_SOURCE_LOCK.json` intentionally |
 | Outline lock fails | Course source or extractor changed | Update lock intentionally after review |
 | Release archive validation fails | Generated artifact entered zip | Run cleanup and rebuild with `package_release.py` |
 | Outer archive validation fails | Finder or manual zip added `__MACOSX/` or caches | Repackage using `package_release.py`; validate the exact uploaded zip |

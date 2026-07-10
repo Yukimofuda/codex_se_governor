@@ -89,5 +89,5 @@ This matrix maps PDF chapters and important subtopics to governor rules, artifac
 | 16. AI Assisted Development | low-risk high-value AI adoption | Use AI where review cost is low | Prefer drafts, tests, docs, explanations | 16_AI_ASSISTED_DEVELOPMENT.md | Human review | Documented |
 | 16. AI Assisted Development | hallucination risk | AI may invent facts or APIs | Verify against source, tests, docs | AI_USAGE_REVIEW_TEMPLATE.md | PR checklist | Validated |
 | 17. Revision | lifecycle master review | Completion needs whole-system evidence | Run master checklist before final report | 17_REVISION_MASTER_CHECKLIST.md | Final report | Validated |
+| 17. Revision | course source integrity | Traceability claims require a stable reviewed source | Reject unreviewed changes to the authoritative course text | COURSE_SOURCE_LOCK.json; scripts/validate_course_source_lock.py | CI; pre-commit; full validation | Validated |
 | 17. Revision | memory and retrospective | Learning should improve future work | Propose memory/rule updates | RETROSPECTIVE_TEMPLATE.md | Template validator | Validated |
-

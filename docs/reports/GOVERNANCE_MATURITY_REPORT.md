@@ -26,6 +26,7 @@ This report summarizes whether `codex-se-governor` is behaving like an evidence-
 | Evidence Area | Evidence | Status |
 |---|---|---|
 | Course semantic coverage | 55 semantic clusters, 0 missing sections | PASS |
+| Course source integrity | pass | PASS |
 | Clean package | 0 generated artifact violations | PASS |
 | Traceability graph | pass | PASS |
 | AI review evidence | average score 10.0 | PASS |

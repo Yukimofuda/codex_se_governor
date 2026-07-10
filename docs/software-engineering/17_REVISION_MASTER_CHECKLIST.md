@@ -86,6 +86,7 @@ Provide the final lifecycle review gate before a task, PR, or release is conside
 
 ### Completion
 
+- [ ] Authoritative course source, outline, numbered coverage, and semantic coverage locks pass.
 - [ ] Commands run are recorded.
 - [ ] Documentation updated or reason stated.
 - [ ] Rollback plan is realistic.
@@ -106,5 +107,5 @@ Provide the final lifecycle review gate before a task, PR, or release is conside
 - `validate_doc_structure.py`.
 - `validate_templates.py`.
 - `validate_smell_baseline.py`.
+- `validate_course_source_lock.py` and course coverage validators.
 - Human review.
-
