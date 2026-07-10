@@ -9,15 +9,17 @@
 6. Run `python3 scripts/validate_smell_baseline_sync.py`.
 
 ## Course Reference Update Process
-1. Replace `references/course/软件工程全整理.md`.
-2. Run `python3 scripts/extract_course_outline.py`.
-3. Update `docs/software-engineering/COURSE_OUTLINE_LOCK.json` intentionally.
-4. Update `docs/software-engineering/19_COURSE_SECTION_COVERAGE.md`.
-5. Update `docs/software-engineering/20_COURSE_SEMANTIC_COVERAGE.md`.
-6. Ensure semantic coverage uses concrete rule clusters, existing artifact paths, enforcement methods, and coverage depth.
-7. Run `python3 scripts/validate_course_outline_lock.py`.
-8. Run `python3 scripts/validate_course_coverage.py`.
-9. Run `python3 scripts/validate_course_semantic_coverage.py`.
+1. Replace `references/course/软件工程全整理.md` only after reviewing the new PDF and recording its provenance.
+2. Review the full source diff; do not rely only on changed headings.
+3. Intentionally update `docs/software-engineering/COURSE_SOURCE_LOCK.json` with the reviewed source hash and counts.
+4. Run `python3 scripts/extract_course_outline.py`.
+5. Update `docs/software-engineering/COURSE_OUTLINE_LOCK.json` intentionally.
+6. Update `docs/software-engineering/19_COURSE_SECTION_COVERAGE.md`.
+7. Update `docs/software-engineering/20_COURSE_SEMANTIC_COVERAGE.md`.
+8. Ensure semantic coverage uses concrete rule clusters, existing artifact paths, enforcement methods, and coverage depth.
+9. Run `python3 scripts/validate_course_source_lock.py`.
+10. Run `python3 scripts/validate_course_outline_lock.py`.
+11. Run `python3 scripts/validate_course_coverage.py` and `python3 scripts/validate_course_semantic_coverage.py`.
 
 ## Release Package Process
 1. Run `python3 scripts/run_full_validation.py`.

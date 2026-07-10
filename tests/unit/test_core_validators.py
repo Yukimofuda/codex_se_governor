@@ -1,4 +1,5 @@
 from pathlib import Path
+import hashlib
 import json
 import subprocess
 import sys
@@ -60,6 +61,34 @@ def test_validate_traceability_fails_when_chapter_missing(tmp_path):
     assert "missing chapter: 17. Revision" in result.stdout
 
 
+def test_validate_course_source_lock_passes_and_detects_content_drift(tmp_path):
+    repo = copy_subset_repo(tmp_path, ["scripts/validate_course_source_lock.py"])
+    source = repo / "references" / "course" / "软件工程全整理.md"
+    source.parent.mkdir(parents=True)
+    content = "1 软件工程导论\n1.1 本章内容\n"
+    source.write_text(content, encoding="utf-8")
+    outline = [{"section": "1", "title": "软件工程导论"}, {"section": "1.1", "title": "本章内容"}]
+    docs = repo / "docs" / "software-engineering"
+    docs.mkdir(parents=True)
+    (docs / "COURSE_OUTLINE_LOCK.json").write_text(json.dumps(outline, ensure_ascii=False), encoding="utf-8")
+    encoded = content.encode("utf-8")
+    lock = {
+        "schema_version": 1,
+        "source": "references/course/软件工程全整理.md",
+        "sha256": hashlib.sha256(encoded).hexdigest(),
+        "byte_count": len(encoded),
+        "newline_count": encoded.count(b"\n"),
+        "course_section_count": len(outline),
+        "origin": {"filename": "软件工程全整理(3).pdf", "sha256": "test", "pages": 266},
+    }
+    (docs / "COURSE_SOURCE_LOCK.json").write_text(json.dumps(lock, ensure_ascii=False), encoding="utf-8")
+    assert run_script(repo, "validate_course_source_lock.py").returncode == 0
+    source.write_text(content + "正文被改动\n", encoding="utf-8")
+    result = run_script(repo, "validate_course_source_lock.py")
+    assert result.returncode == 1
+    assert "course source sha256 changed" in result.stdout
+
+
 def test_generate_task_scaffold_includes_v07_task_artifacts(tmp_path):
     repo = copy_subset_repo(
         tmp_path,
@@ -106,6 +135,7 @@ def test_scan_for_engineering_smells_warns_without_trace_id_false_positives(tmp_
                 "ev" + "al('1 + 1')",
                 "timeout_seconds = " + "12" + "34" + "5",
                 "# FR-001 AC-001 TC-001 R-001 NFR-001 are trace IDs",
+                "# SHA-256 identifies the locked course source",
             ]
         ),
         encoding="utf-8",
@@ -116,6 +146,7 @@ def test_scan_for_engineering_smells_warns_without_trace_id_false_positives(tmp_
     assert "dynamic code execution" in result.stdout
     assert "possible magic number 12345" in result.stdout
     assert "possible magic number 001" not in result.stdout
+    assert "possible magic number 256" not in result.stdout
 
 
 def test_validate_clean_package_fails_on_generated_files(tmp_path):
@@ -160,7 +191,7 @@ def test_validate_governor_config_passes_and_fails(tmp_path):
     )
     assert run_script(repo, "validate_governor_config.py").returncode == 0
     config = repo / "governor.toml"
-    config.write_text(config.read_text(encoding="utf-8").replace('version = "0.7.0"', 'version = "0.7"'), encoding="utf-8")
+    config.write_text(config.read_text(encoding="utf-8").replace('version = "0.7.1"', 'version = "0.7"'), encoding="utf-8")
     result = run_script(repo, "validate_governor_config.py")
     assert result.returncode == 1
     assert "version must follow semver" in result.stdout

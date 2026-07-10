@@ -2,6 +2,12 @@
 
 ## Version History
 
+## v0.7.1
+- Added `COURSE_SOURCE_LOCK.json` and `validate_course_source_lock.py` so body-only changes to the authoritative course source cannot bypass the outline lock.
+- Corrected governance metrics to count only actual `temporary-exception` complexity entries.
+- Split semantic coverage row validation into focused policy helpers and removed the resolved complexity-24 temporary exception.
+- Added course-source drift regression coverage and documented the intentional lock update workflow.
+
 ## v0.7
 - Added `governor.toml` so release archive naming, version tagging, and validation no longer rely on hardcoded `v0.5` paths.
 - Added smell baseline sync, semantic coverage scoring, evidence package scoring, governance maturity validation, outer archive validation, and test performance validation.

@@ -107,8 +107,11 @@ def test_governance_metrics_include_v07_fields(tmp_path):
         "complexity_expired_exception_count",
         "governor_config_status",
         "release_archive_version",
+        "course_source_lock_status",
     ]:
         assert key in metrics
+    assert metrics["course_source_lock_status"] == "pass"
+    assert metrics["complexity_temporary_exception_count"] == 0
 
 
 def test_validate_no_side_effects_detects_generated_artifacts(tmp_path):

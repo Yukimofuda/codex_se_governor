@@ -28,12 +28,13 @@ Use:
 
 ```bash
 python3 scripts/extract_course_outline.py
+python3 scripts/validate_course_source_lock.py
 python3 scripts/validate_course_outline_lock.py
 python3 scripts/validate_course_coverage.py
 python3 scripts/validate_course_semantic_coverage.py
 ```
 
-The first command extracts numbered sections as JSON. The outline lock prevents accidental extractor drift. The coverage validators check both numeric section coverage and semantic engineering coverage.
+The first command extracts numbered sections as JSON. `COURSE_SOURCE_LOCK.json` protects the complete authoritative text against body-only drift by recording its SHA-256, size, newline count, section count, and original PDF provenance. The outline lock separately protects section IDs and titles. The coverage validators then check numeric section coverage and semantic engineering coverage.
 
 ## Adopt in an Existing GitHub Repository
 
@@ -92,6 +93,7 @@ python3 scripts/validate_skill.py
 python3 scripts/validate_smell_baseline.py
 python3 scripts/validate_clean_package.py
 python3 scripts/extract_course_outline.py
+python3 scripts/validate_course_source_lock.py
 python3 scripts/validate_course_outline_lock.py
 python3 scripts/validate_course_coverage.py
 python3 scripts/validate_course_semantic_coverage.py
@@ -138,6 +140,8 @@ python3 scripts/governance_metrics.py
 ```
 
 The command prints JSON with document, template, script, test, workflow, traceability, smell, static pytest discovery, cache artifact, course reference, numeric and semantic course coverage, clean package, outline lock, no-side-effect, release archive validator, test traceability, complexity baseline, AI example, process compliance, maturity report, task artifact validation, traceability graph, AI review score, mutation plan, deployment/maintenance templates, clean test wrapper, and validator counts.
+
+For v0.7.1 it also reports `course_source_lock_status` and distinguishes total complexity exceptions from actual temporary exceptions. A temporary count of zero means no time-limited complexity waiver remains active; it does not mean all accepted complexity debt has disappeared.
 
 ## No-side-effect Validation
 
@@ -389,6 +393,10 @@ v0.7 hardens the governor from v0.6 evidence structure into a reliability-focuse
 - default fast pytest mode with explicit e2e execution
 - non-recursive metrics and maturity generation
 
+## v0.7.1 Reliability Patch
+
+v0.7.1 adds a full-content course source lock, fixes temporary-complexity exception counting, and removes the semantic coverage validator's complexity-24 temporary waiver by splitting its policy checks into focused helpers. The release archive remains `codex-se-governor-v0.7.zip` because patch releases share the configured major/minor archive tag.
+
 ## v0.4 Validation Command Sequence
 
 ```bash
@@ -472,6 +480,8 @@ python3 scripts/validate_outer_archive.py dist/codex-se-governor-v0.7.zip
 python3 scripts/governance_metrics.py
 ```
 
+The canonical command is still `python3 scripts/run_full_validation.py`; it includes `validate_course_source_lock.py`. If the lock fails after an intentional course update, review the source/PDF diff before updating the lock. Do not regenerate a hash merely to make CI green.
+
 ## Loading Standard Before Development
 
 At the start of a non-trivial task, Codex must read:
@@ -483,7 +493,7 @@ At the start of a non-trivial task, Codex must read:
 
 ## Limitations
 
-The scripts are intentionally conservative and lightweight. They detect missing governance artifacts and obvious smells, but they do not prove correctness, security, fairness, architecture quality, or test sufficiency. Human review remains required.
+The scripts are intentionally conservative and lightweight. They detect missing governance artifacts, source drift, incomplete evidence, and obvious smells, but they do not prove correctness, security, fairness, architecture quality, or test sufficiency. The source lock proves that the reviewed course text did not change; it does not prove every semantic interpretation is correct. Human review remains required.
 
 ## Future Improvements
 

@@ -8,6 +8,7 @@
 - `v0.5`: semantic coverage, side-effect-free validation, and release-package hardening.
 - `v0.6`: evidence-grade semantic density, clean pytest wrapper, task traceability graph, AI scoring, maturity reporting, and release guidance.
 - `v0.7`: config-driven release versioning, semantic coverage scoring, evidence package scoring, maturity gates, outer archive validation, and performance-aware test orchestration.
+- `v0.7.1`: course-source content integrity lock, corrected complexity metrics, and reduced semantic-validator complexity.
 
 ## Version Policy
 - Minor versions add new governance artifacts or validators.
