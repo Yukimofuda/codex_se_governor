@@ -1,0 +1,28 @@
+{
+  "bytecode_disabled": true,
+  "cache_provider_disabled": true,
+  "command": [
+    "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+    "-m",
+    "pytest",
+    "-p",
+    "no:cacheprovider",
+    "--durations=10",
+    "--durations-min=0.01",
+    "-m",
+    "e2e"
+  ],
+  "elapsed_seconds": 5.841,
+  "plugin_autoload_disabled": true,
+  "returncode": 0,
+  "schema_version": 1,
+  "slowest": [
+    "1.89s call     tests/e2e/test_release_pipeline.py::test_fast_validation_finishes_within_target",
+    "1.07s call     tests/e2e/test_release_pipeline.py::test_package_release_and_source_use_exact_v072_paths",
+    "0.78s call     tests/e2e/test_release_pipeline.py::test_run_tests_clean_and_clean_package",
+    "0.63s call     tests/e2e/test_release_pipeline.py::test_archive_clis_do_not_write_bytecode_without_wrapper_env",
+    "0.55s call     tests/e2e/test_release_pipeline.py::test_source_archive_validator_rejects_mojibake_path",
+    "0.31s call     tests/e2e/test_release_pipeline.py::test_source_packaging_rejects_stale_dist_archive"
+  ],
+  "suite": "e2e"
+}

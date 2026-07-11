@@ -1,52 +1,49 @@
-# Governance Maturity Report
+# Governor Capability Maturity Report
 
 ## Purpose
 
-This report summarizes whether `codex-se-governor` is behaving like an evidence-grade software engineering governor rather than a static document bundle.
+This report scores the governor's validation capabilities. It does not claim that an adopting project's real requirements, architecture, security, or delivery process are mature.
 
-## Maturity Snapshot
+## Governor Capability Maturity
 
-| Area | Score | Status | Target version |
+| Capability | Score | Status | Independent evidence signals |
 |---|---:|---|---|
-| Requirements maturity | 5 | PASS | v0.7 |
-| User story and acceptance maturity | 5 | PASS | v0.7 |
-| Analysis maturity | 4 | PASS | v0.7 |
-| Design/architecture maturity | 5 | PASS | v0.7 |
-| Implementation quality maturity | 5 | PASS | v0.7 |
-| Testing maturity | 5 | PASS | v0.7 |
-| Security maturity | 5 | PASS | v0.7 |
-| Ethics/AI maturity | 5 | PASS | v0.7 |
-| Risk/quality maturity | 4 | PASS | v0.7 |
-| Project management maturity | 4 | PASS | v0.7 |
-| Release/maintenance maturity | 5 | PASS | v0.7 |
-| Traceability maturity | 5 | PASS | v0.7 |
+| Requirements and traceability capability | 5 | PASS | templates=pass; test traceability=pass |
+| Analysis and design capability | 5 | PASS | task artifacts=pass; traceability graph=pass |
+| Testing capability | 5 | PASS | pytest isolation=pass; unit tests=pass; integration tests=pass |
+| Security and AI capability | 5 | PASS | AI template=pass; AI evidence=pass |
+| Risk and project capability | 5 | PASS | project management=pass; template contract=pass |
+| Course traceability capability | 5 | PASS | source lock=pass; outline lock=pass; semantic coverage=pass |
+| Release and maintenance capability | 5 | PASS | configuration=pass; clean package=pass; maintenance docs=pass |
 
-## Supporting Evidence
+## Adoption Readiness
 
-| Evidence Area | Evidence | Status |
-|---|---|---|
-| Course semantic coverage | 55 semantic clusters, 0 missing sections | PASS |
-| Course source integrity | pass | PASS |
-| Clean package | 0 generated artifact violations | PASS |
-| Traceability graph | pass | PASS |
-| AI review evidence | average score 10.0 | PASS |
-| Complexity governance | 0 threshold violations | PASS |
-| Evidence packages | average score 100.0 | PASS |
-| Test performance | pass | PASS |
-| Release archive validator | present | PRESENT |
+| Readiness area | Score | Status | Independent evidence signals |
+|---|---:|---|---|
+| Core adoption readiness | 5 | PASS | SE gate=pass; Skill=pass; configuration=pass |
+| Local development readiness | 5 | PASS | pytest isolation=pass; unit tests=pass |
 
-## Lifecycle Evidence
+## Active Task And Package Maturity
 
-- Requirements, stories, analysis, design, tests, risk, security, AI review, process compliance, deployment, maintenance, final report, and retrospective evidence are required through templates and task validation.
-- CI and pre-commit prefer the full ordered validation sequence.
-- Course reference files are isolated from smell scanning but covered by outline, section, and semantic validators.
+| Evidence area | Score | Status | Independent evidence signals |
+|---|---:|---|---|
+| Active task evidence maturity | 5 | PASS | task artifacts=pass; evidence score=pass |
+| Release package maturity | unknown | UNKNOWN | release archive=pass; source archive=unknown |
+
+## Unavailable Evidence
+
+- source archive validation
+
+## Evidence Provenance
+
+- Validation mode: `release`.
+- Validation result source: `present`.
+- Semantic score is cached evidence: `98`.
+- Evidence package average is cached evidence: `100.0`.
+- Missing evidence remains `unknown`; it is never promoted to a passing score.
 
 ## Residual Risks
 
-- Semantic coverage remains a curated mapping and still requires human review when course content changes.
-- Complexity scoring is approximate and Python-specific.
-- Mutation testing is represented as planning evidence; projects can attach real mutation tooling when available.
-
-## Next Review
-
-Review this report before each release, after course reference updates, and after adding new validator categories.
+- Capability evidence proves governor behavior, not correctness of an adopting product.
+- Semantic mappings and course provenance still require accountable human review.
+- Runtime security, fairness, and mutation effectiveness need project-specific tools and data.

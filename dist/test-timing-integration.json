@@ -1,0 +1,31 @@
+{
+  "bytecode_disabled": true,
+  "cache_provider_disabled": true,
+  "command": [
+    "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+    "-m",
+    "pytest",
+    "-p",
+    "no:cacheprovider",
+    "--durations=10",
+    "--durations-min=0.01",
+    "tests/integration"
+  ],
+  "elapsed_seconds": 5.549,
+  "plugin_autoload_disabled": true,
+  "returncode": 0,
+  "schema_version": 1,
+  "slowest": [
+    "0.39s call     tests/integration/test_governance_flows.py::test_generate_governance_maturity_report_completes_without_recursion",
+    "0.37s call     tests/integration/test_governance_flows.py::test_clean_wrapper_disables_fake_autoloaded_plugin",
+    "0.33s call     tests/integration/test_governance_flows.py::test_validate_complexity_thresholds_rejects_expired_exception",
+    "0.30s call     tests/integration/test_governance_flows.py::test_validate_smell_baseline_sync_detects_stale_entry",
+    "0.29s call     tests/integration/test_governance_flows.py::test_generate_and_validate_governance_maturity",
+    "0.28s call     tests/integration/test_governance_flows.py::test_governance_metrics_is_side_effect_free",
+    "0.24s call     tests/integration/test_governance_flows.py::test_governance_metrics_are_lightweight_and_use_cached_artifacts",
+    "0.20s call     tests/integration/test_governance_flows.py::test_evidence_package_score_and_validator",
+    "0.20s call     tests/integration/test_cli_validators.py::test_se_gate_passes_and_fails_on_dangerous_text",
+    "0.20s call     tests/integration/test_cli_validators.py::test_validate_course_provenance_attestation_and_pdf_hash"
+  ],
+  "suite": "integration"
+}

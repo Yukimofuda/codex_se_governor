@@ -1,0 +1,1346 @@
+[
+  {
+    "complexity": 2,
+    "file": "scripts/ai_review_score.py",
+    "function": "review_files",
+    "line": 24
+  },
+  {
+    "complexity": 1,
+    "file": "scripts/ai_review_score.py",
+    "function": "score",
+    "line": 32
+  },
+  {
+    "complexity": 1,
+    "file": "scripts/ai_review_score.py",
+    "function": "build_payload",
+    "line": 43
+  },
+  {
+    "complexity": 2,
+    "file": "scripts/ai_review_score.py",
+    "function": "main",
+    "line": 47
+  },
+  {
+    "complexity": 4,
+    "file": "scripts/archive_rules.py",
+    "function": "bad_entry",
+    "line": 13
+  },
+  {
+    "complexity": 3,
+    "file": "scripts/archive_rules.py",
+    "function": "has_required_paths",
+    "line": 21
+  },
+  {
+    "complexity": 1,
+    "file": "scripts/archive_rules.py",
+    "function": "mojibake_paths",
+    "line": 30
+  },
+  {
+    "complexity": 4,
+    "file": "scripts/check_adoption.py",
+    "function": "main",
+    "line": 19
+  },
+  {
+    "complexity": 11,
+    "file": "scripts/clean_artifacts.py",
+    "function": "generated_paths",
+    "line": 14
+  },
+  {
+    "complexity": 5,
+    "file": "scripts/clean_artifacts.py",
+    "function": "main",
+    "line": 27
+  },
+  {
+    "complexity": 3,
+    "file": "scripts/complexity_report.py",
+    "function": "iter_python_files",
+    "line": 15
+  },
+  {
+    "complexity": 4,
+    "file": "scripts/complexity_report.py",
+    "function": "complexity",
+    "line": 23
+  },
+  {
+    "complexity": 5,
+    "file": "scripts/complexity_report.py",
+    "function": "build_payload",
+    "line": 33
+  },
+  {
+    "complexity": 2,
+    "file": "scripts/complexity_report.py",
+    "function": "main",
+    "line": 54
+  },
+  {
+    "complexity": 3,
+    "file": "scripts/evidence_package_score.py",
+    "function": "package_dirs",
+    "line": 16
+  },
+  {
+    "complexity": 2,
+    "file": "scripts/evidence_package_score.py",
+    "function": "read",
+    "line": 24
+  },
+  {
+    "complexity": 4,
+    "file": "scripts/evidence_package_score.py",
+    "function": "score_package",
+    "line": 28
+  },
+  {
+    "complexity": 1,
+    "file": "scripts/evidence_package_score.py",
+    "function": "build_payload",
+    "line": 64
+  },
+  {
+    "complexity": 2,
+    "file": "scripts/evidence_package_score.py",
+    "function": "main",
+    "line": 68
+  },
+  {
+    "complexity": 1,
+    "file": "scripts/extract_course_outline.py",
+    "function": "normalize_title",
+    "line": 17
+  },
+  {
+    "complexity": 11,
+    "file": "scripts/extract_course_outline.py",
+    "function": "extract",
+    "line": 24
+  },
+  {
+    "complexity": 2,
+    "file": "scripts/extract_course_outline.py",
+    "function": "main",
+    "line": 51
+  },
+  {
+    "complexity": 1,
+    "file": "scripts/extract_course_outline.py",
+    "function": "key",
+    "line": 46
+  },
+  {
+    "complexity": 3,
+    "file": "scripts/generate_governance_maturity_report.py",
+    "function": "status_for_threshold",
+    "line": 15
+  },
+  {
+    "complexity": 3,
+    "file": "scripts/generate_governance_maturity_report.py",
+    "function": "evaluate",
+    "line": 21
+  },
+  {
+    "complexity": 1,
+    "file": "scripts/generate_governance_maturity_report.py",
+    "function": "row",
+    "line": 30
+  },
+  {
+    "complexity": 4,
+    "file": "scripts/generate_governance_maturity_report.py",
+    "function": "render",
+    "line": 36
+  },
+  {
+    "complexity": 1,
+    "file": "scripts/generate_governance_maturity_report.py",
+    "function": "main",
+    "line": 111
+  },
+  {
+    "complexity": 2,
+    "file": "scripts/generate_task_scaffold.py",
+    "function": "slugify",
+    "line": 30
+  },
+  {
+    "complexity": 3,
+    "file": "scripts/generate_task_scaffold.py",
+    "function": "main",
+    "line": 35
+  },
+  {
+    "complexity": 2,
+    "file": "scripts/governance_metrics.py",
+    "function": "count_files",
+    "line": 18
+  },
+  {
+    "complexity": 2,
+    "file": "scripts/governance_metrics.py",
+    "function": "pytest_discovered",
+    "line": 23
+  },
+  {
+    "complexity": 3,
+    "file": "scripts/governance_metrics.py",
+    "function": "cache_artifacts",
+    "line": 35
+  },
+  {
+    "complexity": 4,
+    "file": "scripts/governance_metrics.py",
+    "function": "course_reference_stats",
+    "line": 44
+  },
+  {
+    "complexity": 2,
+    "file": "scripts/governance_metrics.py",
+    "function": "manifest_results",
+    "line": 56
+  },
+  {
+    "complexity": 1,
+    "file": "scripts/governance_metrics.py",
+    "function": "result_status",
+    "line": 60
+  },
+  {
+    "complexity": 3,
+    "file": "scripts/governance_metrics.py",
+    "function": "pass_zero",
+    "line": 64
+  },
+  {
+    "complexity": 1,
+    "file": "scripts/governance_metrics.py",
+    "function": "read_score",
+    "line": 69
+  },
+  {
+    "complexity": 3,
+    "file": "scripts/governance_metrics.py",
+    "function": "average_score",
+    "line": 73
+  },
+  {
+    "complexity": 9,
+    "file": "scripts/governance_metrics.py",
+    "function": "complexity_baseline_counts",
+    "line": 79
+  },
+  {
+    "complexity": 10,
+    "file": "scripts/governance_metrics.py",
+    "function": "maturity_min_score",
+    "line": 101
+  },
+  {
+    "complexity": 2,
+    "file": "scripts/governance_metrics.py",
+    "function": "static_course_counts",
+    "line": 117
+  },
+  {
+    "complexity": 4,
+    "file": "scripts/governance_metrics.py",
+    "function": "semantic_rows",
+    "line": 125
+  },
+  {
+    "complexity": 4,
+    "file": "scripts/governance_metrics.py",
+    "function": "baseline_warning_count",
+    "line": 132
+  },
+  {
+    "complexity": 6,
+    "file": "scripts/governance_metrics.py",
+    "function": "collect_metrics",
+    "line": 139
+  },
+  {
+    "complexity": 2,
+    "file": "scripts/governance_metrics.py",
+    "function": "main",
+    "line": 212
+  },
+  {
+    "complexity": 1,
+    "file": "scripts/governor_config.py",
+    "function": "load_config",
+    "line": 13
+  },
+  {
+    "complexity": 1,
+    "file": "scripts/governor_config.py",
+    "function": "version_tag",
+    "line": 26
+  },
+  {
+    "complexity": 1,
+    "file": "scripts/governor_config.py",
+    "function": "exact_version_tag",
+    "line": 31
+  },
+  {
+    "complexity": 1,
+    "file": "scripts/governor_config.py",
+    "function": "version_is_expired",
+    "line": 35
+  },
+  {
+    "complexity": 1,
+    "file": "scripts/governor_config.py",
+    "function": "is_semver",
+    "line": 41
+  },
+  {
+    "complexity": 7,
+    "file": "scripts/package_release.py",
+    "function": "include",
+    "line": 20
+  },
+  {
+    "complexity": 3,
+    "file": "scripts/package_release.py",
+    "function": "build_archive",
+    "line": 31
+  },
+  {
+    "complexity": 5,
+    "file": "scripts/package_release.py",
+    "function": "main",
+    "line": 40
+  },
+  {
+    "complexity": 5,
+    "file": "scripts/package_source.py",
+    "function": "main",
+    "line": 17
+  },
+  {
+    "complexity": 2,
+    "file": "scripts/release_manifest.py",
+    "function": "sha256",
+    "line": 14
+  },
+  {
+    "complexity": 2,
+    "file": "scripts/release_manifest.py",
+    "function": "declared_artifacts",
+    "line": 22
+  },
+  {
+    "complexity": 1,
+    "file": "scripts/release_manifest.py",
+    "function": "stale_archives",
+    "line": 32
+  },
+  {
+    "complexity": 4,
+    "file": "scripts/release_manifest.py",
+    "function": "build_manifest",
+    "line": 38
+  },
+  {
+    "complexity": 1,
+    "file": "scripts/release_manifest.py",
+    "function": "write_manifest",
+    "line": 57
+  },
+  {
+    "complexity": 9,
+    "file": "scripts/release_manifest.py",
+    "function": "validate_dist",
+    "line": 63
+  },
+  {
+    "complexity": 1,
+    "file": "scripts/run_full_validation.py",
+    "function": "spec",
+    "line": 21
+  },
+  {
+    "complexity": 3,
+    "file": "scripts/run_full_validation.py",
+    "function": "mode_specs",
+    "line": 94
+  },
+  {
+    "complexity": 1,
+    "file": "scripts/run_full_validation.py",
+    "function": "mode_timeout",
+    "line": 102
+  },
+  {
+    "complexity": 1,
+    "file": "scripts/run_full_validation.py",
+    "function": "write_release_timing",
+    "line": 106
+  },
+  {
+    "complexity": 12,
+    "file": "scripts/run_full_validation.py",
+    "function": "execute_specs",
+    "line": 114
+  },
+  {
+    "complexity": 1,
+    "file": "scripts/run_full_validation.py",
+    "function": "parse_args",
+    "line": 168
+  },
+  {
+    "complexity": 4,
+    "file": "scripts/run_full_validation.py",
+    "function": "main",
+    "line": 178
+  },
+  {
+    "complexity": 1,
+    "file": "scripts/run_tests_clean.py",
+    "function": "run",
+    "line": 22
+  },
+  {
+    "complexity": 7,
+    "file": "scripts/run_tests_clean.py",
+    "function": "parse_args",
+    "line": 27
+  },
+  {
+    "complexity": 1,
+    "file": "scripts/run_tests_clean.py",
+    "function": "parse_slowest",
+    "line": 48
+  },
+  {
+    "complexity": 7,
+    "file": "scripts/run_tests_clean.py",
+    "function": "main",
+    "line": 53
+  },
+  {
+    "complexity": 15,
+    "file": "scripts/scan_for_engineering_smells.py",
+    "function": "iter_files",
+    "line": 72
+  },
+  {
+    "complexity": 2,
+    "file": "scripts/scan_for_engineering_smells.py",
+    "function": "warn",
+    "line": 91
+  },
+  {
+    "complexity": 7,
+    "file": "scripts/scan_for_engineering_smells.py",
+    "function": "scan_python_functions",
+    "line": 96
+  },
+  {
+    "complexity": 15,
+    "file": "scripts/scan_for_engineering_smells.py",
+    "function": "main",
+    "line": 107
+  },
+  {
+    "complexity": 3,
+    "file": "scripts/scan_task_artifacts.py",
+    "function": "package_dirs",
+    "line": 15
+  },
+  {
+    "complexity": 1,
+    "file": "scripts/scan_task_artifacts.py",
+    "function": "placeholder_line",
+    "line": 23
+  },
+  {
+    "complexity": 9,
+    "file": "scripts/scan_task_artifacts.py",
+    "function": "scan_markdown",
+    "line": 28
+  },
+  {
+    "complexity": 8,
+    "file": "scripts/scan_task_artifacts.py",
+    "function": "main",
+    "line": 48
+  },
+  {
+    "complexity": 8,
+    "file": "scripts/se_gate.py",
+    "function": "iter_text_files",
+    "line": 114
+  },
+  {
+    "complexity": 8,
+    "file": "scripts/se_gate.py",
+    "function": "main",
+    "line": 129
+  },
+  {
+    "complexity": 6,
+    "file": "scripts/semantic_coverage_score.py",
+    "function": "parse_rows",
+    "line": 17
+  },
+  {
+    "complexity": 3,
+    "file": "scripts/semantic_coverage_score.py",
+    "function": "expand_count",
+    "line": 28
+  },
+  {
+    "complexity": 12,
+    "file": "scripts/semantic_coverage_score.py",
+    "function": "build_payload",
+    "line": 39
+  },
+  {
+    "complexity": 2,
+    "file": "scripts/semantic_coverage_score.py",
+    "function": "main",
+    "line": 89
+  },
+  {
+    "complexity": 1,
+    "file": "scripts/test_matrix_coverage_report.py",
+    "function": "represented_categories",
+    "line": 19
+  },
+  {
+    "complexity": 6,
+    "file": "scripts/test_matrix_coverage_report.py",
+    "function": "main",
+    "line": 24
+  },
+  {
+    "complexity": 3,
+    "file": "scripts/validate_ai_review_evidence.py",
+    "function": "load_rows",
+    "line": 15
+  },
+  {
+    "complexity": 7,
+    "file": "scripts/validate_ai_review_evidence.py",
+    "function": "main",
+    "line": 35
+  },
+  {
+    "complexity": 7,
+    "file": "scripts/validate_ai_review_template.py",
+    "function": "main",
+    "line": 27
+  },
+  {
+    "complexity": 8,
+    "file": "scripts/validate_architecture_scenarios.py",
+    "function": "main",
+    "line": 24
+  },
+  {
+    "complexity": 8,
+    "file": "scripts/validate_clean_package.py",
+    "function": "violations",
+    "line": 13
+  },
+  {
+    "complexity": 3,
+    "file": "scripts/validate_clean_package.py",
+    "function": "main",
+    "line": 24
+  },
+  {
+    "complexity": 8,
+    "file": "scripts/validate_complexity_thresholds.py",
+    "function": "baseline_entries",
+    "line": 35
+  },
+  {
+    "complexity": 3,
+    "file": "scripts/validate_complexity_thresholds.py",
+    "function": "load_rows",
+    "line": 53
+  },
+  {
+    "complexity": 18,
+    "file": "scripts/validate_complexity_thresholds.py",
+    "function": "main",
+    "line": 64
+  },
+  {
+    "complexity": 2,
+    "file": "scripts/validate_course_coverage.py",
+    "function": "load_outline",
+    "line": 16
+  },
+  {
+    "complexity": 14,
+    "file": "scripts/validate_course_coverage.py",
+    "function": "main",
+    "line": 25
+  },
+  {
+    "complexity": 2,
+    "file": "scripts/validate_course_outline_lock.py",
+    "function": "load_outline",
+    "line": 14
+  },
+  {
+    "complexity": 9,
+    "file": "scripts/validate_course_outline_lock.py",
+    "function": "main",
+    "line": 23
+  },
+  {
+    "complexity": 2,
+    "file": "scripts/validate_course_provenance.py",
+    "function": "sha256",
+    "line": 29
+  },
+  {
+    "complexity": 11,
+    "file": "scripts/validate_course_provenance.py",
+    "function": "main",
+    "line": 37
+  },
+  {
+    "complexity": 2,
+    "file": "scripts/validate_course_semantic_coverage.py",
+    "function": "load_outline",
+    "line": 29
+  },
+  {
+    "complexity": 8,
+    "file": "scripts/validate_course_semantic_coverage.py",
+    "function": "expand_sections",
+    "line": 38
+  },
+  {
+    "complexity": 6,
+    "file": "scripts/validate_course_semantic_coverage.py",
+    "function": "parse_rows",
+    "line": 57
+  },
+  {
+    "complexity": 3,
+    "file": "scripts/validate_course_semantic_coverage.py",
+    "function": "path_tokens",
+    "line": 68
+  },
+  {
+    "complexity": 1,
+    "file": "scripts/validate_course_semantic_coverage.py",
+    "function": "artifact_exists",
+    "line": 77
+  },
+  {
+    "complexity": 1,
+    "file": "scripts/validate_course_semantic_coverage.py",
+    "function": "text_keywords",
+    "line": 82
+  },
+  {
+    "complexity": 1,
+    "file": "scripts/validate_course_semantic_coverage.py",
+    "function": "artifact_tokens",
+    "line": 88
+  },
+  {
+    "complexity": 14,
+    "file": "scripts/validate_course_semantic_coverage.py",
+    "function": "validate_artifact_targets",
+    "line": 92
+  },
+  {
+    "complexity": 8,
+    "file": "scripts/validate_course_semantic_coverage.py",
+    "function": "validate_row_contract",
+    "line": 113
+  },
+  {
+    "complexity": 6,
+    "file": "scripts/validate_course_semantic_coverage.py",
+    "function": "aligns_with_titles",
+    "line": 127
+  },
+  {
+    "complexity": 9,
+    "file": "scripts/validate_course_semantic_coverage.py",
+    "function": "validate_cluster_policy",
+    "line": 144
+  },
+  {
+    "complexity": 4,
+    "file": "scripts/validate_course_semantic_coverage.py",
+    "function": "validate_row",
+    "line": 159
+  },
+  {
+    "complexity": 8,
+    "file": "scripts/validate_course_semantic_coverage.py",
+    "function": "main",
+    "line": 176
+  },
+  {
+    "complexity": 6,
+    "file": "scripts/validate_course_source_lock.py",
+    "function": "validate_source",
+    "line": 24
+  },
+  {
+    "complexity": 4,
+    "file": "scripts/validate_course_source_lock.py",
+    "function": "validate_outline_count",
+    "line": 45
+  },
+  {
+    "complexity": 5,
+    "file": "scripts/validate_course_source_lock.py",
+    "function": "main",
+    "line": 60
+  },
+  {
+    "complexity": 3,
+    "file": "scripts/validate_doc_structure.py",
+    "function": "headings",
+    "line": 20
+  },
+  {
+    "complexity": 15,
+    "file": "scripts/validate_doc_structure.py",
+    "function": "main",
+    "line": 29
+  },
+  {
+    "complexity": 3,
+    "file": "scripts/validate_evidence_package.py",
+    "function": "load_packages",
+    "line": 15
+  },
+  {
+    "complexity": 8,
+    "file": "scripts/validate_evidence_package.py",
+    "function": "main",
+    "line": 35
+  },
+  {
+    "complexity": 6,
+    "file": "scripts/validate_glossary.py",
+    "function": "main",
+    "line": 12
+  },
+  {
+    "complexity": 12,
+    "file": "scripts/validate_governance_maturity.py",
+    "function": "main",
+    "line": 13
+  },
+  {
+    "complexity": 19,
+    "file": "scripts/validate_governor_config.py",
+    "function": "main",
+    "line": 18
+  },
+  {
+    "complexity": 7,
+    "file": "scripts/validate_maintenance_docs.py",
+    "function": "main",
+    "line": 17
+  },
+  {
+    "complexity": 6,
+    "file": "scripts/validate_mutation_testing_plan.py",
+    "function": "main",
+    "line": 22
+  },
+  {
+    "complexity": 8,
+    "file": "scripts/validate_no_side_effects.py",
+    "function": "generated_artifacts",
+    "line": 15
+  },
+  {
+    "complexity": 8,
+    "file": "scripts/validate_no_side_effects.py",
+    "function": "main",
+    "line": 28
+  },
+  {
+    "complexity": 10,
+    "file": "scripts/validate_outer_archive.py",
+    "function": "main",
+    "line": 13
+  },
+  {
+    "complexity": 4,
+    "file": "scripts/validate_pr_checklist.py",
+    "function": "main",
+    "line": 23
+  },
+  {
+    "complexity": 6,
+    "file": "scripts/validate_process_compliance_template.py",
+    "function": "main",
+    "line": 22
+  },
+  {
+    "complexity": 5,
+    "file": "scripts/validate_project_management.py",
+    "function": "has_concrete_evidence",
+    "line": 18
+  },
+  {
+    "complexity": 10,
+    "file": "scripts/validate_project_management.py",
+    "function": "main",
+    "line": 25
+  },
+  {
+    "complexity": 12,
+    "file": "scripts/validate_pytest_environment.py",
+    "function": "main",
+    "line": 12
+  },
+  {
+    "complexity": 8,
+    "file": "scripts/validate_release_archive.py",
+    "function": "main",
+    "line": 17
+  },
+  {
+    "complexity": 3,
+    "file": "scripts/validate_semantic_coverage_score.py",
+    "function": "load_payload",
+    "line": 15
+  },
+  {
+    "complexity": 7,
+    "file": "scripts/validate_semantic_coverage_score.py",
+    "function": "main",
+    "line": 26
+  },
+  {
+    "complexity": 2,
+    "file": "scripts/validate_skill.py",
+    "function": "metadata_block",
+    "line": 20
+  },
+  {
+    "complexity": 12,
+    "file": "scripts/validate_skill.py",
+    "function": "main",
+    "line": 25
+  },
+  {
+    "complexity": 3,
+    "file": "scripts/validate_smell_baseline.py",
+    "function": "current_warnings",
+    "line": 15
+  },
+  {
+    "complexity": 8,
+    "file": "scripts/validate_smell_baseline.py",
+    "function": "baseline_entries",
+    "line": 31
+  },
+  {
+    "complexity": 6,
+    "file": "scripts/validate_smell_baseline.py",
+    "function": "main",
+    "line": 51
+  },
+  {
+    "complexity": 3,
+    "file": "scripts/validate_smell_baseline_sync.py",
+    "function": "current_warnings",
+    "line": 19
+  },
+  {
+    "complexity": 14,
+    "file": "scripts/validate_smell_baseline_sync.py",
+    "function": "parse_baseline",
+    "line": 35
+  },
+  {
+    "complexity": 9,
+    "file": "scripts/validate_smell_baseline_sync.py",
+    "function": "main",
+    "line": 64
+  },
+  {
+    "complexity": 11,
+    "file": "scripts/validate_source_archive.py",
+    "function": "main",
+    "line": 17
+  },
+  {
+    "complexity": 4,
+    "file": "scripts/validate_task_artifacts.py",
+    "function": "task_dirs",
+    "line": 31
+  },
+  {
+    "complexity": 2,
+    "file": "scripts/validate_task_artifacts.py",
+    "function": "read",
+    "line": 40
+  },
+  {
+    "complexity": 16,
+    "file": "scripts/validate_task_artifacts.py",
+    "function": "validate_task",
+    "line": 44
+  },
+  {
+    "complexity": 5,
+    "file": "scripts/validate_task_artifacts.py",
+    "function": "main",
+    "line": 76
+  },
+  {
+    "complexity": 7,
+    "file": "scripts/validate_templates.py",
+    "function": "main",
+    "line": 40
+  },
+  {
+    "complexity": 4,
+    "file": "scripts/validate_test_performance.py",
+    "function": "load_thresholds",
+    "line": 15
+  },
+  {
+    "complexity": 1,
+    "file": "scripts/validate_test_performance.py",
+    "function": "parse_args",
+    "line": 26
+  },
+  {
+    "complexity": 4,
+    "file": "scripts/validate_test_performance.py",
+    "function": "load_timing",
+    "line": 33
+  },
+  {
+    "complexity": 7,
+    "file": "scripts/validate_test_performance.py",
+    "function": "validate_payload",
+    "line": 42
+  },
+  {
+    "complexity": 6,
+    "file": "scripts/validate_test_performance.py",
+    "function": "main",
+    "line": 56
+  },
+  {
+    "complexity": 6,
+    "file": "scripts/validate_test_strategy.py",
+    "function": "main",
+    "line": 33
+  },
+  {
+    "complexity": 6,
+    "file": "scripts/validate_test_traceability.py",
+    "function": "table_rows",
+    "line": 16
+  },
+  {
+    "complexity": 19,
+    "file": "scripts/validate_test_traceability.py",
+    "function": "main",
+    "line": 27
+  },
+  {
+    "complexity": 4,
+    "file": "scripts/validate_traceability.py",
+    "function": "main",
+    "line": 112
+  },
+  {
+    "complexity": 2,
+    "file": "scripts/validate_traceability_graph.py",
+    "function": "read",
+    "line": 22
+  },
+  {
+    "complexity": 11,
+    "file": "scripts/validate_traceability_graph.py",
+    "function": "validate_dir",
+    "line": 26
+  },
+  {
+    "complexity": 7,
+    "file": "scripts/validate_traceability_graph.py",
+    "function": "main",
+    "line": 50
+  },
+  {
+    "complexity": 1,
+    "file": "scripts/validation_result.py",
+    "function": "utc_now",
+    "line": 16
+  },
+  {
+    "complexity": 1,
+    "file": "scripts/validation_result.py",
+    "function": "output_lines",
+    "line": 33
+  },
+  {
+    "complexity": 5,
+    "file": "scripts/validation_result.py",
+    "function": "summarize_output",
+    "line": 37
+  },
+  {
+    "complexity": 4,
+    "file": "scripts/validation_result.py",
+    "function": "terminate_process_tree",
+    "line": 48
+  },
+  {
+    "complexity": 5,
+    "file": "scripts/validation_result.py",
+    "function": "run_command",
+    "line": 61
+  },
+  {
+    "complexity": 1,
+    "file": "scripts/validation_result.py",
+    "function": "new_manifest",
+    "line": 95
+  },
+  {
+    "complexity": 1,
+    "file": "scripts/validation_result.py",
+    "function": "finalize_manifest",
+    "line": 112
+  },
+  {
+    "complexity": 1,
+    "file": "scripts/validation_result.py",
+    "function": "write_json",
+    "line": 123
+  },
+  {
+    "complexity": 2,
+    "file": "scripts/validation_result.py",
+    "function": "load_json",
+    "line": 130
+  },
+  {
+    "complexity": 1,
+    "file": "scripts/validation_result.py",
+    "function": "to_dict",
+    "line": 29
+  },
+  {
+    "complexity": 2,
+    "file": "tests/conftest.py",
+    "function": "copy_path",
+    "line": 14
+  },
+  {
+    "complexity": 2,
+    "file": "tests/conftest.py",
+    "function": "copy_subset_repo",
+    "line": 24
+  },
+  {
+    "complexity": 1,
+    "file": "tests/conftest.py",
+    "function": "copy_full_repo",
+    "line": 32
+  },
+  {
+    "complexity": 1,
+    "file": "tests/conftest.py",
+    "function": "run_script",
+    "line": 50
+  },
+  {
+    "complexity": 1,
+    "file": "tests/e2e/test_release_pipeline.py",
+    "function": "prepare_smoke_tests",
+    "line": 15
+  },
+  {
+    "complexity": 1,
+    "file": "tests/e2e/test_release_pipeline.py",
+    "function": "test_run_tests_clean_and_clean_package",
+    "line": 21
+  },
+  {
+    "complexity": 1,
+    "file": "tests/e2e/test_release_pipeline.py",
+    "function": "test_fast_validation_finishes_within_target",
+    "line": 30
+  },
+  {
+    "complexity": 3,
+    "file": "tests/e2e/test_release_pipeline.py",
+    "function": "test_package_release_and_source_use_exact_v072_paths",
+    "line": 42
+  },
+  {
+    "complexity": 2,
+    "file": "tests/e2e/test_release_pipeline.py",
+    "function": "test_archive_clis_do_not_write_bytecode_without_wrapper_env",
+    "line": 66
+  },
+  {
+    "complexity": 1,
+    "file": "tests/e2e/test_release_pipeline.py",
+    "function": "test_source_packaging_rejects_stale_dist_archive",
+    "line": 90
+  },
+  {
+    "complexity": 1,
+    "file": "tests/e2e/test_release_pipeline.py",
+    "function": "test_source_archive_validator_rejects_mojibake_path",
+    "line": 100
+  },
+  {
+    "complexity": 1,
+    "file": "tests/integration/test_cli_validators.py",
+    "function": "test_se_gate_passes_and_fails_on_dangerous_text",
+    "line": 11
+  },
+  {
+    "complexity": 1,
+    "file": "tests/integration/test_cli_validators.py",
+    "function": "test_validate_pr_checklist_fails_for_malformed_template",
+    "line": 40
+  },
+  {
+    "complexity": 1,
+    "file": "tests/integration/test_cli_validators.py",
+    "function": "test_validate_traceability_fails_when_chapter_missing",
+    "line": 52
+  },
+  {
+    "complexity": 1,
+    "file": "tests/integration/test_cli_validators.py",
+    "function": "test_validate_course_source_lock_passes_and_detects_content_drift",
+    "line": 64
+  },
+  {
+    "complexity": 1,
+    "file": "tests/integration/test_cli_validators.py",
+    "function": "test_generate_task_scaffold_includes_v07_task_artifacts",
+    "line": 92
+  },
+  {
+    "complexity": 1,
+    "file": "tests/integration/test_cli_validators.py",
+    "function": "test_generate_task_scaffold_rejects_bad_arguments",
+    "line": 120
+  },
+  {
+    "complexity": 1,
+    "file": "tests/integration/test_cli_validators.py",
+    "function": "test_scan_for_engineering_smells_warns_without_trace_id_false_positives",
+    "line": 127
+  },
+  {
+    "complexity": 1,
+    "file": "tests/integration/test_cli_validators.py",
+    "function": "test_validate_clean_package_fails_on_generated_files",
+    "line": 152
+  },
+  {
+    "complexity": 1,
+    "file": "tests/integration/test_cli_validators.py",
+    "function": "test_validate_outer_archive_detects_macos_artifacts",
+    "line": 160
+  },
+  {
+    "complexity": 1,
+    "file": "tests/integration/test_cli_validators.py",
+    "function": "test_validate_outer_archive_detects_missing_required_utf8_path",
+    "line": 170
+  },
+  {
+    "complexity": 1,
+    "file": "tests/integration/test_cli_validators.py",
+    "function": "test_validate_outer_archive_rejects_mojibake_course_path",
+    "line": 180
+  },
+  {
+    "complexity": 1,
+    "file": "tests/integration/test_cli_validators.py",
+    "function": "test_validate_course_provenance_attestation_and_pdf_hash",
+    "line": 191
+  },
+  {
+    "complexity": 1,
+    "file": "tests/integration/test_cli_validators.py",
+    "function": "test_validate_governor_config_passes_and_fails",
+    "line": 218
+  },
+  {
+    "complexity": 1,
+    "file": "tests/integration/test_governance_flows.py",
+    "function": "test_validate_smell_baseline_sync_detects_stale_entry",
+    "line": 10
+  },
+  {
+    "complexity": 2,
+    "file": "tests/integration/test_governance_flows.py",
+    "function": "test_semantic_coverage_score_and_validator",
+    "line": 20
+  },
+  {
+    "complexity": 2,
+    "file": "tests/integration/test_governance_flows.py",
+    "function": "test_evidence_package_score_and_validator",
+    "line": 35
+  },
+  {
+    "complexity": 1,
+    "file": "tests/integration/test_governance_flows.py",
+    "function": "test_generate_and_validate_governance_maturity",
+    "line": 50
+  },
+  {
+    "complexity": 1,
+    "file": "tests/integration/test_governance_flows.py",
+    "function": "test_validate_test_performance_passes_and_fails",
+    "line": 67
+  },
+  {
+    "complexity": 1,
+    "file": "tests/integration/test_governance_flows.py",
+    "function": "test_validate_complexity_thresholds_rejects_expired_exception",
+    "line": 79
+  },
+  {
+    "complexity": 1,
+    "file": "tests/integration/test_governance_flows.py",
+    "function": "test_validate_task_artifacts_and_traceability_graph_cover_all_examples",
+    "line": 94
+  },
+  {
+    "complexity": 2,
+    "file": "tests/integration/test_governance_flows.py",
+    "function": "test_governance_metrics_are_lightweight_and_use_cached_artifacts",
+    "line": 100
+  },
+  {
+    "complexity": 1,
+    "file": "tests/integration/test_governance_flows.py",
+    "function": "test_validate_no_side_effects_detects_generated_artifacts",
+    "line": 127
+  },
+  {
+    "complexity": 1,
+    "file": "tests/integration/test_governance_flows.py",
+    "function": "test_governance_metrics_is_side_effect_free",
+    "line": 141
+  },
+  {
+    "complexity": 1,
+    "file": "tests/integration/test_governance_flows.py",
+    "function": "test_governance_metrics_does_not_reference_recursive_test_commands",
+    "line": 150
+  },
+  {
+    "complexity": 1,
+    "file": "tests/integration/test_governance_flows.py",
+    "function": "test_generate_governance_maturity_report_completes_without_recursion",
+    "line": 158
+  },
+  {
+    "complexity": 1,
+    "file": "tests/integration/test_governance_flows.py",
+    "function": "test_validate_test_performance_does_not_start_pytest",
+    "line": 166
+  },
+  {
+    "complexity": 1,
+    "file": "tests/integration/test_governance_flows.py",
+    "function": "test_default_pytest_configuration_excludes_e2e",
+    "line": 173
+  },
+  {
+    "complexity": 1,
+    "file": "tests/integration/test_governance_flows.py",
+    "function": "test_clean_wrapper_disables_fake_autoloaded_plugin",
+    "line": 180
+  },
+  {
+    "complexity": 1,
+    "file": "tests/integration/test_validation_manifest.py",
+    "function": "run_custom",
+    "line": 9
+  },
+  {
+    "complexity": 1,
+    "file": "tests/integration/test_validation_manifest.py",
+    "function": "test_validation_manifest_is_written_on_pass",
+    "line": 18
+  },
+  {
+    "complexity": 1,
+    "file": "tests/integration/test_validation_manifest.py",
+    "function": "test_validation_manifest_is_written_on_failure",
+    "line": 25
+  },
+  {
+    "complexity": 1,
+    "file": "tests/integration/test_validation_manifest.py",
+    "function": "test_validation_manifest_records_timeout",
+    "line": 32
+  },
+  {
+    "complexity": 1,
+    "file": "tests/unit/test_reliability_functions.py",
+    "function": "test_validation_result_schema",
+    "line": 12
+  },
+  {
+    "complexity": 1,
+    "file": "tests/unit/test_reliability_functions.py",
+    "function": "test_run_command_records_timeout_and_terminates_child",
+    "line": 24
+  },
+  {
+    "complexity": 1,
+    "file": "tests/unit/test_reliability_functions.py",
+    "function": "test_test_performance_policy_pass_and_fail",
+    "line": 37
+  },
+  {
+    "complexity": 1,
+    "file": "tests/unit/test_reliability_functions.py",
+    "function": "test_metrics_are_static_and_fast",
+    "line": 44
+  },
+  {
+    "complexity": 1,
+    "file": "tests/unit/test_reliability_functions.py",
+    "function": "test_maturity_report_preserves_unknown_evidence",
+    "line": 51
+  },
+  {
+    "complexity": 1,
+    "file": "tests/unit/test_reliability_functions.py",
+    "function": "test_mojibake_course_path_is_detected",
+    "line": 58
+  }
+]

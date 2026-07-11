@@ -1,0 +1,857 @@
+{
+  "ended_at": "2026-07-11T05:12:36.512691+00:00",
+  "failure_summary": [],
+  "governor_version": "0.7.2",
+  "platform": "macOS-14.5-arm64-arm-64bit",
+  "python_version": "3.11.9",
+  "release_archive_path": "dist/codex-se-governor-v0.7.2.zip",
+  "results": [
+    {
+      "duration_seconds": 0.059,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/clean_artifacts.py"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "clean_artifacts",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.058,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_clean_package.py"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_clean_package",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.248,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/se_gate.py"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "se_gate",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.032,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_pr_checklist.py"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_pr_checklist",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.035,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_traceability.py"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_traceability",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.041,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_doc_structure.py"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_doc_structure",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.051,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_templates.py"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_templates",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.033,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_skill.py"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_skill",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.037,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_pytest_environment.py"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_pytest_environment",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.223,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_smell_baseline.py"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_smell_baseline",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.229,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_smell_baseline_sync.py"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_smell_baseline_sync",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.079,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_course_source_lock.py"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_course_source_lock",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.44,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_course_outline_lock.py"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_course_outline_lock",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.092,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_course_provenance.py"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_course_provenance",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.074,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_governor_config.py"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_governor_config",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.081,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/scan_task_artifacts.py"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "scan_task_artifacts",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 1.003,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/run_tests_clean.py",
+          "--unit"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "tests_unit",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.078,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_test_performance.py",
+          "--suite",
+          "unit"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_test_performance_unit",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.596,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_course_coverage.py"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_course_coverage",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.159,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_course_semantic_coverage.py"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_course_semantic_coverage",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.07,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/semantic_coverage_score.py",
+          "--output",
+          "dist/semantic-coverage-score.json"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "semantic_coverage_score",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.089,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_semantic_coverage_score.py",
+          "--input",
+          "dist/semantic-coverage-score.json"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_semantic_coverage_score",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.075,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_task_artifacts.py"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_task_artifacts",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.075,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_traceability_graph.py"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_traceability_graph",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.064,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_glossary.py"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_glossary",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.065,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_test_strategy.py"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_test_strategy",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.065,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_test_traceability.py"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_test_traceability",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.244,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/complexity_report.py",
+          "--output",
+          "dist/complexity-report.json"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "complexity_report",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.081,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_complexity_thresholds.py",
+          "--report",
+          "dist/complexity-report.json"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_complexity_thresholds",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.054,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/test_matrix_coverage_report.py"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "test_matrix_coverage_report",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.054,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_architecture_scenarios.py"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_architecture_scenarios",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.055,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_project_management.py"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_project_management",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.059,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_ai_review_template.py"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_ai_review_template",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.066,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/ai_review_score.py",
+          "--output",
+          "dist/ai-review-score.json"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "ai_review_score",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.082,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_ai_review_evidence.py",
+          "--input",
+          "dist/ai-review-score.json"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_ai_review_evidence",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.077,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_process_compliance_template.py"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_process_compliance_template",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.087,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_mutation_testing_plan.py"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_mutation_testing_plan",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.074,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_maintenance_docs.py"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_maintenance_docs",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.114,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/evidence_package_score.py",
+          "--output",
+          "dist/evidence-package-score.json"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "evidence_package_score",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.088,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_evidence_package.py",
+          "--input",
+          "dist/evidence-package-score.json"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_evidence_package",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 5.726,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/run_tests_clean.py",
+          "--integration"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "tests_integration",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.049,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_test_performance.py",
+          "--suite",
+          "integration"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_test_performance_integration",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.046,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/check_adoption.py",
+          "."
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "check_adoption",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 5.999,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/run_tests_clean.py",
+          "--e2e"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "tests_e2e",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.052,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_test_performance.py",
+          "--suite",
+          "e2e"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_test_performance_e2e",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.334,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/package_release.py"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "package_release",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.127,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_release_archive.py",
+          "dist/codex-se-governor-v0.7.2.zip"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_release_archive",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.086,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_outer_archive.py",
+          "dist/codex-se-governor-v0.7.2.zip"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_outer_archive",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.228,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/governance_metrics.py",
+          "--output",
+          "dist/governance-metrics.json"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "governance_metrics",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.324,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/generate_governance_maturity_report.py"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "generate_governance_maturity_report",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.044,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_governance_maturity.py"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_governance_maturity",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.051,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/clean_artifacts.py"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "clean_artifacts_final",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.045,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_clean_package.py"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_clean_package_final",
+      "warnings": []
+    },
+    {
+      "duration_seconds": 0.048,
+      "errors": [],
+      "evidence": {
+        "command": [
+          "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+          "scripts/validate_test_performance.py",
+          "--suite",
+          "release"
+        ],
+        "returncode": 0,
+        "timeout_seconds": 60.0
+      },
+      "status": "pass",
+      "validator": "validate_test_performance_release",
+      "warnings": []
+    }
+  ],
+  "schema_version": 1,
+  "source_archive_path": "dist/codex-se-governor-source-v0.7.2.zip",
+  "started_at": "2026-07-11T05:12:17.889879+00:00",
+  "total_duration_seconds": 18.624,
+  "validation_mode": "release"
+}

@@ -1,0 +1,23 @@
+{
+  "bytecode_disabled": true,
+  "cache_provider_disabled": true,
+  "command": [
+    "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+    "-m",
+    "pytest",
+    "-p",
+    "no:cacheprovider",
+    "--durations=10",
+    "--durations-min=0.01",
+    "tests/unit"
+  ],
+  "elapsed_seconds": 0.711,
+  "plugin_autoload_disabled": true,
+  "returncode": 0,
+  "schema_version": 1,
+  "slowest": [
+    "0.13s call     tests/unit/test_reliability_functions.py::test_metrics_are_static_and_fast",
+    "0.06s call     tests/unit/test_reliability_functions.py::test_run_command_records_timeout_and_terminates_child"
+  ],
+  "suite": "unit"
+}

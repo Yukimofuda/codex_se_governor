@@ -1,0 +1,24 @@
+{
+  "artifacts": [
+    {
+      "kind": "release",
+      "path": "dist/codex-se-governor-v0.7.2.zip",
+      "sha256": "fa9c3329402289ca5cc4d7298cd4f290febfe8ae457ff14fe0cd6cc87df40639",
+      "status": "present"
+    },
+    {
+      "kind": "compatibility_alias",
+      "path": "dist/codex-se-governor-v0.7.zip",
+      "sha256": "fa9c3329402289ca5cc4d7298cd4f290febfe8ae457ff14fe0cd6cc87df40639",
+      "status": "present"
+    },
+    {
+      "kind": "source",
+      "path": "dist/codex-se-governor-source-v0.7.2.zip",
+      "sha256": "fa9c3329402289ca5cc4d7298cd4f290febfe8ae457ff14fe0cd6cc87df40639",
+      "status": "present"
+    }
+  ],
+  "governor_version": "0.7.2",
+  "schema_version": 1
+}

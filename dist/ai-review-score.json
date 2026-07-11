@@ -1,0 +1,32 @@
+[
+  {
+    "max_score": 10,
+    "missing": [],
+    "path": "examples/example_architecture_change_task/AI_USAGE_REVIEW.md",
+    "score": 10
+  },
+  {
+    "max_score": 10,
+    "missing": [],
+    "path": "examples/example_bug_fix_task/AI_USAGE_REVIEW.md",
+    "score": 10
+  },
+  {
+    "max_score": 10,
+    "missing": [],
+    "path": "examples/example_feature_task/AI_USAGE_REVIEW.md",
+    "score": 10
+  },
+  {
+    "max_score": 10,
+    "missing": [],
+    "path": "examples/example_refactor_task/AI_USAGE_REVIEW.md",
+    "score": 10
+  },
+  {
+    "max_score": 10,
+    "missing": [],
+    "path": "examples/example_security_review_task/AI_USAGE_REVIEW.md",
+    "score": 10
+  }
+]

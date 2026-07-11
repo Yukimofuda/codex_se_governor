@@ -1,0 +1,87 @@
+[
+  {
+    "criteria": {
+      "acceptance_traceability": true,
+      "ai_review_evidence": true,
+      "analysis_evidence": true,
+      "deployment_maintenance_evidence": true,
+      "design_adr_evidence": true,
+      "final_report_completeness": true,
+      "process_compliance_evidence": true,
+      "requirements_completeness": true,
+      "risk_evidence": true,
+      "security_evidence": true,
+      "test_evidence": true
+    },
+    "path": "examples/example_architecture_change_task",
+    "score": 100.0
+  },
+  {
+    "criteria": {
+      "acceptance_traceability": true,
+      "ai_review_evidence": true,
+      "analysis_evidence": true,
+      "deployment_maintenance_evidence": true,
+      "design_adr_evidence": true,
+      "final_report_completeness": true,
+      "process_compliance_evidence": true,
+      "requirements_completeness": true,
+      "risk_evidence": true,
+      "security_evidence": true,
+      "test_evidence": true
+    },
+    "path": "examples/example_bug_fix_task",
+    "score": 100.0
+  },
+  {
+    "criteria": {
+      "acceptance_traceability": true,
+      "ai_review_evidence": true,
+      "analysis_evidence": true,
+      "deployment_maintenance_evidence": true,
+      "design_adr_evidence": true,
+      "final_report_completeness": true,
+      "process_compliance_evidence": true,
+      "requirements_completeness": true,
+      "risk_evidence": true,
+      "security_evidence": true,
+      "test_evidence": true
+    },
+    "path": "examples/example_feature_task",
+    "score": 100.0
+  },
+  {
+    "criteria": {
+      "acceptance_traceability": true,
+      "ai_review_evidence": true,
+      "analysis_evidence": true,
+      "deployment_maintenance_evidence": true,
+      "design_adr_evidence": true,
+      "final_report_completeness": true,
+      "process_compliance_evidence": true,
+      "requirements_completeness": true,
+      "risk_evidence": true,
+      "security_evidence": true,
+      "test_evidence": true
+    },
+    "path": "examples/example_refactor_task",
+    "score": 100.0
+  },
+  {
+    "criteria": {
+      "acceptance_traceability": true,
+      "ai_review_evidence": true,
+      "analysis_evidence": true,
+      "deployment_maintenance_evidence": true,
+      "design_adr_evidence": true,
+      "final_report_completeness": true,
+      "process_compliance_evidence": true,
+      "requirements_completeness": true,
+      "risk_evidence": true,
+      "security_evidence": true,
+      "test_evidence": true
+    },
+    "path": "examples/example_security_review_task",
+    "score": 100.0
+  }
+]

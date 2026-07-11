@@ -1,0 +1,13 @@
+{
+  "artifact_missing_count": 0,
+  "automated_gate_count": 18,
+  "average_sections_per_cluster": 3.31,
+  "cluster_count": 55,
+  "generic_phrase_count": 0,
+  "human_review_required_count": 1,
+  "pr_review_required_count": 8,
+  "reference_only_count": 0,
+  "score": 98,
+  "template_required_count": 28,
+  "too_broad_cluster_count": 0
+}
