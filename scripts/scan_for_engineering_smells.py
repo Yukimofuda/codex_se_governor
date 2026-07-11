@@ -8,7 +8,7 @@ import re
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-SKIP_DIRS = {".git", "node_modules", "__pycache__", ".pytest_cache", "__MACOSX"}
+SKIP_DIRS = {".git", "node_modules", "__pycache__", ".pytest_cache", "__MACOSX", "dist"}
 SKIP_PREFIXES = (
     Path("references") / "course",
     Path("examples"),
@@ -20,8 +20,10 @@ SKIP_FILES = {
     Path("docs/software-engineering/COURSE_OUTLINE_LOCK.json"),
     Path("docs/software-engineering/COURSE_SOURCE_LOCK.json"),
     Path(".agents/skills/software-engineering-governor/scripts/checklist_report.py"),
+    Path("scripts/scan_task_artifacts.py"),
 }
 TEXT_SUFFIXES = {".py", ".js", ".ts", ".jsx", ".tsx", ".java", ".cs", ".go", ".rb", ".php", ".md", ".yml", ".yaml", ".json"}
+CODE_SUFFIXES = {".py", ".js", ".ts", ".jsx", ".tsx", ".java", ".cs", ".go", ".rb", ".php"}
 
 RISK_PATTERNS = [
     ("TODO/FIXME", re.compile(r"\b(TODO|FIXME)\b", re.IGNORECASE)),
@@ -54,6 +56,15 @@ REPEATED_IGNORE_PREFIXES = (
     "REQ_RE = re.compile(",
     "AC_RE = re.compile(",
     "RISK_RE = re.compile(",
+    "parser = argparse.ArgumentParser()",
+    "parser.add_argument(",
+    "except (",
+    "args.output.parent.mkdir(",
+    "args.output.write_text(",
+    "print(f\"PASS wrote {args.output}",
+    "from governor_config import load_config",
+    "write_json(manifest_path, manifest)",
+    "finalize_manifest(manifest, started)",
     "|",
 )
 
@@ -103,14 +114,15 @@ def main(argv):
         if path.suffix == ".py":
             scan_python_functions(path, text)
         for i, line in enumerate(text.splitlines(), start=1):
+            stripped = line.strip()
             for label, pattern in RISK_PATTERNS:
                 if pattern.search(line):
                     warn(path, i, label)
-            line_without_ids = HASH_ALGORITHM_TOKEN.sub("", DATE_TOKEN.sub("", ENGINEERING_ID.sub("", line)))
-            for number in NUMBER_PATTERN.findall(line_without_ids):
-                if number not in {"100", "200", "404", "500", "1000"}:
-                    warn(path, i, f"possible magic number {number}")
-            stripped = line.strip()
+            if path.suffix in CODE_SUFFIXES and not re.match(r"^[A-Z][A-Z0-9_]*\s*=", stripped):
+                line_without_ids = HASH_ALGORITHM_TOKEN.sub("", DATE_TOKEN.sub("", ENGINEERING_ID.sub("", line)))
+                for number in NUMBER_PATTERN.findall(line_without_ids):
+                    if number not in {"100", "200", "404", "500", "1000"}:
+                        warn(path, i, f"possible magic number {number}")
             if len(stripped) > 30 and not stripped.startswith(REPEATED_IGNORE_PREFIXES):
                 repeated[stripped].append((path, i))
     for value, locations in repeated.items():

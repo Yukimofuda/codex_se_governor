@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
-"""Emit lightweight governance metrics as JSON."""
+"""Emit side-effect-free governance metrics from static files and cached results."""
 
 from pathlib import Path
+import argparse
 import json
-import os
-import subprocess
 import sys
 
 sys.dont_write_bytecode = True
 
-from governor_config import load_config, version_tag, version_is_expired
+from governor_config import load_config, version_is_expired
+from validation_result import load_json, write_json
 
 ROOT = Path(__file__).resolve().parents[1]
+DIST = ROOT / "dist"
 
 
 def count_files(path, pattern):
@@ -19,287 +20,205 @@ def count_files(path, pattern):
     return len(list(root.rglob(pattern))) if root.exists() else 0
 
 
-def run_script(name):
-    env = os.environ.copy()
-    env["PYTHONDONTWRITEBYTECODE"] = "1"
-    result = subprocess.run(
-        [sys.executable, str(ROOT / "scripts" / name)],
-        cwd=ROOT,
-        text=True,
-        capture_output=True,
-        check=False,
-        env=env,
-    )
-    return result
-
-
-def missing_count(output):
-    return sum(1 for line in output.splitlines() if line.startswith("- "))
-
-
 def pytest_discovered():
-    count = 0
     tests = ROOT / "tests"
     if not tests.exists():
         return 0
-    for path in tests.rglob("test_*.py"):
-        for line in path.read_text(encoding="utf-8").splitlines():
-            if line.lstrip().startswith("def test_"):
-                count += 1
-    return count
+    return sum(
+        1
+        for path in tests.rglob("test_*.py")
+        for line in path.read_text(encoding="utf-8").splitlines()
+        if line.lstrip().startswith("def test_")
+    )
 
 
 def cache_artifacts():
-    count = 0
-    for path in ROOT.rglob("*"):
-        rel = path.relative_to(ROOT)
-        if ".git" in rel.parts:
-            continue
-        if path.name in {".pytest_cache", "__pycache__", ".DS_Store", "__MACOSX"} or path.suffix == ".pyc":
-            count += 1
-    return count
-
-
-def course_outline_count():
-    result = run_script("extract_course_outline.py")
-    if result.returncode != 0:
-        return 0
-    try:
-        return len(json.loads(result.stdout))
-    except json.JSONDecodeError:
-        return 0
-
-
-def course_coverage_counts():
-    outline = run_script("extract_course_outline.py")
-    if outline.returncode != 0:
-        return 0, 0
-    try:
-        sections = json.loads(outline.stdout)
-    except json.JSONDecodeError:
-        return 0, 0
-    coverage_text = ""
-    for rel in ["docs/software-engineering/18_TRACEABILITY_MATRIX.md", "docs/software-engineering/19_COURSE_SECTION_COVERAGE.md"]:
-        path = ROOT / rel
-        if path.exists():
-            coverage_text += "\n" + path.read_text(encoding="utf-8")
-    covered = sum(1 for item in sections if f"| {item['section']} |" in coverage_text)
-    return covered, max(0, len(sections) - covered)
+    return sum(
+        1
+        for path in ROOT.rglob("*")
+        if ".git" not in path.relative_to(ROOT).parts
+        and (path.name in {".pytest_cache", "__pycache__", ".DS_Store", "__MACOSX"} or path.suffix == ".pyc")
+    )
 
 
 def course_reference_stats():
     root = ROOT / "references" / "course"
-    if not root.exists():
-        return 0, 0
-    files = sorted(path for path in root.rglob("*") if path.is_file())
+    files = sorted(path for path in root.rglob("*") if path.is_file()) if root.exists() else []
     line_count = 0
     for path in files:
         try:
             line_count += len(path.read_text(encoding="utf-8").splitlines())
         except UnicodeDecodeError:
-            continue
+            pass
     return len(files), line_count
 
 
-def status_for(path):
-    return "present" if (ROOT / path).exists() else "missing"
+def manifest_results(manifest):
+    return {item.get("validator"): item for item in (manifest or {}).get("results", [])}
 
 
-def semantic_coverage_stats():
-    path = ROOT / "docs" / "software-engineering" / "20_COURSE_SEMANTIC_COVERAGE.md"
-    if not path.exists():
-        return 0, 0
-    rows = [line for line in path.read_text(encoding="utf-8").splitlines() if line.startswith("| ") and not line.startswith("|---") and "Course sections covered" not in line]
-    result = run_script("validate_course_semantic_coverage.py")
-    return len(rows), missing_count(result.stdout) if result.returncode else 0
+def result_status(results, name):
+    return results.get(name, {}).get("status", "unknown")
 
 
-def semantic_cluster_count():
-    return semantic_coverage_stats()[0]
+def pass_zero(results, name):
+    status = result_status(results, name)
+    return 0 if status == "pass" else None if status == "unknown" else 1
 
 
-def complexity_violations():
-    result = run_script("validate_complexity_thresholds.py")
-    if result.returncode == 0:
-        return 0
-    return sum(1 for line in result.stdout.splitlines() if "complexity threshold violation" in line)
+def read_score(name, default=None):
+    return load_json(DIST / name, default)
 
 
-def status_script(script):
-    return "pass" if run_script(script).returncode == 0 else "fail"
-
-
-def pytest_mode_status():
-    config = ROOT / "pytest.ini"
-    wrapper = ROOT / "scripts" / "run_tests_clean.py"
-    if not config.exists() or not wrapper.exists():
-        return "fail"
-    config_text = config.read_text(encoding="utf-8")
-    wrapper_text = wrapper.read_text(encoding="utf-8")
-    if 'not e2e' not in config_text:
-        return "fail"
-    if "--fast" not in wrapper_text or "--e2e" not in wrapper_text:
-        return "fail"
-    return "pass"
-
-
-def ai_average_score():
-    result = run_script("ai_review_score.py")
-    if result.returncode != 0:
-        return 0
-    try:
-        rows = json.loads(result.stdout)
-    except json.JSONDecodeError:
-        return 0
-    if not rows:
-        return 0
-    return round(sum(row.get("score", 0) for row in rows) / len(rows), 2)
+def average_score(rows, key="score"):
+    if not isinstance(rows, list) or not rows:
+        return None
+    return round(sum(float(row.get(key, 0)) for row in rows) / len(rows), 2)
 
 
 def complexity_baseline_counts():
     path = ROOT / "docs" / "quality" / "COMPLEXITY_BASELINE.md"
     if not path.exists():
         return 0, 0, 0, 0
-    exceptions = 0
-    temporary = 0
-    over_20 = 0
-    expired = 0
+    exceptions = temporary = over_20 = expired = 0
     current = load_config()["version"]
     for line in path.read_text(encoding="utf-8").splitlines():
         if not line.startswith("| ") or line.startswith("|---") or "Path" in line:
             continue
         cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
-        if len(cells) >= 11:
-            exceptions += 1
-            if cells[3] == "temporary-exception":
-                temporary += 1
-            try:
-                if int(cells[2]) > 20:
-                    over_20 += 1
-            except ValueError:
-                pass
-            if cells[3] == "temporary-exception" and version_is_expired(cells[8], current):
-                expired += 1
-    return exceptions, temporary, over_20, expired
-
-
-def evidence_package_average():
-    result = run_script("evidence_package_score.py")
-    if result.returncode != 0:
-        return 0
-    try:
-        rows = json.loads(result.stdout)
-    except json.JSONDecodeError:
-        return 0
-    if not rows:
-        return 0
-    return round(sum(row.get("score", 0) for row in rows) / len(rows), 2)
-
-
-def semantic_score():
-    result = run_script("semantic_coverage_score.py")
-    if result.returncode != 0:
-        return {}
-    try:
-        return json.loads(result.stdout)
-    except json.JSONDecodeError:
-        return {}
+        if len(cells) < 11:
+            continue
+        exceptions += 1
+        temporary += cells[3] == "temporary-exception"
+        try:
+            over_20 += int(cells[2]) > 20
+        except ValueError:
+            pass
+        expired += cells[3] == "temporary-exception" and version_is_expired(cells[8], current)
+    return int(exceptions), int(temporary), int(over_20), int(expired)
 
 
 def maturity_min_score():
     report = ROOT / "docs" / "reports" / "GOVERNANCE_MATURITY_REPORT.md"
     if not report.exists():
-        return 0
+        return None
     scores = []
+    unknown = False
     for line in report.read_text(encoding="utf-8").splitlines():
-        if not line.startswith("| ") or line.startswith("|---"):
-            continue
-        cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
-        if len(cells) >= 4 and cells[1].isdigit():
-            scores.append(int(cells[1]))
-    return min(scores) if scores else 0
+        if line.startswith("| "):
+            cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
+            if len(cells) >= 2 and cells[1].isdigit():
+                scores.append(int(cells[1]))
+            elif len(cells) >= 2 and cells[1] == "unknown":
+                unknown = True
+    return None if unknown else min(scores) if scores else None
 
 
-def main():
-    doc_result = run_script("validate_doc_structure.py")
-    template_result = run_script("validate_templates.py")
-    smell_result = run_script("scan_for_engineering_smells.py")
-    clean_result = run_script("validate_clean_package.py")
-    coverage_count, coverage_missing = course_coverage_counts()
-    semantic_rows, semantic_missing = semantic_coverage_stats()
-    course_refs, course_ref_lines = course_reference_stats()
-    complexity_exception_count, complexity_temporary_count, complexity_over_20_count, complexity_expired_count = complexity_baseline_counts()
-    semantic = semantic_score()
+def static_course_counts():
+    outline = load_json(ROOT / "docs" / "software-engineering" / "COURSE_OUTLINE_LOCK.json", [])
+    coverage_path = ROOT / "docs" / "software-engineering" / "19_COURSE_SECTION_COVERAGE.md"
+    coverage = coverage_path.read_text(encoding="utf-8") if coverage_path.exists() else ""
+    covered = sum(1 for item in outline if f"| {item.get('section')} |" in coverage)
+    return len(outline), covered
+
+
+def semantic_rows():
+    path = ROOT / "docs" / "software-engineering" / "20_COURSE_SEMANTIC_COVERAGE.md"
+    if not path.exists():
+        return 0
+    return sum(1 for line in path.read_text(encoding="utf-8").splitlines() if line.startswith("| ") and not line.startswith("|---") and "Course sections covered" not in line)
+
+
+def baseline_warning_count():
+    path = ROOT / "docs" / "quality" / "SMELL_BASELINE.md"
+    if not path.exists():
+        return 0
+    return sum(1 for line in path.read_text(encoding="utf-8").splitlines() if line.startswith("| ") and "| obsolete |" not in line and "| Path |" not in line)
+
+
+def collect_metrics():
     config = load_config()
+    manifest = load_json(DIST / "validation-results.json", {})
+    results = manifest_results(manifest)
+    semantic = read_score("semantic-coverage-score.json", {}) or {}
+    evidence = read_score("evidence-package-score.json", [])
+    ai = read_score("ai-review-score.json", [])
+    complexity = read_score("complexity-report.json", [])
+    release_manifest = read_score("RELEASE_MANIFEST.json", {}) or {}
+    distribution_states = {item.get("kind"): item.get("status") for item in release_manifest.get("artifacts", [])}
+    course_refs, course_lines = course_reference_stats()
+    course_count, coverage_count = static_course_counts()
+    exceptions, temporary, over_20, expired = complexity_baseline_counts()
     matrix = ROOT / "docs" / "software-engineering" / "18_TRACEABILITY_MATRIX.md"
-    traceability_rows = 0
-    if matrix.exists():
-        traceability_rows = sum(1 for line in matrix.read_text(encoding="utf-8").splitlines() if line.startswith("| ") and not line.startswith("|---"))
-        traceability_rows = max(0, traceability_rows - 1)
-    metrics = {
+    traceability_rows = sum(1 for line in matrix.read_text(encoding="utf-8").splitlines() if line.startswith("| ")) - 1 if matrix.exists() else 0
+    return {
+        "governor_version": config["version"],
+        "validation_mode": manifest.get("validation_mode", "unknown"),
+        "validation_manifest_status": "present" if manifest else "unknown",
+        "validation_total_duration_seconds": manifest.get("total_duration_seconds"),
+        "validator_statuses": {name: item.get("status", "unknown") for name, item in sorted(results.items())},
         "docs_count": count_files("docs/software-engineering", "*.md"),
         "templates_count": count_files("templates", "*.md"),
         "scripts_count": count_files("scripts", "*.py"),
         "tests_count": count_files("tests", "test_*.py"),
+        "pytest_tests_discovered": pytest_discovered(),
         "issue_templates_count": count_files(".github/ISSUE_TEMPLATE", "*.md"),
         "github_workflows_count": count_files(".github/workflows", "*.yml"),
-        "traceability_rows_estimate": traceability_rows,
-        "docs_missing_heading_count": missing_count(doc_result.stdout),
-        "templates_missing_field_count": missing_count(template_result.stdout),
-        "smell_warning_count": sum(1 for line in smell_result.stdout.splitlines() if line.startswith("WARNING ")),
-        "pytest_tests_discovered": pytest_discovered(),
-        "cache_artifact_count": cache_artifacts(),
-        "course_reference_count": course_refs,
-        "course_reference_line_count": course_ref_lines,
-        "course_section_count": course_outline_count(),
-        "course_coverage_count": coverage_count,
-        "course_coverage_missing_count": coverage_missing,
-        "semantic_coverage_rows": semantic_rows,
-        "semantic_coverage_missing_count": semantic_missing,
-        "semantic_cluster_count": semantic_rows,
-        "semantic_cluster_minimum_pass": semantic_rows >= 40,
-        "clean_package_violation_count": missing_count(clean_result.stdout),
-        "outline_lock_status": "pass" if run_script("validate_course_outline_lock.py").returncode == 0 else "fail",
-        "course_source_lock_status": "pass" if run_script("validate_course_source_lock.py").returncode == 0 else "fail",
-        "no_side_effect_validation_status": status_for("scripts/validate_no_side_effects.py"),
-        "release_archive_validator_status": status_for("scripts/validate_release_archive.py"),
-        "test_traceability_status": "pass" if run_script("validate_test_traceability.py").returncode == 0 else "fail",
-        "complexity_baseline_status": status_for("docs/quality/COMPLEXITY_BASELINE.md"),
-        "complexity_threshold_violations": complexity_violations(),
-        "ai_usage_example_status": status_for("examples/example_feature_task/AI_USAGE_REVIEW.md"),
-        "process_compliance_template_status": status_for("templates/PROCESS_COMPLIANCE_REPORT.md"),
-        "full_validation_orchestrator_status": status_for("scripts/run_full_validation.py"),
-        "task_artifact_validation_status": status_script("validate_task_artifacts.py"),
-        "traceability_graph_status": status_script("validate_traceability_graph.py"),
-        "ai_review_average_score": ai_average_score(),
-        "complexity_exception_count": complexity_exception_count,
-        "complexity_over_20_count": complexity_over_20_count,
-        "complexity_temporary_exception_count": complexity_temporary_count,
-        "complexity_expired_exception_count": complexity_expired_count,
-        "maturity_report_status": status_for("docs/reports/GOVERNANCE_MATURITY_REPORT.md"),
-        "mutation_plan_template_status": status_for("templates/MUTATION_TESTING_PLAN.md"),
-        "deployment_template_status": status_for("templates/DEPLOYMENT_PLAN_TEMPLATE.md"),
-        "maintenance_task_template_status": status_for("templates/MAINTENANCE_TASK_TEMPLATE.md"),
-        "clean_test_wrapper_status": status_for("scripts/run_tests_clean.py"),
-        "glossary_status": status_for("docs/GLOSSARY.md"),
-        "process_template_status": status_for("templates/PROCESS_DECISION_TEMPLATE.md"),
-        "project_context_template_status": status_for("templates/PROJECT_CONTEXT_TEMPLATE.md"),
-        "test_strategy_template_status": status_for("templates/TEST_STRATEGY_TEMPLATE.md"),
-        "architecture_scenario_template_status": status_for("templates/ARCHITECTURE_SCENARIO_TEMPLATE.md"),
-        "maintenance_docs_count": sum(1 for name in ["CHANGELOG.md", "VERSIONING.md", "MAINTENANCE_GUIDE.md", "SUPPORT_RUNBOOK.md", "DEPRECATION_POLICY.md"] if (ROOT / name).exists()),
         "validators_count": len(list((ROOT / "scripts").glob("validate_*.py"))),
-        "smell_baseline_sync_status": status_script("validate_smell_baseline_sync.py"),
-        "test_performance_status": pytest_mode_status(),
-        "semantic_coverage_score": semantic.get("score", 0),
-        "semantic_too_broad_cluster_count": semantic.get("too_broad_cluster_count", 0),
-        "outer_archive_validator_status": status_for("scripts/validate_outer_archive.py"),
-        "example_task_count": count_files("examples", "example_*_task"),
-        "evidence_package_average_score": evidence_package_average(),
+        "traceability_rows_estimate": max(0, traceability_rows),
+        "cache_artifact_count": cache_artifacts(),
+        "clean_package_violation_count": cache_artifacts(),
+        "course_reference_count": course_refs,
+        "course_reference_line_count": course_lines,
+        "course_section_count": course_count,
+        "course_coverage_count": coverage_count,
+        "course_coverage_missing_count": max(0, course_count - coverage_count),
+        "semantic_coverage_rows": semantic_rows(),
+        "semantic_coverage_score": semantic.get("score"),
+        "semantic_too_broad_cluster_count": semantic.get("too_broad_cluster_count"),
+        "semantic_coverage_missing_count": pass_zero(results, "validate_course_semantic_coverage"),
+        "evidence_package_average_score": average_score(evidence),
+        "ai_review_average_score": average_score(ai),
+        "complexity_report_function_count": len(complexity) if isinstance(complexity, list) else None,
+        "complexity_exception_count": exceptions,
+        "complexity_temporary_exception_count": temporary,
+        "complexity_over_20_count": over_20,
+        "complexity_expired_exception_count": expired,
+        "complexity_threshold_violations": pass_zero(results, "validate_complexity_thresholds"),
+        "smell_baseline_active_count": baseline_warning_count(),
+        "smell_baseline_sync_status": result_status(results, "validate_smell_baseline_sync"),
+        "course_source_lock_status": result_status(results, "validate_course_source_lock"),
+        "outline_lock_status": result_status(results, "validate_course_outline_lock"),
+        "course_provenance_status": result_status(results, "validate_course_provenance"),
+        "pytest_environment_status": result_status(results, "validate_pytest_environment"),
+        "test_traceability_status": result_status(results, "validate_test_traceability"),
+        "task_artifact_validation_status": result_status(results, "validate_task_artifacts"),
+        "traceability_graph_status": result_status(results, "validate_traceability_graph"),
+        "governor_config_status": result_status(results, "validate_governor_config"),
+        "release_archive_status": result_status(results, "validate_release_archive"),
+        "source_archive_status": result_status(results, "validate_source_archive"),
+        "release_artifact_manifest_status": distribution_states.get("release", "unknown"),
+        "source_artifact_manifest_status": distribution_states.get("source", "unknown"),
+        "compatibility_alias_manifest_status": distribution_states.get("compatibility_alias", "unknown"),
+        "test_unit_status": result_status(results, "tests_unit"),
+        "test_integration_status": result_status(results, "tests_integration"),
+        "test_e2e_status": result_status(results, "tests_e2e"),
         "governance_maturity_min_score": maturity_min_score(),
-        "governor_config_status": status_script("validate_governor_config.py"),
         "release_archive_version": config["release_archive"],
+        "source_archive_version": config["source_archive"],
     }
-    print(json.dumps(metrics, indent=2, sort_keys=True))
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--output", type=Path)
+    args = parser.parse_args(argv)
+    metrics = collect_metrics()
+    if args.output:
+        write_json(args.output, metrics)
+        print(f"PASS wrote {args.output}")
+    else:
+        print(json.dumps(metrics, indent=2, sort_keys=True))
     return 0
 
 

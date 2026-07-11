@@ -7,7 +7,7 @@ import zipfile
 
 sys.dont_write_bytecode = True
 
-from archive_rules import bad_entry, has_required_paths
+from archive_rules import bad_entry, has_required_paths, mojibake_paths
 
 
 def main(argv):
@@ -27,6 +27,8 @@ def main(argv):
                     failures.append(f"generated artifact in outer archive: {name}")
             for path in has_required_paths(names):
                 failures.append(f"required archive path missing: {path}")
+            for name in mojibake_paths(names):
+                failures.append(f"mojibake course path in outer archive: {name}")
     except zipfile.BadZipFile:
         print("FAIL")
         print(f"- invalid zip archive: {archive_path}")

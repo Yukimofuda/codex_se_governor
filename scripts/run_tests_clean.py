@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run pytest without leaving generated cache artifacts behind."""
+"""Run isolated pytest suites without retaining generated cache artifacts."""
 
 from pathlib import Path
 import json
@@ -10,6 +10,13 @@ import sys
 import time
 
 ROOT = Path(__file__).resolve().parents[1]
+DIST = ROOT / "dist"
+SUITE_ARGS = {
+    "unit": ["tests/unit"],
+    "integration": ["tests/integration"],
+    "fast": ["-m", "not e2e"],
+    "e2e": ["-m", "e2e"],
+}
 
 
 def run(command, env):
@@ -27,6 +34,10 @@ def parse_args(argv):
             timing_json = Path(next(iterator))
         elif item == "--fast":
             mode = "fast"
+        elif item == "--unit":
+            mode = "unit"
+        elif item == "--integration":
+            mode = "integration"
         elif item == "--e2e":
             mode = "e2e"
         else:
@@ -43,8 +54,9 @@ def main(argv=None):
     args, timing_json, mode = parse_args(list(argv or sys.argv[1:]))
     env = os.environ.copy()
     env["PYTHONDONTWRITEBYTECODE"] = "1"
-    marker_args = ["-m", "not e2e"] if mode == "fast" else ["-m", "e2e"]
-    pytest_command = [sys.executable, "-m", "pytest", "-p", "no:cacheprovider", "--durations=10", "--durations-min=0.01", *marker_args, *args]
+    env["PYTEST_DISABLE_PLUGIN_AUTOLOAD"] = "1"
+    suite_args = SUITE_ARGS[mode]
+    pytest_command = [sys.executable, "-m", "pytest", "-p", "no:cacheprovider", "--durations=10", "--durations-min=0.01", *suite_args, *args]
     started = time.monotonic()
     pytest_result = run(pytest_command, env)
     elapsed = time.monotonic() - started
@@ -55,19 +67,26 @@ def main(argv=None):
     print(cleanup_result.stdout, end="")
     clean_result = run([sys.executable, "scripts/validate_clean_package.py"], env)
     print(clean_result.stdout, end="")
-    if timing_json is not None:
-        timing_json.write_text(
-            json.dumps(
-                {
-                    "elapsed_seconds": round(elapsed, 2),
-                    "slowest": parse_slowest(pytest_result.stdout),
-                    "returncode": pytest_result.returncode,
-                },
-                indent=2,
-                sort_keys=True,
-            ),
-            encoding="utf-8",
-        )
+    timing_json = timing_json or DIST / f"test-timing-{mode}.json"
+    timing_json.parent.mkdir(parents=True, exist_ok=True)
+    timing_json.write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "suite": mode,
+                "elapsed_seconds": round(elapsed, 3),
+                "slowest": parse_slowest(pytest_result.stdout),
+                "returncode": pytest_result.returncode,
+                "plugin_autoload_disabled": env["PYTEST_DISABLE_PLUGIN_AUTOLOAD"] == "1",
+                "bytecode_disabled": env["PYTHONDONTWRITEBYTECODE"] == "1",
+                "cache_provider_disabled": "no:cacheprovider" in pytest_command,
+                "command": pytest_command,
+            },
+            indent=2,
+            sort_keys=True,
+        ),
+        encoding="utf-8",
+    )
     print(f"Test duration: {elapsed:.2f}s")
     if pytest_result.returncode != 0:
         print("FAIL pytest failed")

@@ -1,119 +1,116 @@
 #!/usr/bin/env python3
-"""Generate a deterministic governance maturity report from metrics."""
+"""Generate a capability report from cached, non-recursive governance evidence."""
 
 from pathlib import Path
-import json
-import os
-import subprocess
 import sys
+
+sys.dont_write_bytecode = True
+
+from governance_metrics import collect_metrics
 
 ROOT = Path(__file__).resolve().parents[1]
 REPORT = ROOT / "docs" / "reports" / "GOVERNANCE_MATURITY_REPORT.md"
 
 
-def load_metrics():
-    env = os.environ.copy()
-    env["PYTHONDONTWRITEBYTECODE"] = "1"
-    result = subprocess.run(
-        [sys.executable, str(ROOT / "scripts" / "governance_metrics.py")],
-        cwd=ROOT,
-        text=True,
-        capture_output=True,
-        check=False,
-        env=env,
-    )
-    if result.returncode != 0:
-        raise RuntimeError("governance_metrics.py failed")
-    return json.loads(result.stdout)
+def status_for_threshold(value, threshold):
+    if value is None:
+        return "unknown"
+    return "pass" if value >= threshold else "fail"
 
 
-def status(value):
-    return "PASS" if value else "WATCH"
+def evaluate(signals):
+    statuses = [status for _name, status in signals]
+    if any(status in {"fail", "timeout"} for status in statuses):
+        return "2", "FAIL"
+    if any(status == "unknown" for status in statuses):
+        return "unknown", "UNKNOWN"
+    return "5", "PASS"
 
 
-def score(value, watch=3, strong=4):
-    if value >= strong:
-        return 5
-    if value >= watch:
-        return 4
-    if value > 0:
-        return 3
-    return 2
+def row(label, signals):
+    score, status = evaluate(signals)
+    evidence = "; ".join(f"{name}={value}" for name, value in signals)
+    return f"| {label} | {score} | {status} | {evidence} |"
 
 
 def render(metrics):
-    semantic_ok = metrics.get("semantic_coverage_missing_count", 1) == 0 and metrics.get("semantic_cluster_count", 0) >= 40
-    source_ok = metrics.get("course_source_lock_status") == "pass"
-    clean_ok = metrics.get("clean_package_violation_count", 1) == 0
-    trace_ok = metrics.get("traceability_graph_status") == "pass"
-    ai_ok = metrics.get("ai_review_average_score", 0) >= 8
-    complexity_ok = metrics.get("complexity_threshold_violations", 1) == 0
-    areas = [
-        ("Requirements maturity", 5 if metrics.get("course_coverage_missing_count", 1) == 0 else 3),
-        ("User story and acceptance maturity", 5 if metrics.get("test_traceability_status") == "pass" else 3),
-        ("Analysis maturity", 4 if metrics.get("task_artifact_validation_status") == "pass" else 3),
-        ("Design/architecture maturity", 5 if metrics.get("semantic_coverage_missing_count", 1) == 0 else 3),
-        ("Implementation quality maturity", 5 if metrics.get("smell_baseline_sync_status") == "pass" else 3),
-        ("Testing maturity", 5 if metrics.get("test_performance_status") == "pass" and metrics.get("complexity_threshold_violations", 1) == 0 else 3),
-        ("Security maturity", 5 if metrics.get("ai_review_average_score", 0) >= 8 else 3),
-        ("Ethics/AI maturity", 5 if metrics.get("ai_review_average_score", 0) >= 8 else 3),
-        ("Risk/quality maturity", 4 if metrics.get("task_artifact_validation_status") == "pass" else 3),
-        ("Project management maturity", 4 if metrics.get("maintenance_docs_count", 0) >= 5 else 3),
-        ("Release/maintenance maturity", 5 if clean_ok and source_ok else 3),
-        ("Traceability maturity", 5 if trace_ok and semantic_ok and source_ok else 3),
+    statuses = metrics.get("validator_statuses", {})
+    get = lambda name: statuses.get(name, "unknown")
+    capability_rows = [
+        row("Requirements and traceability capability", [("templates", get("validate_templates")), ("test traceability", get("validate_test_traceability"))]),
+        row("Analysis and design capability", [("task artifacts", get("validate_task_artifacts")), ("traceability graph", get("validate_traceability_graph"))]),
+        row("Testing capability", [("pytest isolation", get("validate_pytest_environment")), ("unit tests", get("tests_unit")), ("integration tests", get("tests_integration"))]),
+        row("Security and AI capability", [("AI template", get("validate_ai_review_template")), ("AI evidence", get("validate_ai_review_evidence"))]),
+        row("Risk and project capability", [("project management", get("validate_project_management")), ("template contract", get("validate_templates"))]),
+        row("Course traceability capability", [("source lock", get("validate_course_source_lock")), ("outline lock", get("validate_course_outline_lock")), ("semantic coverage", get("validate_course_semantic_coverage"))]),
+        row("Release and maintenance capability", [("configuration", get("validate_governor_config")), ("clean package", get("validate_clean_package_final") if get("validate_clean_package_final") != "unknown" else get("validate_clean_package")), ("maintenance docs", get("validate_maintenance_docs"))]),
     ]
-    rows = "\n".join(
-        f"| {area} | {area_score} | {'PASS' if area_score >= 4 else 'WATCH'} | {'v0.7' if area_score >= 4 else 'v0.8'} |"
-        for area, area_score in areas
-    )
-    return f"""# Governance Maturity Report
+    adoption_rows = [
+        row("Core adoption readiness", [("SE gate", get("se_gate")), ("Skill", get("validate_skill")), ("configuration", get("validate_governor_config"))]),
+        row("Local development readiness", [("pytest isolation", get("validate_pytest_environment")), ("unit tests", get("tests_unit"))]),
+    ]
+    package_rows = [
+        row("Active task evidence maturity", [("task artifacts", get("validate_task_artifacts")), ("evidence score", status_for_threshold(metrics.get("evidence_package_average_score"), 85))]),
+        row("Release package maturity", [("release archive", get("validate_release_archive")), ("source archive", get("validate_source_archive"))]),
+    ]
+    unknown = sorted(name for name, value in statuses.items() if value == "unknown")
+    required_signals = {
+        "release archive validation": get("validate_release_archive"),
+        "source archive validation": get("validate_source_archive"),
+        "e2e tests": get("tests_e2e"),
+    }
+    unknown.extend(name for name, value in required_signals.items() if value == "unknown")
+    if not statuses:
+        unknown.append("validation manifest unavailable")
+    unknown = sorted(set(unknown))
+    unavailable = "\n".join(f"- {item}" for item in unknown) if unknown else "- None for the current validation mode."
+    return f"""# Governor Capability Maturity Report
 
 ## Purpose
 
-This report summarizes whether `codex-se-governor` is behaving like an evidence-grade software engineering governor rather than a static document bundle.
+This report scores the governor's validation capabilities. It does not claim that an adopting project's real requirements, architecture, security, or delivery process are mature.
 
-## Maturity Snapshot
+## Governor Capability Maturity
 
-| Area | Score | Status | Target version |
+| Capability | Score | Status | Independent evidence signals |
 |---|---:|---|---|
-{rows}
+{chr(10).join(capability_rows)}
 
-## Supporting Evidence
+## Adoption Readiness
 
-| Evidence Area | Evidence | Status |
-|---|---|---|
-| Course semantic coverage | {metrics.get('semantic_cluster_count', 0)} semantic clusters, {metrics.get('semantic_coverage_missing_count', 0)} missing sections | {status(semantic_ok)} |
-| Course source integrity | {metrics.get('course_source_lock_status', 'unknown')} | {status(source_ok)} |
-| Clean package | {metrics.get('clean_package_violation_count', 0)} generated artifact violations | {status(clean_ok)} |
-| Traceability graph | {metrics.get('traceability_graph_status', 'unknown')} | {status(trace_ok)} |
-| AI review evidence | average score {metrics.get('ai_review_average_score', 0)} | {status(ai_ok)} |
-| Complexity governance | {metrics.get('complexity_threshold_violations', 0)} threshold violations | {status(complexity_ok)} |
-| Evidence packages | average score {metrics.get('evidence_package_average_score', 0)} | {status(metrics.get('evidence_package_average_score', 0) >= 85)} |
-| Test performance | {metrics.get('test_performance_status', 'unknown')} | {metrics.get('test_performance_status', 'unknown').upper()} |
-| Release archive validator | {metrics.get('release_archive_validator_status', 'unknown')} | {metrics.get('release_archive_validator_status', 'unknown').upper()} |
+| Readiness area | Score | Status | Independent evidence signals |
+|---|---:|---|---|
+{chr(10).join(adoption_rows)}
 
-## Lifecycle Evidence
+## Active Task And Package Maturity
 
-- Requirements, stories, analysis, design, tests, risk, security, AI review, process compliance, deployment, maintenance, final report, and retrospective evidence are required through templates and task validation.
-- CI and pre-commit prefer the full ordered validation sequence.
-- Course reference files are isolated from smell scanning but covered by outline, section, and semantic validators.
+| Evidence area | Score | Status | Independent evidence signals |
+|---|---:|---|---|
+{chr(10).join(package_rows)}
+
+## Unavailable Evidence
+
+{unavailable}
+
+## Evidence Provenance
+
+- Validation mode: `{metrics.get('validation_mode', 'unknown')}`.
+- Validation result source: `{metrics.get('validation_manifest_status', 'unknown')}`.
+- Semantic score is cached evidence: `{metrics.get('semantic_coverage_score')}`.
+- Evidence package average is cached evidence: `{metrics.get('evidence_package_average_score')}`.
+- Missing evidence remains `unknown`; it is never promoted to a passing score.
 
 ## Residual Risks
 
-- Semantic coverage remains a curated mapping and still requires human review when course content changes.
-- Complexity scoring is approximate and Python-specific.
-- Mutation testing is represented as planning evidence; projects can attach real mutation tooling when available.
-
-## Next Review
-
-Review this report before each release, after course reference updates, and after adding new validator categories.
+- Capability evidence proves governor behavior, not correctness of an adopting product.
+- Semantic mappings and course provenance still require accountable human review.
+- Runtime security, fairness, and mutation effectiveness need project-specific tools and data.
 """
 
 
 def main():
     REPORT.parent.mkdir(parents=True, exist_ok=True)
-    metrics = load_metrics()
-    REPORT.write_text(render(metrics), encoding="utf-8")
+    REPORT.write_text(render(collect_metrics()), encoding="utf-8")
     print(f"PASS wrote {REPORT.relative_to(ROOT)}")
     return 0
 

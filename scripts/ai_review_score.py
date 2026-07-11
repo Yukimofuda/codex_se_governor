@@ -2,6 +2,7 @@
 """Score AI usage review evidence for examples and generated tasks."""
 
 from pathlib import Path
+import argparse
 import json
 import sys
 
@@ -39,9 +40,21 @@ def score(path):
     }
 
 
-def main():
-    rows = [score(path) for path in review_files()]
-    print(json.dumps(rows, indent=2, sort_keys=True))
+def build_payload():
+    return [score(path) for path in review_files()]
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--output", type=Path)
+    args = parser.parse_args(argv)
+    rendered = json.dumps(build_payload(), indent=2, sort_keys=True) + "\n"
+    if args.output:
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_text(rendered, encoding="utf-8")
+        print(f"PASS wrote {args.output}")
+    else:
+        print(rendered, end="")
     return 0
 
 

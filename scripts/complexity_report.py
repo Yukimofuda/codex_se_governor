@@ -2,6 +2,7 @@
 """Report approximate Python cyclomatic complexity using the standard AST."""
 
 from pathlib import Path
+import argparse
 import ast
 import json
 import sys
@@ -29,7 +30,7 @@ def complexity(node):
     return score
 
 
-def main():
+def build_payload():
     rows = []
     for path in iter_python_files():
         try:
@@ -47,7 +48,20 @@ def main():
                         "complexity": complexity(node),
                     }
                 )
-    print(json.dumps(rows, indent=2, sort_keys=True))
+    return rows
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--output", type=Path)
+    args = parser.parse_args(argv)
+    rendered = json.dumps(build_payload(), indent=2, sort_keys=True) + "\n"
+    if args.output:
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_text(rendered, encoding="utf-8")
+        print(f"PASS wrote {args.output}")
+    else:
+        print(rendered, end="")
     return 0
 
 

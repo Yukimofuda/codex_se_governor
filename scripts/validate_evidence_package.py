@@ -2,6 +2,7 @@
 """Validate scored engineering evidence packages."""
 
 from pathlib import Path
+import argparse
 import json
 import os
 import subprocess
@@ -11,7 +12,9 @@ ROOT = Path(__file__).resolve().parents[1]
 THRESHOLD = 85
 
 
-def main():
+def load_packages(path):
+    if path:
+        return json.loads(path.read_text(encoding="utf-8"))
     env = os.environ.copy()
     env["PYTHONDONTWRITEBYTECODE"] = "1"
     result = subprocess.run(
@@ -25,8 +28,20 @@ def main():
     if result.returncode != 0:
         print("FAIL")
         print("- evidence_package_score.py failed")
-        return result.returncode
-    packages = json.loads(result.stdout)
+        raise RuntimeError("evidence_package_score.py failed")
+    return json.loads(result.stdout)
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--input", type=Path)
+    args = parser.parse_args(argv)
+    try:
+        packages = load_packages(args.input)
+    except (OSError, json.JSONDecodeError, RuntimeError) as exc:
+        print("FAIL")
+        print(f"- {exc}")
+        return 1
     failures = []
     for package in packages:
         if package["score"] < THRESHOLD:

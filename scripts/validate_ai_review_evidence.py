@@ -2,6 +2,7 @@
 """Validate scored AI review evidence."""
 
 from pathlib import Path
+import argparse
 import json
 import os
 import subprocess
@@ -11,7 +12,9 @@ ROOT = Path(__file__).resolve().parents[1]
 MIN_SCORE = 8
 
 
-def main():
+def load_rows(path):
+    if path:
+        return json.loads(path.read_text(encoding="utf-8"))
     env = os.environ.copy()
     env["PYTHONDONTWRITEBYTECODE"] = "1"
     result = subprocess.run(
@@ -25,8 +28,20 @@ def main():
     if result.returncode != 0:
         print("FAIL")
         print("- ai_review_score.py failed")
-        return result.returncode
-    rows = json.loads(result.stdout)
+        raise RuntimeError("ai_review_score.py failed")
+    return json.loads(result.stdout)
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--input", type=Path)
+    args = parser.parse_args(argv)
+    try:
+        rows = load_rows(args.input)
+    except (OSError, json.JSONDecodeError, RuntimeError) as exc:
+        print("FAIL")
+        print(f"- {exc}")
+        return 1
     failures = []
     if not rows:
         failures.append("no AI review evidence files found")

@@ -2,6 +2,7 @@
 """Fail when semantic coverage score drops below threshold."""
 
 from pathlib import Path
+import argparse
 import json
 import os
 import subprocess
@@ -11,22 +12,27 @@ ROOT = Path(__file__).resolve().parents[1]
 THRESHOLD = 85
 
 
-def main():
+def load_payload(path):
+    if path:
+        return json.loads(path.read_text(encoding="utf-8"))
     env = os.environ.copy()
     env["PYTHONDONTWRITEBYTECODE"] = "1"
-    result = subprocess.run(
-        [sys.executable, str(ROOT / "scripts" / "semantic_coverage_score.py")],
-        cwd=ROOT,
-        text=True,
-        capture_output=True,
-        check=False,
-        env=env,
-    )
+    result = subprocess.run([sys.executable, str(ROOT / "scripts" / "semantic_coverage_score.py")], cwd=ROOT, text=True, capture_output=True, check=False, env=env)
     if result.returncode != 0:
+        raise RuntimeError("semantic_coverage_score.py failed")
+    return json.loads(result.stdout)
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--input", type=Path)
+    args = parser.parse_args(argv)
+    try:
+        payload = load_payload(args.input)
+    except (OSError, json.JSONDecodeError, RuntimeError) as exc:
         print("FAIL")
-        print("- semantic_coverage_score.py failed")
-        return result.returncode
-    payload = json.loads(result.stdout)
+        print(f"- {exc}")
+        return 1
     failures = []
     if payload["score"] < THRESHOLD:
         failures.append(f"semantic coverage score below threshold: {payload['score']} < {THRESHOLD}")

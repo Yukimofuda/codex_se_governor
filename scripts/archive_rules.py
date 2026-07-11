@@ -7,6 +7,7 @@ BAD_DIRS = {".pytest_cache", "__pycache__", "__MACOSX", ".venv", "venv", "env"}
 BAD_FILES = {".DS_Store"}
 BAD_SUFFIXES = {".pyc", ".pyo", ".pyd"}
 REQUIRED_ARCHIVE_PATH_SUFFIXES = ("references/course/软件工程全整理.md",)
+MOJIBAKE_COURSE_NAME = "Φ╜»Σ╗╢σ╖Ñτ¿ïσà¿µò┤τÉå.md"
 
 
 def bad_entry(name):
@@ -24,3 +25,8 @@ def has_required_paths(names):
         if not any(name.endswith(suffix) for name in normalized):
             missing.append(suffix)
     return missing
+
+
+def mojibake_paths(names):
+    normalized = [name.replace("\\", "/") for name in names]
+    return [name for name in normalized if MOJIBAKE_COURSE_NAME in name]

@@ -2,6 +2,7 @@
 """Score semantic course coverage density and enforcement strength."""
 
 from pathlib import Path
+import argparse
 import json
 import re
 import sys
@@ -35,7 +36,7 @@ def expand_count(spec):
     return count
 
 
-def main():
+def build_payload():
     rows = parse_rows()
     counts = [expand_count(row[0]) for row in rows]
     generic_count = 0
@@ -70,7 +71,7 @@ def main():
     score -= generic_count * 5
     score -= artifact_missing_count * 10
     score -= max(0, 2 - reference_only_count)
-    payload = {
+    return {
         "cluster_count": len(rows),
         "average_sections_per_cluster": round(sum(counts) / len(counts), 2) if counts else 0,
         "automated_gate_count": automated_gate_count,
@@ -83,7 +84,20 @@ def main():
         "artifact_missing_count": artifact_missing_count,
         "score": max(0, score),
     }
-    print(json.dumps(payload, indent=2, sort_keys=True))
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--output", type=Path)
+    args = parser.parse_args(argv)
+    payload = build_payload()
+    rendered = json.dumps(payload, indent=2, sort_keys=True) + "\n"
+    if args.output:
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_text(rendered, encoding="utf-8")
+        print(f"PASS wrote {args.output}")
+    else:
+        print(rendered, end="")
     return 0
 
 

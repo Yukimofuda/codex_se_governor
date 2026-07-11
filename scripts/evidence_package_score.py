@@ -2,6 +2,7 @@
 """Score engineering evidence completeness for examples and tasks."""
 
 from pathlib import Path
+import argparse
 import json
 import re
 import sys
@@ -60,9 +61,21 @@ def score_package(path):
     }
 
 
-def main():
-    payload = [score_package(path) for path in package_dirs()]
-    print(json.dumps(payload, indent=2, sort_keys=True))
+def build_payload():
+    return [score_package(path) for path in package_dirs()]
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--output", type=Path)
+    args = parser.parse_args(argv)
+    rendered = json.dumps(build_payload(), indent=2, sort_keys=True) + "\n"
+    if args.output:
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_text(rendered, encoding="utf-8")
+        print(f"PASS wrote {args.output}")
+    else:
+        print(rendered, end="")
     return 0
 
 

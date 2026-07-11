@@ -1,17 +1,13 @@
 #!/usr/bin/env python3
-"""Validate governance maturity scores from the generated report."""
+"""Validate capability maturity report structure and numeric gates."""
 
 from pathlib import Path
 import re
 import sys
 
-sys.dont_write_bytecode = True
-
-from governor_config import load_config, version_is_expired
-
 ROOT = Path(__file__).resolve().parents[1]
 REPORT = ROOT / "docs" / "reports" / "GOVERNANCE_MATURITY_REPORT.md"
-ROW_RE = re.compile(r"^\|\s*(?P<area>[^|]+)\|\s*(?P<score>\d)\s*\|\s*(?P<status>[^|]+)\|\s*(?P<target>[^|]+)\|")
+ROW_RE = re.compile(r"^\|\s*(?P<area>[^|]+)\|\s*(?P<score>[1-5]|unknown)\s*\|\s*(?P<status>PASS|FAIL|UNKNOWN)\s*\|")
 
 
 def main():
@@ -20,19 +16,18 @@ def main():
         print("FAIL")
         print("- missing docs/reports/GOVERNANCE_MATURITY_REPORT.md")
         return 1
-    current_version = load_config()["version"]
-    rows = []
-    for line in REPORT.read_text(encoding="utf-8").splitlines():
-        match = ROW_RE.match(line)
-        if match:
-            rows.append(match.groupdict())
-    if not rows:
-        failures.append("maturity report missing score table")
+    text = REPORT.read_text(encoding="utf-8")
+    for heading in ["Governor Capability Maturity Report", "Governor Capability Maturity", "Adoption Readiness", "Active Task And Package Maturity", "Unavailable Evidence"]:
+        if heading not in text:
+            failures.append(f"maturity report missing section: {heading}")
+    rows = [match.groupdict() for line in text.splitlines() if (match := ROW_RE.match(line))]
+    if len(rows) < 10:
+        failures.append("maturity report missing capability/readiness/package rows")
     for row in rows:
-        score = int(row["score"])
-        target = row["target"].strip()
-        if score < 4 and version_is_expired(target, current_version):
-            failures.append(f"maturity area below threshold without future target: {row['area'].strip()} score {score}")
+        if row["score"].isdigit() and int(row["score"]) < 4:
+            failures.append(f"capability below maturity threshold: {row['area'].strip()} score {row['score']}")
+        if row["score"] == "unknown" and row["status"] != "UNKNOWN":
+            failures.append(f"unknown maturity must use UNKNOWN status: {row['area'].strip()}")
     if failures:
         print("FAIL")
         for failure in failures:

@@ -1,59 +1,76 @@
 #!/usr/bin/env python3
-"""Validate that the clean pytest wrapper stays within the documented threshold."""
+"""Validate persisted test or validation timing without starting pytest."""
 
 from pathlib import Path
+import argparse
 import json
-import os
 import re
-import subprocess
 import sys
-import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
 BASELINE = ROOT / "docs" / "quality" / "TEST_PERFORMANCE_BASELINE.md"
-THRESHOLD_RE = re.compile(r"Suite threshold seconds:\s*(\d+)")
+ROW_RE = re.compile(r"^\|\s*(?P<suite>[a-z0-9-]+)\s*\|\s*(?P<threshold>\d+(?:\.\d+)?)\s*\|")
 
 
-def load_threshold():
+def load_thresholds():
+    thresholds = {}
     if not BASELINE.exists():
-        return 30
-    text = BASELINE.read_text(encoding="utf-8")
-    match = THRESHOLD_RE.search(text)
-    return int(match.group(1)) if match else 30
+        return thresholds
+    for line in BASELINE.read_text(encoding="utf-8").splitlines():
+        match = ROW_RE.match(line)
+        if match:
+            thresholds[match.group("suite")] = float(match.group("threshold"))
+    return thresholds
 
 
-def main():
-    env = os.environ.copy()
-    env["PYTHONDONTWRITEBYTECODE"] = "1"
-    with tempfile.NamedTemporaryFile(prefix="test-timing-", suffix=".json", delete=False) as handle:
-        timing_path = Path(handle.name)
-    result = subprocess.run(
-        [sys.executable, str(ROOT / "scripts" / "run_tests_clean.py"), "--fast", "--timing-json", str(timing_path)],
-        cwd=ROOT,
-        text=True,
-        capture_output=True,
-        check=False,
-        env=env,
-    )
-    if result.stdout:
-        print(result.stdout, end="")
-    if result.stderr:
-        print(result.stderr, end="", file=sys.stderr)
-    if result.returncode != 0:
+def parse_args(argv):
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--suite", choices=["unit", "integration", "fast", "e2e", "release"], required=True)
+    parser.add_argument("--timing-json", type=Path)
+    return parser.parse_args(argv)
+
+
+def load_timing(path):
+    if not path.exists():
+        return {}, [f"missing timing artifact: {path.relative_to(ROOT) if path.is_relative_to(ROOT) else path}"]
+    try:
+        return json.loads(path.read_text(encoding="utf-8")), []
+    except (json.JSONDecodeError, UnicodeDecodeError) as exc:
+        return {}, [f"invalid timing artifact: {exc}"]
+
+
+def validate_payload(suite, payload, threshold):
+    failures = []
+    if payload.get("suite") != suite:
+        failures.append(f"timing artifact suite mismatch: expected {suite}, got {payload.get('suite')}")
+    elapsed = payload.get("elapsed_seconds")
+    if isinstance(elapsed, (int, float)) and elapsed > threshold:
+        failures.append(f"test suite exceeded threshold: {elapsed}s > {threshold:g}s")
+    if payload.get("returncode") != 0:
+        failures.append(f"timed suite did not pass: returncode {payload.get('returncode')}")
+    if suite != "release" and payload.get("plugin_autoload_disabled") is not True:
+        failures.append("pytest plugin autoload was not disabled")
+    return failures
+
+
+def main(argv=None):
+    args = parse_args(argv)
+    timing_path = args.timing_json or ROOT / "dist" / f"test-timing-{args.suite}.json"
+    thresholds = load_thresholds()
+    payload, failures = load_timing(timing_path)
+    threshold = thresholds.get(args.suite)
+    if threshold is None:
+        failures.append(f"missing performance threshold for suite: {args.suite}")
+    elif payload:
+        failures.extend(validate_payload(args.suite, payload, threshold))
+    elapsed = payload.get("elapsed_seconds")
+    if failures:
         print("FAIL")
-        print("- run_tests_clean.py failed")
-        return result.returncode
-    payload = json.loads(timing_path.read_text(encoding="utf-8"))
-    timing_path.unlink(missing_ok=True)
-    threshold = load_threshold()
-    elapsed = payload.get("elapsed_seconds", 0)
-    if elapsed > threshold:
-        print("FAIL")
-        print(f"- test suite exceeded threshold: {elapsed}s > {threshold}s")
-        for item in payload.get("slowest", []):
-            print(f"- slow test: {item}")
+        for failure in failures:
+            print(f"- {failure}")
         return 1
     print("PASS")
+    print(f"- {args.suite}: {elapsed}s <= {threshold:g}s")
     return 0
 
 

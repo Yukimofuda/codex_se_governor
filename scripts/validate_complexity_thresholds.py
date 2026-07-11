@@ -2,6 +2,7 @@
 """Validate Python function complexity against a baseline."""
 
 from pathlib import Path
+import argparse
 import json
 import os
 import subprocess
@@ -49,15 +50,27 @@ def baseline_entries():
     return entries, failures
 
 
-def main():
+def load_rows(path):
+    if path:
+        return json.loads(path.read_text(encoding="utf-8"))
     env = os.environ.copy()
     env["PYTHONDONTWRITEBYTECODE"] = "1"
     result = subprocess.run([sys.executable, str(ROOT / "scripts" / "complexity_report.py")], cwd=ROOT, text=True, capture_output=True, check=False, env=env)
     if result.returncode != 0:
+        raise RuntimeError("complexity_report.py failed")
+    return json.loads(result.stdout)
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--report", type=Path)
+    args = parser.parse_args(argv)
+    try:
+        rows = load_rows(args.report)
+    except (OSError, json.JSONDecodeError, RuntimeError) as exc:
         print("FAIL")
-        print("- complexity_report.py failed")
-        return result.returncode
-    rows = json.loads(result.stdout)
+        print(f"- {exc}")
+        return 1
     entries, failures = baseline_entries()
     for row in rows:
         if row.get("complexity", 0) <= THRESHOLD:
