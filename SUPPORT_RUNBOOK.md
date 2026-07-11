@@ -13,6 +13,7 @@
 | Semantic coverage fails | A course concept lacks concrete rule, artifact, depth, or evidence | Update `20_COURSE_SEMANTIC_COVERAGE.md` |
 | Course source lock fails | Authoritative text changed or lock metadata drifted | Review the PDF/source diff, then update `COURSE_SOURCE_LOCK.json` intentionally |
 | Outline lock fails | Course source or extractor changed | Update lock intentionally after review |
+| Course provenance fails | Markdown or supplied PDF hash differs from reviewed evidence | Review source provenance; never refresh hashes without source review |
 | Release archive validation fails | Generated artifact entered zip | Run cleanup and rebuild with `package_release.py` |
 | Outer archive validation fails | Finder or manual zip added `__MACOSX/` or caches | Repackage using `package_release.py`; validate the exact uploaded zip |
 | Complexity threshold fails | Function exceeds threshold without baseline | Refactor or update complexity baseline with obligation |
@@ -22,13 +23,16 @@
 | Traceability graph fails | Requirement, AC, risk, security, test, or final report link is missing | Add explicit IDs and downstream references |
 | AI review evidence fails | AI review score is below threshold | Complete the missing AI review fields |
 | Clean test wrapper fails | Pytest failed or left generated artifacts | Fix tests, rerun `run_tests_clean.py`, then validate clean package |
+| Validation command times out | Child process exceeded configured per-command or mode budget | Inspect `dist/validation-results.json`, fix the slow edge, and rerun the same mode |
+| Source archive fails | Mojibake, generated files, missing tests/course path, or stale dist zip | Remove stale generated archives and rebuild with `package_source.py` |
 
 ## Monitoring Method
 - Run full local validation before release.
-- Prefer `python3 scripts/run_full_validation.py`.
+- Use `--fast` locally, `--standard` for PRs, and `--release` for release evidence.
 - Use `python3 scripts/run_tests_clean.py` for local pytest so cache artifacts are cleaned.
 - Use `python3 scripts/validate_outer_archive.py /path/to/uploaded.zip` before distribution if another outer zip is created.
 - Review governance metrics JSON for unexpected changes.
+- Treat `unknown` as unavailable evidence, not a passing signal.
 
 ## Rollback Or Release Criteria
 - Release only when all validators and pytest pass.

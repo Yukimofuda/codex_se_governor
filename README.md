@@ -2,6 +2,8 @@
 
 `codex-se-governor` is a Software Engineering Lifecycle Governor for Codex. It is not a normal coding style guide, not a prompt collection, and not a course summary. It turns the EBU6304 Software Engineering lifecycle into reusable rules, templates, scripts, PR checks, CI gates, and a Codex Skill.
 
+Current version: `v0.7.2`. This release focuses on deterministic validation, host-independent pytest execution, one-pass evidence, bounded command execution, and exact source/release packaging.
+
 The goal is to force every non-trivial Codex software task through requirements, analysis, design, implementation, testing, security, documentation, review, maintenance, and retrospective thinking before code is treated as complete.
 
 ## Why Prompt Discipline Is Not Enough
@@ -29,12 +31,13 @@ Use:
 ```bash
 python3 scripts/extract_course_outline.py
 python3 scripts/validate_course_source_lock.py
+python3 scripts/validate_course_provenance.py
 python3 scripts/validate_course_outline_lock.py
 python3 scripts/validate_course_coverage.py
 python3 scripts/validate_course_semantic_coverage.py
 ```
 
-The first command extracts numbered sections as JSON. `COURSE_SOURCE_LOCK.json` protects the complete authoritative text against body-only drift by recording its SHA-256, size, newline count, section count, and original PDF provenance. The outline lock separately protects section IDs and titles. The coverage validators then check numeric section coverage and semantic engineering coverage.
+The first command extracts numbered sections as JSON. `COURSE_SOURCE_LOCK.json` protects the complete authoritative text against body-only drift. `COURSE_PROVENANCE.json` records the original PDF hash, page count, conversion method, known layout-only differences, and review status. Without `--pdf`, provenance validation reports an attestation; with `--pdf`, it independently rechecks the supplied PDF hash. The outline lock separately protects section IDs and titles.
 
 ## Adopt in an Existing GitHub Repository
 
@@ -71,15 +74,23 @@ The PR template requires evidence for requirement trace, user story, acceptance 
 
 ## CI Gate
 
-`.github/workflows/se-quality-gate.yml` checks that governance files exist, installs pytest when tests are present, runs `scripts/run_full_validation.py`, and performs a release package smoke check.
+`.github/workflows/se-quality-gate.yml` runs `--standard` for pull requests/main and `--release` for tags. Release CI then creates and validates the canonical source archive. All pytest processes disable host plugin autoload.
 
 ## Automated Tests
 
-This project supports pytest for script-level automated tests. Prefer the full ordered validation command before changing or packaging the governor:
+Validation has three explicit modes. The default is `--standard`:
 
 ```bash
-python3 scripts/run_full_validation.py
+python3 scripts/run_full_validation.py --fast
+python3 scripts/run_full_validation.py --standard
+python3 scripts/run_full_validation.py --release
 ```
+
+- `--fast`: core contracts, locks, smell baseline, provenance, task scan, and unit tests.
+- `--standard`: fast plus semantic/traceability/evidence checks and integration tests.
+- `--release`: standard plus e2e, exact release packaging, archive checks, and final cleanup.
+
+Each command writes `dist/validation-results.json`, including platform, Python version, mode, per-command duration/status/warnings, timeout evidence, and failure summary. The manifest is written even when validation fails.
 
 For focused local debugging, individual validators remain available:
 
@@ -126,10 +137,12 @@ Modes:
 
 ```bash
 python3 scripts/run_tests_clean.py --fast
+python3 scripts/run_tests_clean.py --unit
+python3 scripts/run_tests_clean.py --integration
 python3 scripts/run_tests_clean.py --e2e
 ```
 
-Default `python3 -m pytest` is now fast-only through `pytest.ini` and excludes `e2e` tests. End-to-end validation smoke runs only when explicitly requested.
+The wrapper sets `PYTEST_DISABLE_PLUGIN_AUTOLOAD=1`, disables bytecode and pytest cache, and writes `dist/test-timing-<suite>.json`. Default raw pytest still excludes e2e through `pytest.ini`, but the wrapper is canonical because it isolates unrelated host plugins.
 
 ## Governance Metrics
 
@@ -139,7 +152,7 @@ Use metrics to review governor health without turning every warning into an imme
 python3 scripts/governance_metrics.py
 ```
 
-The command prints JSON with document, template, script, test, workflow, traceability, smell, static pytest discovery, cache artifact, course reference, numeric and semantic course coverage, clean package, outline lock, no-side-effect, release archive validator, test traceability, complexity baseline, AI example, process compliance, maturity report, task artifact validation, traceability graph, AI review score, mutation plan, deployment/maintenance templates, clean test wrapper, and validator counts.
+The command performs static repository inspection and reads `dist/validation-results.json` plus persisted score artifacts. It never starts validators, pytest, full validation, or maturity generation. Missing execution evidence is reported as `unknown`.
 
 For v0.7.1 it also reports `course_source_lock_status` and distinguishes total complexity exceptions from actual temporary exceptions. A temporary count of zero means no time-limited complexity waiver remains active; it does not mean all accepted complexity debt has disappeared.
 
@@ -164,19 +177,26 @@ python3 scripts/validate_clean_package.py
 
 The cleanup script only removes `.DS_Store`, `.pytest_cache/`, `__pycache__/`, `*.pyc`, `__MACOSX/`, and temporary smoke-test directories. It must not remove source, docs, tests, templates, examples, or course references.
 
-## Release Packaging
+## Development Checkout And Distribution Archives
 
-Build and validate a clean v0.7 release archive:
+- Development checkout: editable repository containing source, tests, docs, templates, and local `dist` evidence.
+- Canonical source archive: `dist/codex-se-governor-source-v0.7.2.zip`; includes source and tests.
+- Immutable release archive: `dist/codex-se-governor-v0.7.2.zip`; authoritative release artifact.
+- Compatibility alias: `dist/codex-se-governor-v0.7.zip`; optional convenience copy, not the immutable identifier.
+
+Build and validate distributions:
 
 ```bash
 python3 scripts/package_release.py
-python3 scripts/validate_release_archive.py dist/codex-se-governor-v0.7.zip
-python3 scripts/validate_outer_archive.py dist/codex-se-governor-v0.7.zip
+python3 scripts/validate_release_archive.py dist/codex-se-governor-v0.7.2.zip
+python3 scripts/validate_outer_archive.py dist/codex-se-governor-v0.7.2.zip
+python3 scripts/package_source.py
+python3 scripts/validate_source_archive.py dist/codex-se-governor-source-v0.7.2.zip
 ```
 
-The archive excludes macOS archive artifacts, cache directories, pyc files, local virtual environments, logs, dist output, and temporary smoke-test directories. Both archive validators also require the exact UTF-8 course path `references/course/软件工程全整理.md`.
+`dist/RELEASE_MANIFEST.json` records exact paths and SHA-256 values. Undeclared stale zip files fail packaging and validation. Both source and release archives require the exact UTF-8 course path and reject the known mojibake alternative.
 
-Do not create release zips with Finder or a manual macOS archive operation. Use [docs/release/RELEASE_PACKAGING_GUIDE.md](docs/release/RELEASE_PACKAGING_GUIDE.md) so `__MACOSX/`, `.DS_Store`, cache directories, and pyc files are excluded and verified. If you wrap the release archive in another uploaded zip, validate that exact outer zip too.
+Never use Finder or manual compression for source or release distribution. Upload the generated archive itself. If an outer archive is unavoidable, validate that exact file with `validate_outer_archive.py` before distribution.
 
 ## Smell Baseline Workflow
 
@@ -228,7 +248,7 @@ python3 scripts/run_tests_clean.py
 python3 scripts/validate_test_performance.py
 ```
 
-`run_tests_clean.py` disables pytest cache, measures elapsed time, removes generated artifacts, and revalidates the package afterward. `validate_test_performance.py` uses the fast suite only; it does not recurse into e2e full-validation smoke.
+`run_tests_clean.py` isolates pytest, measures elapsed time, removes generated artifacts, and persists timing evidence. `validate_test_performance.py --suite <name>` only reads that prior evidence; it never starts pytest.
 
 ## Adoption Checker
 
@@ -285,7 +305,7 @@ v0.4 adds release and maintenance artifacts:
 
 Validate them with `python3 scripts/validate_maintenance_docs.py`.
 
-## Semantic Coverage And Maturity Gates
+## Semantic Coverage And Capability Maturity
 
 v0.7 adds semantic density scoring and governance maturity gating:
 
@@ -296,7 +316,7 @@ python3 scripts/generate_governance_maturity_report.py
 python3 scripts/validate_governance_maturity.py
 ```
 
-Use `docs/software-engineering/20_COURSE_SEMANTIC_COVERAGE.md` for concrete engineering-rule clusters and `docs/reports/GOVERNANCE_MATURITY_REPORT.md` for a 1-5 maturity snapshot across lifecycle areas.
+Use `docs/software-engineering/20_COURSE_SEMANTIC_COVERAGE.md` for rule clusters. The `Governor Capability Maturity Report` distinguishes governor capability, adoption readiness, active task/package maturity, and unavailable evidence. It does not equate course coverage with an adopting project's real requirements maturity.
 
 ## Governor Configuration
 
@@ -314,10 +334,10 @@ Do not commit local runtime artifacts. `.gitignore` excludes `.pytest_cache/`, `
 
 ## Pre-commit
 
-The pre-commit config runs the full ordered validation sequence:
+Pre-commit uses the bounded local mode:
 
 ```bash
-python3 scripts/run_full_validation.py
+python3 scripts/run_full_validation.py --fast
 ```
 
 ## v0.4 Validation Scope
@@ -397,7 +417,15 @@ v0.7 hardens the governor from v0.6 evidence structure into a reliability-focuse
 
 v0.7.1 adds a full-content course source lock, fixes temporary-complexity exception counting, and removes the semantic coverage validator's complexity-24 temporary waiver by splitting its policy checks into focused helpers. The release archive remains `codex-se-governor-v0.7.zip` because patch releases share the configured major/minor archive tag.
 
-## v0.4 Validation Command Sequence
+## v0.7.2 Portability And Release Patch
+
+v0.7.2 isolates pytest from host plugins, introduces fast/standard/release plans with process-tree timeouts, persists one-pass validation and score artifacts, makes metrics/maturity non-recursive, adds exact patch/source archives with SHA manifests, adds course PDF provenance evidence, and separates task artifact scanning from source smell scanning.
+
+## Historical Validation Sequences
+
+The v0.4-v0.6 commands below are retained only for migration archaeology. Do not use them for current validation or distribution; they predate tiered execution and exact patch archives.
+
+### v0.4
 
 ```bash
 python3 scripts/clean_artifacts.py
@@ -425,7 +453,7 @@ python3 scripts/scan_for_engineering_smells.py
 python3 -m pytest
 ```
 
-## v0.5 Validation And Release Sequence
+### v0.5
 
 ```bash
 python3 scripts/run_full_validation.py
@@ -438,7 +466,7 @@ python3 scripts/clean_artifacts.py
 python3 scripts/validate_clean_package.py
 ```
 
-## v0.6 Validation And Release Sequence
+### v0.6
 
 Use this sequence for normal development and release evidence:
 
@@ -458,26 +486,21 @@ python3 scripts/validate_release_archive.py dist/codex-se-governor-v0.5.zip
 python3 scripts/validate_clean_package.py
 ```
 
-## v0.7 Validation And Release Sequence
+## v0.7.2 Validation And Release Sequence
 
 Use this sequence for current development and release evidence:
 
 ```bash
-python3 scripts/run_full_validation.py
+python3 scripts/run_full_validation.py --fast
+python3 scripts/run_full_validation.py --standard
+python3 scripts/run_full_validation.py --release
 python3 scripts/run_tests_clean.py --fast
 python3 scripts/run_tests_clean.py --e2e
-python3 scripts/validate_clean_package.py
-python3 scripts/semantic_coverage_score.py
-python3 scripts/validate_semantic_coverage_score.py
-python3 scripts/evidence_package_score.py
-python3 scripts/validate_evidence_package.py
-python3 scripts/generate_governance_maturity_report.py
-python3 scripts/validate_governance_maturity.py
-python3 scripts/validate_governor_config.py
-python3 scripts/package_release.py
-python3 scripts/validate_release_archive.py dist/codex-se-governor-v0.7.zip
-python3 scripts/validate_outer_archive.py dist/codex-se-governor-v0.7.zip
+python3 scripts/package_source.py
+python3 scripts/validate_source_archive.py dist/codex-se-governor-source-v0.7.2.zip
 python3 scripts/governance_metrics.py
+python3 scripts/generate_governance_maturity_report.py
+python3 scripts/validate_clean_package.py
 ```
 
 The canonical command is still `python3 scripts/run_full_validation.py`; it includes `validate_course_source_lock.py`. If the lock fails after an intentional course update, review the source/PDF diff before updating the lock. Do not regenerate a hash merely to make CI green.

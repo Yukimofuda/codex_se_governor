@@ -18,17 +18,17 @@
 7. Update `docs/software-engineering/20_COURSE_SEMANTIC_COVERAGE.md`.
 8. Ensure semantic coverage uses concrete rule clusters, existing artifact paths, enforcement methods, and coverage depth.
 9. Run `python3 scripts/validate_course_source_lock.py`.
-10. Run `python3 scripts/validate_course_outline_lock.py`.
-11. Run `python3 scripts/validate_course_coverage.py` and `python3 scripts/validate_course_semantic_coverage.py`.
+10. Update and validate `COURSE_PROVENANCE.json`; supply the original PDF when available.
+11. Run `python3 scripts/validate_course_outline_lock.py`.
+12. Run `python3 scripts/validate_course_coverage.py` and `python3 scripts/validate_course_semantic_coverage.py`.
 
 ## Release Package Process
-1. Run `python3 scripts/run_full_validation.py`.
-2. Run `python3 scripts/run_tests_clean.py`.
-3. Run `python3 scripts/package_release.py`.
-4. Run `python3 scripts/validate_release_archive.py dist/codex-se-governor-v0.7.zip`.
-5. Run `python3 scripts/validate_outer_archive.py dist/codex-se-governor-v0.7.zip`.
-6. Review `python3 scripts/governance_metrics.py`.
-7. Follow `docs/release/RELEASE_PACKAGING_GUIDE.md`; do not use manual macOS archive tools.
+1. Run `python3 scripts/run_full_validation.py --release`.
+2. Run `python3 scripts/package_source.py`.
+3. Validate `dist/codex-se-governor-v0.7.2.zip` and `dist/codex-se-governor-source-v0.7.2.zip`.
+4. Confirm `dist/RELEASE_MANIFEST.json` contains matching SHA-256 values and no stale archive.
+5. Review `python3 scripts/governance_metrics.py`.
+6. Follow `docs/release/RELEASE_PACKAGING_GUIDE.md`; never use Finder/manual compression.
 
 ## Complexity Baseline Process
 1. Run `python3 scripts/complexity_report.py`.

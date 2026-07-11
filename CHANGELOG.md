@@ -2,6 +2,14 @@
 
 ## Version History
 
+## v0.7.2
+- Isolated pytest from unrelated host plugins and added unit/integration/fast/e2e timing evidence.
+- Added fast, standard, and release validation plans with per-command process-tree timeout and a failure-safe validation manifest.
+- Made metrics and capability maturity generation static/artifact-driven instead of recursive validator orchestrators.
+- Persisted semantic, evidence, AI, and complexity score artifacts for single-pass reuse.
+- Added exact `v0.7.2` release and source archives, optional `v0.7` compatibility alias, SHA release manifest, stale distribution rejection, and mojibake checks.
+- Added course provenance evidence with optional original-PDF hash verification and template-aware task artifact scanning.
+
 ## v0.7.1
 - Added `COURSE_SOURCE_LOCK.json` and `validate_course_source_lock.py` so body-only changes to the authoritative course source cannot bypass the outline lock.
 - Corrected governance metrics to count only actual `temporary-exception` complexity entries.

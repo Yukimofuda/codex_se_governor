@@ -6,6 +6,9 @@ import sys
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
+SCRIPTS_ROOT = PROJECT_ROOT / "scripts"
+if str(SCRIPTS_ROOT) not in sys.path:
+    sys.path.insert(0, str(SCRIPTS_ROOT))
 
 
 def copy_path(src_root, dst_root, relative):
