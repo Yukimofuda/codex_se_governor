@@ -6,6 +6,14 @@ Current version: `v0.7.2`. This release focuses on deterministic validation, hos
 
 The goal is to force every non-trivial Codex software task through requirements, analysis, design, implementation, testing, security, documentation, review, maintenance, and retrospective thinking before code is treated as complete.
 
+## Public User Workspace
+
+The public, terminal-free user application is available at:
+
+**[Codex SE Governor Web](https://codex-se-governor-app.yukikana0108.chatgpt.site)**
+
+The Web application lives under `web/` and provides project/task wizards, editable lifecycle artifacts, Codex Prompt generation, local Governance Metrics, static repository/adoption checks, validation reports, and UTF-8 ZIP exports. Projects and uploaded archives remain in the browser using IndexedDB and memory. The public application does not execute uploaded Python, JavaScript, shell commands, tests, package scripts, Makefiles, or binaries; full Python governor validation remains a repository/CI operation.
+
 ## Why Prompt Discipline Is Not Enough
 
 Codex can generate plausible code quickly, but prompt intent alone does not guarantee requirement traceability, security review, test adequacy, architecture fit, or rollback thinking. This project externalizes those expectations into repository artifacts that can be loaded, reviewed, versioned, and checked.
