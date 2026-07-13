@@ -1,0 +1,8 @@
+repos:
+  - repo: local
+    hooks:
+      - id: se-full-validation
+        name: Software Engineering Governor Full Validation
+        entry: python3 scripts/run_full_validation.py --fast
+        language: system
+        pass_filenames: false

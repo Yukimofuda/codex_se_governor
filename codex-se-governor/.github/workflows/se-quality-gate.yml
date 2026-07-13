@@ -1,0 +1,56 @@
+name: SE Quality Gate
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+    tags: ["v*"]
+
+env:
+  PYTEST_DISABLE_PLUGIN_AUTOLOAD: "1"
+  PYTHONDONTWRITEBYTECODE: "1"
+
+jobs:
+  standard:
+    if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install pytest when tests exist
+        run: |
+          if [ -d tests ]; then python3 -m pip install pytest; fi
+
+      - name: Run standard governor validation
+        run: python3 scripts/run_full_validation.py --standard
+
+      - name: Optional npm checks
+        shell: bash
+        run: |
+          if [ -f package.json ]; then
+            npm install
+            if npm run | grep -qE '^  lint'; then npm run lint; else echo "No npm lint script"; fi
+            if npm run | grep -qE '^  test'; then npm test; else echo "No npm test script"; fi
+          else
+            echo "No npm project detected"
+          fi
+
+  release:
+    if: ${{ startsWith(github.ref, 'refs/tags/') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install pytest
+        run: python3 -m pip install pytest
+
+      - name: Run release validation
+        run: python3 scripts/run_full_validation.py --release
+
+      - name: Build and validate source archive
+        run: |
+          python3 scripts/package_source.py
+          python3 scripts/validate_source_archive.py dist/codex-se-governor-source-v0.7.2.zip
+          python3 scripts/validate_clean_package.py

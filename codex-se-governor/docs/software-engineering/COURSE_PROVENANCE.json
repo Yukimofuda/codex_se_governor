@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "original_pdf_filename": "软件工程全整理(3).pdf",
+  "original_pdf_sha256": "7f74280801a24567a5361638a7a33208fa60243f3b35ba166de3da34db51761d",
+  "page_count": 266,
+  "conversion_method": "pdftotext -layout followed by reviewed text-layout normalization",
+  "conversion_tool": "Poppler pdftotext",
+  "conversion_date": "2026-06-30",
+  "generated_markdown_path": "references/course/软件工程全整理.md",
+  "generated_markdown_sha256": "8fc99f99689b5a7edb704a2212194dfb44239253c682c7f01150ece8e267bd07",
+  "text_comparison_method": "Full extracted-text diff plus 647-section outline and semantic coverage review",
+  "known_non_text_differences": [
+    "Figure 47 mobile architecture labels differ only in extracted layout placement",
+    "Project activity graph labels differ only in extracted layout placement"
+  ],
+  "reviewer": "governor-maintainer",
+  "review_status": "attested"
+}

@@ -1,0 +1,12 @@
+name = "codex-se-governor"
+version = "0.7.2"
+release_archive = "dist/codex-se-governor-v0.7.2.zip"
+compatibility_archive = "dist/codex-se-governor-v0.7.zip"
+source_archive = "dist/codex-se-governor-source-v0.7.2.zip"
+release_manifest = "dist/RELEASE_MANIFEST.json"
+
+[validation]
+fast_timeout_seconds = 60
+standard_timeout_seconds = 180
+release_timeout_seconds = 600
+validator_timeout_seconds = 60
