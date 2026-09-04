@@ -3,5 +3,8 @@ interface Fetcher {
 }
 
 declare module "cloudflare:workers" {
-  export const env: { DB: never };
+  export const env: {
+    DB: never;
+    PROVIDER_VAULT_SECRET?: string;
+  };
 }

@@ -1,0 +1,235 @@
+import { access, mkdir, writeFile } from "node:fs/promises";
+import { constants } from "node:fs";
+import { chromium } from "playwright-core";
+
+const baseUrl = process.env.BASE_URL || "http://localhost:3000";
+const candidates = [
+  process.env.CHROME_PATH,
+  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+  "/Applications/Chromium.app/Contents/MacOS/Chromium",
+  "/usr/bin/google-chrome",
+  "/usr/bin/chromium",
+].filter(Boolean);
+
+async function findChrome() {
+  for (const candidate of candidates) {
+    try {
+      await access(candidate, constants.X_OK);
+      return candidate;
+    } catch {}
+  }
+  throw new Error("Chrome or Chromium was not found. Set CHROME_PATH.");
+}
+
+function collectBrowserErrors(page) {
+  const errors = [];
+  page.on("console", (message) => {
+    if (message.type() === "error") errors.push(message.text());
+  });
+  page.on("pageerror", (error) => errors.push(error.message));
+  return errors;
+}
+
+async function assertNoHorizontalOverflow(page, label) {
+  const audit = await page.evaluate(() => {
+    const offenders = [...document.querySelectorAll("main *")]
+      .filter((element) => {
+        const box = element.getBoundingClientRect();
+        return box.right > window.innerWidth + 1 || box.left < -1;
+      })
+      .slice(0, 8)
+      .map((element) => ({
+        tag: element.tagName,
+        className: String(element.className),
+        text: (element.textContent || "").trim().slice(0, 80),
+      }));
+    return {
+      documentWidth: document.documentElement.scrollWidth,
+      viewportWidth: window.innerWidth,
+      offenders,
+    };
+  });
+  if (audit.documentWidth > audit.viewportWidth + 1 || audit.offenders.length) {
+    throw new Error(`${label} overflows horizontally: ${JSON.stringify(audit)}`);
+  }
+}
+
+async function openDemo(page) {
+  await page.goto(baseUrl, { waitUntil: "networkidle" });
+  await page.getByRole("button", { name: "体验完整示例" }).click();
+  await page.getByRole("heading", { name: "Sample Login API" }).waitFor();
+}
+
+async function flowDemo(browser) {
+  const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, locale: "zh-CN" });
+  const page = await context.newPage();
+  page.setDefaultTimeout(15_000);
+  const errors = collectBrowserErrors(page);
+  await openDemo(page);
+  await assertNoHorizontalOverflow(page, "demo overview");
+
+  await page.getByRole("button", { name: "运行", exact: true }).click();
+  await page.getByRole("heading", { name: "工程运行" }).waitFor();
+  await page.getByRole("button", { name: /确定性验证/ }).click();
+  await page.getByText("validation-results.json", { exact: true }).waitFor();
+
+  await page.getByRole("button", { name: "检查", exact: true }).click();
+  await page.getByRole("button", { name: /单元测试/ }).click();
+  await page.getByText(/18 项测试通过/).waitFor();
+
+  await page.getByRole("button", { name: "工件与证据", exact: true }).click();
+  await page.getByRole("heading", { name: "工件与证据", exact: true }).waitFor();
+  await page.getByRole("button", { name: /SECURITY_REVIEW\.md/ }).click();
+  await page.getByText(/trusted proxy/, { exact: false }).waitFor();
+
+  await page.getByRole("button", { name: "发布", exact: true }).click();
+  await page.getByText("BLOCKED", { exact: true }).waitFor();
+  await page.getByText("发布前确认来源地址只读取受信任代理提供的请求头。", { exact: true }).waitFor();
+  await assertNoHorizontalOverflow(page, "demo release");
+  await page.screenshot({ path: ".qa/product-demo-release.png", fullPage: true });
+  await context.close();
+  return { name: "demo-lifecycle", passed: true, errors };
+}
+
+async function flowNewProject(browser) {
+  const context = await browser.newContext({ viewport: { width: 1366, height: 960 }, locale: "zh-CN" });
+  const page = await context.newPage();
+  page.setDefaultTimeout(15_000);
+  const errors = collectBrowserErrors(page);
+  await page.goto(baseUrl, { waitUntil: "networkidle" });
+  await page.getByRole("button", { name: "建立我的项目" }).click();
+
+  await page.getByRole("button", { name: "下一步" }).click();
+  await page.getByText("请输入项目名称。", { exact: true }).waitFor();
+  await page.getByText("请说明这个项目要解决的问题。", { exact: true }).waitFor();
+  await page.getByText("至少选择或填写一项主要技术。", { exact: true }).waitFor();
+
+  await page.getByLabel(/项目名称/).fill("客户服务门户");
+  await page.getByLabel(/主要技术/).fill("TypeScript, React, PostgreSQL");
+  await page.getByLabel(/这个项目解决什么问题/).fill("让客户在一个入口查询订单并提交售后申请。");
+  await page.getByRole("button", { name: "下一步" }).click();
+  await page.getByRole("button", { name: /开发与测试逐级配对/ }).click();
+  await page.getByRole("button", { name: "下一步" }).click();
+  await page.getByRole("button", { name: "隐私", exact: true }).click();
+  await page.getByRole("button", { name: /基本个人资料/ }).click();
+  await page.getByText("明确收集目的、保存期限、访问和删除路径", { exact: false }).waitFor();
+  await page.getByRole("button", { name: "下一步" }).click();
+  await page.getByText("QUALITY_ATTRIBUTE_SCENARIOS.md", { exact: true }).waitFor();
+  await assertNoHorizontalOverflow(page, "project wizard");
+  await page.getByRole("button", { name: "创建工程工作区" }).click();
+
+  await page.getByRole("heading", { name: "定义第一项需求" }).waitFor();
+  await page.getByRole("button", { name: "建立需求" }).click();
+  await page.getByLabel(/需求标题/).fill("导出客户订单");
+  await page.getByLabel(/当前问题/).fill("客户无法把自己的订单记录交给财务核对。");
+  await page.getByLabel(/本次目标/).fill("已登录客户可以下载只包含本人订单的文件。");
+  await page.getByPlaceholder("客户支持人员").fill("已登录客户");
+  await page.getByPlaceholder("统一查看客户订单").fill("导出自己的订单记录");
+  await page.getByPlaceholder("更快解决问题").fill("可以完成财务核对");
+  await page.getByRole("button", { name: "添加功能需求" }).click();
+  await page.getByLabel("系统必须提供的行为 1").fill("已登录客户可以导出只属于自己的订单。");
+
+  await page.getByRole("button", { name: /验收标准/ }).click();
+  await page.getByRole("button", { name: "添加场景" }).click();
+  await page.getByPlaceholder("已知什么前提").fill("客户已登录且有订单");
+  await page.getByPlaceholder("发生什么操作").fill("客户选择导出订单");
+  await page.getByPlaceholder("应观察到什么结果").fill("下载文件只包含该客户的订单");
+
+  await page.getByRole("button", { name: /质量与边界/ }).click();
+  await page.getByRole("button", { name: "确认这些要求" }).click();
+  await page.getByRole("button", { name: "确认并锁定需求" }).click();
+  await page.getByText("需求已成为计划输入", { exact: true }).waitFor();
+
+  await page.getByRole("button", { name: "查看工程计划" }).click();
+  await page.getByRole("button", { name: "生成计划草稿" }).click();
+  await page.getByRole("heading", { name: "工程计划" }).waitFor();
+  await page.getByRole("button", { name: "批准此计划" }).click();
+  await page.getByRole("button", { name: "开始治理运行" }).click();
+  await page.getByRole("heading", { name: "工程运行" }).waitFor();
+  await page.getByText("14", { exact: true }).first().waitFor();
+  await assertNoHorizontalOverflow(page, "new project run");
+  await page.screenshot({ path: ".qa/product-new-run.png", fullPage: true });
+  await context.close();
+  return { name: "new-project-lifecycle", passed: true, errors };
+}
+
+async function flowFailure(browser) {
+  const context = await browser.newContext({ viewport: { width: 1200, height: 900 }, locale: "zh-CN" });
+  const page = await context.newPage();
+  page.setDefaultTimeout(15_000);
+  const errors = collectBrowserErrors(page);
+  await openDemo(page);
+  await page.getByRole("button", { name: "运行历史", exact: true }).click();
+  await page.getByRole("button", { name: /^#1/ }).click();
+  await page.getByRole("heading", { name: "工程运行" }).waitFor();
+  await page.getByText("成功登录后计数器未重置", { exact: true }).waitFor();
+  await page.getByRole("button", { name: /测试/ }).click();
+  await page.getByText("成功登录后失败计数器没有重置。", { exact: true }).waitFor();
+  await context.close();
+  return { name: "failure-evidence", passed: true, errors };
+}
+
+async function flowProviderAndRunner(browser) {
+  const context = await browser.newContext({ viewport: { width: 1180, height: 900 }, locale: "zh-CN" });
+  const page = await context.newPage();
+  page.setDefaultTimeout(15_000);
+  const errors = collectBrowserErrors(page);
+  await openDemo(page);
+  await page.locator("aside").getByRole("button", { name: "设置", exact: true }).click();
+  await page.getByRole("button", { name: "AI Providers", exact: true }).click();
+  const keyInput = page.getByLabel("API Key");
+  if ((await keyInput.getAttribute("type")) !== "password") throw new Error("API Key input is not masked.");
+  await keyInput.fill("sk-browser-qa-secret-value");
+  const storage = await page.evaluate(() => JSON.stringify({ ...localStorage }));
+  if (storage.includes("sk-browser-qa-secret-value")) throw new Error("Provider secret entered localStorage.");
+  await keyInput.fill("");
+
+  await page.getByRole("button", { name: "Local Codex Runner", exact: true }).click();
+  await page.getByRole("heading", { name: "连接本机 Codex CLI" }).waitFor();
+  await page.getByRole("button", { name: "生成", exact: true }).click();
+  const token = await page.getByLabel(/临时令牌/).inputValue();
+  if (token.length < 16) throw new Error("Local runner token was not generated.");
+  const persisted = await page.evaluate(() => JSON.stringify({ ...localStorage }));
+  if (persisted.includes(token)) throw new Error("Local runner token entered localStorage.");
+  await assertNoHorizontalOverflow(page, "provider and runner settings");
+  await context.close();
+  return { name: "provider-and-runner-boundary", passed: true, errors };
+}
+
+async function flowMobile(browser) {
+  const context = await browser.newContext({ viewport: { width: 390, height: 844 }, locale: "zh-CN" });
+  const page = await context.newPage();
+  page.setDefaultTimeout(15_000);
+  const errors = collectBrowserErrors(page);
+  await openDemo(page);
+  await assertNoHorizontalOverflow(page, "mobile overview");
+  await page.screenshot({ path: ".qa/product-mobile.png", fullPage: true });
+  await context.close();
+  return { name: "mobile", passed: true, errors };
+}
+
+async function main() {
+  await mkdir(".qa", { recursive: true });
+  const browser = await chromium.launch({ headless: true, executablePath: await findChrome(), args: ["--no-sandbox"] });
+  const results = [];
+  try {
+    for (const flow of [flowDemo, flowNewProject, flowFailure, flowProviderAndRunner, flowMobile]) {
+      try {
+        results.push(await flow(browser));
+      } catch (error) {
+        results.push({ name: flow.name, passed: false, error: error instanceof Error ? error.message : String(error) });
+      }
+    }
+  } finally {
+    await browser.close();
+  }
+  await writeFile(".qa/product-results.json", `${JSON.stringify(results, null, 2)}\n`);
+  const failed = results.some((result) => !result.passed || result.errors?.length);
+  console.log(failed ? "FAIL" : "PASS", JSON.stringify(results));
+  process.exitCode = failed ? 1 : 0;
+}
+
+main().catch((error) => {
+  console.error(`FAIL: ${error.message}`);
+  process.exitCode = 1;
+});

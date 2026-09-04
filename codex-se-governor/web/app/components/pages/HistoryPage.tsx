@@ -1,0 +1,13 @@
+import { ArrowRight, History } from "lucide-react";
+import type { WorkflowRun } from "../../domain/model";
+import { EmptyState } from "../ui/EmptyState";
+import { PageHeader } from "../ui/PageHeader";
+import { SourceBadge, StatusBadge } from "../ui/StatusBadge";
+import type { WorkspacePageProps } from "../workspace-types";
+import { text } from "../workspace-types";
+
+export function HistoryPage({ language, workspace, project, navigate, onSelectRun }: WorkspacePageProps & { onSelectRun: (run: WorkflowRun) => void }) {
+  const runs = workspace.runs.filter((item) => item.projectId === project?.id).sort((a, b) => b.startedAt.localeCompare(a.startedAt));
+  if (!project) return <EmptyState icon={History} title={text(language, "先选择一个项目", "Select a project first")} description={text(language, "运行历史不会跨项目混合。", "Run history is never mixed across projects.")} actions={<button className="primary-button" onClick={() => navigate("projects")}>{text(language, "查看项目", "View projects")}</button>} />;
+  return <div><PageHeader eyebrow={project.name} title={text(language, "运行历史", "Run history")} description={text(language, "每次运行保留独立的提交、状态、检查、证据和发布判断。", "Every run retains its own commit, status, checks, evidence, and release decision.")} />{runs.length ? <section className="workspace-panel history-table"><div className="data-table"><div className="table-head history-columns"><span>Run</span><span>Commit</span><span>{text(language, "开始时间", "Started")}</span><span>{text(language, "耗时", "Duration")}</span><span>{text(language, "来源", "Source")}</span><span>{text(language, "结果", "Result")}</span><span /></div>{runs.map((run) => <button className="table-row history-columns" key={run.id} onClick={() => { onSelectRun(run); navigate("run"); }}><span><b>#{run.sequence}</b></span><span className="mono">{run.commit || "—"}</span><span>{new Date(run.startedAt).toLocaleString(language === "zh" ? "zh-CN" : "en-US")}</span><span>{run.endedAt ? `${Math.max(1, Math.round((Date.parse(run.endedAt) - Date.parse(run.startedAt)) / 1000))}s` : text(language, "进行中", "Ongoing")}</span><span>{run.kind === "recorded-demo" ? <SourceBadge source="recorded-demo" /> : <SourceBadge source="attested" />}</span><span><StatusBadge status={run.status} /></span><span><ArrowRight /></span></button>)}</div></section> : <EmptyState icon={History} title={text(language, "还没有运行记录", "No runs yet")} description={text(language, "批准计划并开始运行后，记录会保存在这里。", "Runs are recorded here after a plan is approved and started.")} actions={<button className="primary-button" onClick={() => navigate("plan")}>{text(language, "查看计划", "Open plan")}</button>} />}</div>;
+}

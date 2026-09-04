@@ -1,0 +1,20 @@
+{
+  "name": "Codex SE Governor",
+  "short_name": "SE Governor",
+  "description": "Plan, inspect, and release AI-assisted software work with traceable checks and evidence.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#080a10",
+  "theme_color": "#11131d",
+  "lang": "zh-CN",
+  "categories": ["developer", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

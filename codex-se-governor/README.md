@@ -12,7 +12,7 @@ The public, terminal-free user application is available at:
 
 **[Codex SE Governor Web](https://codex-se-governor-app.yukikana0108.chatgpt.site)**
 
-The Web application lives under `web/` and provides project/task wizards, editable lifecycle artifacts, Codex Prompt generation, local Governance Metrics, static repository/adoption checks, validation reports, and UTF-8 ZIP exports. Projects and uploaded archives remain in the browser using IndexedDB and memory. The public application does not execute uploaded Python, JavaScript, shell commands, tests, package scripts, Makefiles, or binaries; full Python governor validation remains a repository/CI operation.
+The Web application under `web/` is an AI-assisted software engineering governance workspace. It models Projects, Requirements, Plans, 14-stage Workflow Runs, Checks, Evidence, and Release Manifests; imports deterministic Governor results; checks repository adoption in the browser; and connects optional AI providers through encrypted server-side sessions. It never executes uploaded archives or public GitHub repositories. A user may explicitly start the loopback-only local Runner for one approved workspace to let the locally authenticated Codex CLI perform governed analysis or implementation. The Web workspace keeps `UNKNOWN` and `NOT RUN` distinct from verified results.
 
 ## Why Prompt Discipline Is Not Enough
 

@@ -1,5 +1,5 @@
-import GovernorApp from "./GovernorApp";
+import ProductWorkspace from "./components/ProductWorkspace";
 
 export default function Home() {
-  return <GovernorApp />;
+  return <ProductWorkspace />;
 }

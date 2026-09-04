@@ -11,6 +11,25 @@ if str(SCRIPTS_ROOT) not in sys.path:
     sys.path.insert(0, str(SCRIPTS_ROOT))
 
 
+REPO_COPY_IGNORE_PATTERNS = (
+    ".git",
+    ".pytest_cache",
+    "__pycache__",
+    "*.pyc",
+    "dist",
+    "tasks",
+    "tests",
+    "node_modules",
+    ".next",
+    ".vinext",
+    ".wrangler",
+    ".qa",
+    "coverage",
+    "build",
+    "*.zip",
+)
+
+
 def copy_path(src_root, dst_root, relative):
     src = src_root / relative
     dst = dst_root / relative
@@ -29,20 +48,12 @@ def copy_subset_repo(tmp_path, paths):
     return repo
 
 
-def copy_full_repo(tmp_path):
+def copy_full_repo(tmp_path, source_root=PROJECT_ROOT):
     repo = tmp_path / "repo"
     shutil.copytree(
-        PROJECT_ROOT,
+        source_root,
         repo,
-        ignore=shutil.ignore_patterns(
-            ".git",
-            ".pytest_cache",
-            "__pycache__",
-            "*.pyc",
-            "dist",
-            "tasks",
-            "tests",
-        ),
+        ignore=shutil.ignore_patterns(*REPO_COPY_IGNORE_PATTERNS),
     )
     return repo
 
