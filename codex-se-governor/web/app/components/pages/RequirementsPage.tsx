@@ -16,6 +16,18 @@ function stripId(value: string) {
   return value.replace(/^(?:FR|NFR|AC|CON|OOS)-\d{3}\s*[:.-]?\s*/i, "");
 }
 
+function itemId(value: string, prefix: string, fallback: number) {
+  return value.match(new RegExp(`^(${prefix}-\\d{3})\\b`, "i"))?.[1].toUpperCase() || `${prefix}-${String(fallback).padStart(3, "0")}`;
+}
+
+function nextItemId(values: string[], prefix: string) {
+  const highest = values.reduce((maximum, value) => {
+    const parsed = Number(value.match(new RegExp(`^${prefix}-(\\d{3})\\b`, "i"))?.[1] || 0);
+    return Math.max(maximum, parsed);
+  }, 0);
+  return `${prefix}-${String(highest + 1).padStart(3, "0")}`;
+}
+
 function ListEditor({ language, label, prefix, items, onChange, addLabel, help }: {
   language: Language;
   label: string;
@@ -25,18 +37,18 @@ function ListEditor({ language, label, prefix, items, onChange, addLabel, help }
   addLabel: string;
   help: string;
 }) {
-  const update = (index: number, value: string) => onChange(items.map((item, current) => current === index ? `${prefix}-${String(index + 1).padStart(3, "0")} ${value}`.trim() : item));
+  const update = (index: number, value: string) => onChange(items.map((item, current) => current === index ? `${itemId(item, prefix, index + 1)} ${value}`.trim() : item));
   return <fieldset className="item-editor">
     <legend>{label}</legend>
     <p className="field-help"><CircleHelp />{help}</p>
     <div className="item-editor-list">
-      {items.map((item, index) => <div className="item-editor-row" key={`${prefix}-${index}`}>
-        <code>{prefix}-{String(index + 1).padStart(3, "0")}</code>
+      {items.map((item, index) => <div className="item-editor-row" key={itemId(item, prefix, index + 1)}>
+        <code>{itemId(item, prefix, index + 1)}</code>
         <input value={stripId(item)} onChange={(event) => update(index, event.target.value)} aria-label={`${label} ${index + 1}`} />
         <button type="button" className="icon-button" onClick={() => onChange(items.filter((_, current) => current !== index))} aria-label={text(language, "删除此项", "Remove item")}><Trash2 /></button>
       </div>)}
     </div>
-    <button type="button" className="inline-add" onClick={() => onChange([...items, `${prefix}-${String(items.length + 1).padStart(3, "0")} `])}><Plus />{addLabel}</button>
+    <button type="button" className="inline-add" onClick={() => onChange([...items, `${nextItemId(items, prefix)} `])}><Plus />{addLabel}</button>
   </fieldset>;
 }
 
@@ -83,10 +95,11 @@ export function RequirementsPage({ language, workspace, project, navigate, onCre
 
   const update = (patch: Partial<Requirement>) => setDraft((current) => current ? ({ ...current, ...patch, status: current.status === "confirmed" ? "draft" : current.status, updatedAt: new Date().toISOString() }) : current);
   const acceptance = draft.acceptanceDetails || [];
+  const requiredAcceptanceKinds: AcceptanceCriterion["kind"][] = ["normal", "boundary", "failure", "security", "regression"];
   const scenarioCount = draft.qualityScenarios?.length || 0;
   const confirmedScenarios = draft.qualityScenarios?.filter((item) => item.status === "confirmed").length || 0;
   const briefReady = Boolean(draft.title.trim() && draft.goal.trim() && draft.userProblem.trim() && draft.functional.some((item) => stripId(item).trim()) && draft.userStory?.role.trim() && draft.userStory.goal.trim() && draft.userStory.benefit.trim());
-  const acceptanceReady = acceptance.some((item) => item.context.trim() && item.action.trim() && item.expected.trim());
+  const acceptanceReady = requiredAcceptanceKinds.every((kind) => acceptance.some((item) => item.kind === kind && item.context.trim() && item.action.trim() && item.expected.trim()));
   const qualityReady = scenarioCount > 0 && confirmedScenarios === scenarioCount;
   const completion = [briefReady, acceptanceReady, qualityReady].filter(Boolean).length;
   const updateAcceptance = (id: string, patch: Partial<AcceptanceCriterion>) => {
@@ -94,8 +107,10 @@ export function RequirementsPage({ language, workspace, project, navigate, onCre
     update({ acceptanceDetails: next, acceptanceCriteria: next.map((item) => `${item.id}: Given ${item.context || "[context]"}, when ${item.action || "[action]"}, then ${item.expected || "[expected result]"}.`) });
   };
   const addAcceptance = () => {
-    const id = `AC-${String(acceptance.length + 1).padStart(3, "0")}`;
-    update({ acceptanceDetails: [...acceptance, { id, kind: "normal", context: "", action: "", expected: "" }] });
+    const highest = acceptance.reduce((maximum, item) => Math.max(maximum, Number(item.id.match(/AC-(\d{3})/i)?.[1] || 0)), 0);
+    const id = `AC-${String(highest + 1).padStart(3, "0")}`;
+    const kind = requiredAcceptanceKinds.find((candidate) => !acceptance.some((item) => item.kind === candidate)) || "normal";
+    update({ acceptanceDetails: [...acceptance, { id, kind, context: "", action: "", expected: "" }] });
   };
   const confirmQuality = () => update({
     qualityScenarios: (draft.qualityScenarios || []).map((item) => ({ ...item, status: "confirmed" })),
@@ -121,7 +136,7 @@ export function RequirementsPage({ language, workspace, project, navigate, onCre
   };
 
   return <div className="requirements-workspace">
-    <PageHeader eyebrow={`${project.name} / ${draft.id}`} title={draft.title || text(language, "未命名需求", "Untitled requirement")} description={text(language, "先确认用户问题和完成条件，再让 Codex 接触代码。", "Confirm the user problem and completion conditions before Codex touches code.")} actions={<><StatusBadge status={draft.status === "confirmed" ? "passed" : "pending"} label={draft.status === "confirmed" ? text(language, "已确认", "Confirmed") : text(language, "草稿", "Draft")} /><button className="secondary-button" onClick={onCreate}><Plus />{text(language, "新需求", "New requirement")}</button></>} />
+    <PageHeader eyebrow={`${project.name} / ${draft.id}`} title={draft.title || text(language, "未命名需求", "Untitled requirement")} description={text(language, "先确认用户问题和完成条件，再让 Codex 接触代码。", "Confirm the user problem and completion conditions before Codex touches code.")} actions={<><StatusBadge status={draft.status === "confirmed" ? "passed" : "pending"} label={draft.status === "confirmed" ? text(language, "已确认", "Confirmed") : text(language, "草稿", "Draft")} language={language} /><button className="secondary-button" onClick={onCreate}><Plus />{text(language, "新需求", "New requirement")}</button></>} />
 
     <div className="requirement-progress" aria-label={text(language, "需求完成度", "Requirement completion")}>
       {([
@@ -134,7 +149,7 @@ export function RequirementsPage({ language, workspace, project, navigate, onCre
 
     <div className="requirement-workarea">
       <aside className="requirement-source">
-        <div className="section-heading"><div><span className="section-label">Source</span><h2>{text(language, "原始诉求", "Original request")}</h2></div><SourceBadge source={draft.source === "recorded-demo" ? "recorded-demo" : "attested"} /></div>
+        <div className="section-heading"><div><span className="section-label">Source</span><h2>{text(language, "原始诉求", "Original request")}</h2></div><SourceBadge language={language} source={draft.source === "recorded-demo" ? "recorded-demo" : draft.source === "ai-assisted" ? "ai-assisted" : "attested"} /></div>
         <label><span>{text(language, "任务类型", "Work type")}</span><select value={draft.kind} onChange={(event) => update({ kind: event.target.value as Requirement["kind"] })}><option value="feature">Feature</option><option value="bug-fix">Bug fix</option><option value="refactor">Refactor</option><option value="architecture">Architecture change</option><option value="security">Security review</option><option value="deployment">Deployment</option><option value="maintenance">Maintenance</option></select></label>
         <label><span>{text(language, "用户原话或任务背景", "Original request or context")}</span><textarea rows={8} value={draft.original} onChange={(event) => update({ original: event.target.value })} placeholder={text(language, "描述当前发生了什么、希望改变什么，以及不能破坏什么。", "Describe what happens now, what should change, and what must not break.")} /></label>
         <button className="secondary-button full" onClick={assist} disabled={assisting || !draft.original.trim()}><Sparkles />{assisting ? text(language, "正在提取…", "Extracting…") : text(language, "用 AI 提取需求字段", "Extract requirement fields with AI")}</button>
@@ -151,14 +166,15 @@ export function RequirementsPage({ language, workspace, project, navigate, onCre
         </div>}
 
         {section === "acceptance" && <div className="editor-section">
-          <div className="section-heading"><div><span className="section-label">Acceptance</span><h2>{text(language, "怎样证明已经完成", "How completion will be proven")}</h2><p>{text(language, "分别覆盖正常、边界、失败、安全和回归场景。", "Cover normal, boundary, failure, security, and regression outcomes.")}</p></div><button className="secondary-button" onClick={addAcceptance}><Plus />{text(language, "添加场景", "Add scenario")}</button></div>
-          <div className="acceptance-list">{acceptance.map((item) => <article key={item.id} className="acceptance-row"><header><code>{item.id}</code><select value={item.kind} onChange={(event) => updateAcceptance(item.id, { kind: event.target.value as AcceptanceCriterion["kind"] })}><option value="normal">{acceptanceLabel(language, "normal")}</option><option value="boundary">{acceptanceLabel(language, "boundary")}</option><option value="failure">{acceptanceLabel(language, "failure")}</option><option value="security">{acceptanceLabel(language, "security")}</option><option value="regression">{acceptanceLabel(language, "regression")}</option></select><button className="icon-button" onClick={() => update({ acceptanceDetails: acceptance.filter((entry) => entry.id !== item.id) })} aria-label={text(language, "删除场景", "Remove scenario")}><Trash2 /></button></header><div className="acceptance-sentence"><label><span>Given</span><input value={item.context} onChange={(event) => updateAcceptance(item.id, { context: event.target.value })} placeholder={text(language, "已知什么前提", "the starting condition")} /></label><label><span>When</span><input value={item.action} onChange={(event) => updateAcceptance(item.id, { action: event.target.value })} placeholder={text(language, "发生什么操作", "an action occurs")} /></label><label><span>Then</span><input value={item.expected} onChange={(event) => updateAcceptance(item.id, { expected: event.target.value })} placeholder={text(language, "应观察到什么结果", "the observable result")} /></label></div></article>)}</div>
-          {!acceptance.length && <div className="inline-empty"><BookOpenCheck /><span>{text(language, "至少添加一个可验证场景。", "Add at least one verifiable scenario.")}</span></div>}
+          <div className="section-heading"><div><span className="section-label">Acceptance</span><h2>{text(language, "怎样证明已经完成", "How completion will be proven")}</h2><p>{text(language, "五类场景分别验证功能可用、边界正确、失败可控、安全边界和旧行为不回退。", "Five scenario types verify normal behavior, boundaries, failure handling, security, and regression protection.")}</p></div><button className="secondary-button" onClick={addAcceptance}><Plus />{text(language, "添加缺少的场景", "Add missing scenario")}</button></div>
+          <div className="acceptance-coverage" aria-label={text(language, "验收场景覆盖", "Acceptance scenario coverage")}>{requiredAcceptanceKinds.map((kind) => { const complete = acceptance.some((item) => item.kind === kind && item.context.trim() && item.action.trim() && item.expected.trim()); return <span className={complete ? "complete" : ""} key={kind}>{complete ? <Check /> : <i />}{acceptanceLabel(language, kind)}</span>; })}</div>
+          <div className="acceptance-list">{acceptance.map((item) => <article key={item.id} className="acceptance-row"><header><code>{item.id}</code><select value={item.kind} onChange={(event) => updateAcceptance(item.id, { kind: event.target.value as AcceptanceCriterion["kind"] })}><option value="normal">{acceptanceLabel(language, "normal")}</option><option value="boundary">{acceptanceLabel(language, "boundary")}</option><option value="failure">{acceptanceLabel(language, "failure")}</option><option value="security">{acceptanceLabel(language, "security")}</option><option value="regression">{acceptanceLabel(language, "regression")}</option></select><button className="icon-button" onClick={() => { const next = acceptance.filter((entry) => entry.id !== item.id); update({ acceptanceDetails: next, acceptanceCriteria: next.map((entry) => `${entry.id}: Given ${entry.context || "[context]"}, when ${entry.action || "[action]"}, then ${entry.expected || "[expected result]"}.`) }); }} aria-label={text(language, "删除场景", "Remove scenario")}><Trash2 /></button></header><div className="acceptance-sentence"><label><span>Given</span><input value={item.context} onChange={(event) => updateAcceptance(item.id, { context: event.target.value })} placeholder={text(language, "已知什么前提", "the starting condition")} /></label><label><span>When</span><input value={item.action} onChange={(event) => updateAcceptance(item.id, { action: event.target.value })} placeholder={text(language, "发生什么操作", "an action occurs")} /></label><label><span>Then</span><input value={item.expected} onChange={(event) => updateAcceptance(item.id, { expected: event.target.value })} placeholder={text(language, "应观察到什么结果", "the observable result")} /></label></div></article>)}</div>
+          {!acceptance.length && <div className="inline-empty"><BookOpenCheck /><span>{text(language, "从正常流程开始，系统会依次建议尚未覆盖的场景类型。", "Start with the normal flow; the workspace then suggests each missing scenario type.")}</span></div>}
         </div>}
 
         {section === "quality" && <div className="editor-section">
           <div className="section-heading"><div><span className="section-label">Quality scenarios</span><h2>{text(language, "项目选择带来的工程要求", "Engineering requirements derived from the project")}</h2><p>{text(language, "这些要求来自创建项目时选择的数据、安全、可靠性和性能场景。", "These requirements come from the data, security, reliability, and performance scenarios selected for the project.")}</p></div>{!qualityReady && <button className="primary-button" onClick={confirmQuality}><Check />{text(language, "确认这些要求", "Confirm requirements")}</button>}</div>
-          <div className="quality-requirement-list">{(draft.qualityScenarios || []).map((scenario) => <article key={scenario.id}><header><span className={`quality-dot ${scenario.attribute}`} /><div><code>{scenario.id}</code><h3>{scenario.title}</h3></div><StatusBadge status={scenario.status === "confirmed" ? "passed" : "pending"} label={scenario.status === "confirmed" ? text(language, "已确认", "Confirmed") : text(language, "待确认", "Review")} /></header><dl><div><dt>{text(language, "适用场景", "Applies when")}</dt><dd>{scenario.condition}</dd></div><div><dt>{text(language, "系统必须做到", "Required response")}</dt><dd>{scenario.expectedResponse}</dd></div><div><dt>{text(language, "发布前如何验证", "Release evidence")}</dt><dd className="mono">{scenario.verification}</dd></div></dl></article>)}</div>
+          <div className="quality-requirement-list">{(draft.qualityScenarios || []).map((scenario) => <article key={scenario.id}><header><span className={`quality-dot ${scenario.attribute}`} /><div><code>{scenario.id}</code><h3>{scenario.title}</h3></div><StatusBadge status={scenario.status === "confirmed" ? "passed" : "pending"} label={scenario.status === "confirmed" ? text(language, "已确认", "Confirmed") : text(language, "待确认", "Review")} language={language} /></header><dl><div><dt>{text(language, "适用场景", "Applies when")}</dt><dd>{scenario.condition}</dd></div><div><dt>{text(language, "系统必须做到", "Required response")}</dt><dd>{scenario.expectedResponse}</dd></div><div><dt>{text(language, "发布前如何验证", "Release evidence")}</dt><dd className="mono">{scenario.verification}</dd></div></dl></article>)}</div>
           <details className="scope-disclosure"><summary>{text(language, "约束、假设和本次范围", "Constraints, assumptions, and scope")}</summary><div className="disclosure-body"><ListEditor language={language} label={text(language, "约束", "Constraints")} prefix="CON" items={draft.constraints} onChange={(constraints) => update({ constraints })} addLabel={text(language, "添加约束", "Add constraint")} help={text(language, "记录不能改变的技术、时间、兼容性或合规边界。", "Record technology, time, compatibility, or compliance boundaries that cannot change.")} /><ListEditor language={language} label={text(language, "不在本次范围", "Out of scope")} prefix="OOS" items={draft.outOfScope} onChange={(outOfScope) => update({ outOfScope })} addLabel={text(language, "添加范围外事项", "Add out-of-scope item")} help={text(language, "明确排除项，避免实施范围在过程中扩大。", "Name exclusions so implementation scope does not expand silently.")} /></div></details>
         </div>}
 

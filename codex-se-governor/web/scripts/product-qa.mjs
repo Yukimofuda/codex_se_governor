@@ -23,16 +23,24 @@ async function findChrome() {
 
 function collectBrowserErrors(page) {
   const errors = [];
+  const appOrigin = new URL(baseUrl).origin;
   page.on("console", (message) => {
-    if (message.type() === "error") errors.push(message.text());
+    if (message.type() === "error" && !message.text().includes("Failed to load resource")) {
+      errors.push(message.text());
+    }
   });
   page.on("pageerror", (error) => errors.push(error.message));
+  page.on("response", (response) => {
+    if (response.status() >= 400 && new URL(response.url()).origin === appOrigin) {
+      errors.push(`${response.status()} ${response.url()}`);
+    }
+  });
   return errors;
 }
 
 async function assertNoHorizontalOverflow(page, label) {
   const audit = await page.evaluate(() => {
-    const offenders = [...document.querySelectorAll("main *")]
+    const offenders = [...document.querySelectorAll("main *, [role='dialog'], [role='dialog'] *")]
       .filter((element) => {
         const box = element.getBoundingClientRect();
         return box.right > window.innerWidth + 1 || box.left < -1;
@@ -54,55 +62,96 @@ async function assertNoHorizontalOverflow(page, label) {
   }
 }
 
+async function assertDesktopShellGeometry(page, label) {
+  const geometry = await page.evaluate(() => {
+    const sidebar = document.querySelector(".sidebar");
+    const nav = sidebar?.querySelector("nav");
+    const main = document.querySelector(".workspace-main");
+    return {
+      expected: Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--sidebar")),
+      sidebar: sidebar?.getBoundingClientRect().width || 0,
+      nav: nav?.getBoundingClientRect().width || 0,
+      mainPadding: main ? Number.parseFloat(getComputedStyle(main).paddingLeft) : 0,
+    };
+  });
+  if (Math.abs(geometry.sidebar - geometry.expected) > 1 || Math.abs(geometry.mainPadding - geometry.expected) > 1 || geometry.nav < geometry.sidebar - 32) {
+    throw new Error(`${label} shell geometry is inconsistent: ${JSON.stringify(geometry)}`);
+  }
+}
+
 async function openDemo(page) {
-  await page.goto(baseUrl, { waitUntil: "networkidle" });
-  await page.getByRole("button", { name: "体验完整示例" }).click();
+  await page.goto(baseUrl, { waitUntil: "domcontentloaded" });
+  await page.getByRole("button", { name: "查看登录限流示例" }).waitFor();
+  await page.getByRole("button", { name: "查看登录限流示例" }).click();
   await page.getByRole("heading", { name: "Sample Login API" }).waitFor();
 }
 
+async function addAcceptanceScenario(page, values) {
+  await page.getByRole("button", { name: "添加缺少的场景" }).click();
+  const row = page.locator(".acceptance-row").last();
+  await row.getByPlaceholder("已知什么前提").fill(values.context);
+  await row.getByPlaceholder("发生什么操作").fill(values.action);
+  await row.getByPlaceholder("应观察到什么结果").fill(values.expected);
+}
+
 async function flowDemo(browser) {
-  const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, locale: "zh-CN" });
+  const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, locale: "zh-CN", serviceWorkers: "block" });
   const page = await context.newPage();
   page.setDefaultTimeout(15_000);
   const errors = collectBrowserErrors(page);
   await openDemo(page);
   await assertNoHorizontalOverflow(page, "demo overview");
+  await assertDesktopShellGeometry(page, "demo overview");
 
   await page.getByRole("button", { name: "运行", exact: true }).click();
   await page.getByRole("heading", { name: "工程运行" }).waitFor();
+  await assertNoHorizontalOverflow(page, "demo run");
   await page.getByRole("button", { name: /确定性验证/ }).click();
   await page.getByText("validation-results.json", { exact: true }).waitFor();
 
   await page.getByRole("button", { name: "检查", exact: true }).click();
   await page.getByRole("button", { name: /单元测试/ }).click();
   await page.getByText(/18 项测试通过/).waitFor();
+  await assertNoHorizontalOverflow(page, "demo checks");
 
   await page.getByRole("button", { name: "工件与证据", exact: true }).click();
   await page.getByRole("heading", { name: "工件与证据", exact: true }).waitFor();
   await page.getByRole("button", { name: /SECURITY_REVIEW\.md/ }).click();
   await page.getByText(/trusted proxy/, { exact: false }).waitFor();
+  await assertNoHorizontalOverflow(page, "demo evidence");
 
   await page.getByRole("button", { name: "发布", exact: true }).click();
-  await page.getByText("BLOCKED", { exact: true }).waitFor();
+  await page.getByText("已阻断", { exact: true }).waitFor();
   await page.getByText("发布前确认来源地址只读取受信任代理提供的请求头。", { exact: true }).waitFor();
   await assertNoHorizontalOverflow(page, "demo release");
   await page.screenshot({ path: ".qa/product-demo-release.png", fullPage: true });
+  await page.getByRole("button", { name: "查看安全阶段" }).click();
+  await page.getByRole("heading", { name: "工程运行" }).waitFor();
+  await page.locator(".stage-workbench-head .section-label").getByText("阶段 11", { exact: true }).waitFor();
   await context.close();
   return { name: "demo-lifecycle", passed: true, errors };
 }
 
 async function flowNewProject(browser) {
-  const context = await browser.newContext({ viewport: { width: 1366, height: 960 }, locale: "zh-CN" });
+  const context = await browser.newContext({ viewport: { width: 1366, height: 960 }, locale: "zh-CN", serviceWorkers: "block" });
   const page = await context.newPage();
   page.setDefaultTimeout(15_000);
   const errors = collectBrowserErrors(page);
-  await page.goto(baseUrl, { waitUntil: "networkidle" });
-  await page.getByRole("button", { name: "建立我的项目" }).click();
+  await page.goto(baseUrl, { waitUntil: "domcontentloaded" });
+  await page.getByRole("button", { name: "创建项目" }).waitFor();
+  await page.screenshot({ path: ".qa/first-run-desktop.png", fullPage: true });
+  await page.getByRole("button", { name: "创建项目" }).click();
+  await page.getByRole("dialog").waitFor();
+  await page.waitForTimeout(260);
+  await assertNoHorizontalOverflow(page, "project wizard first step");
+  await page.screenshot({ path: ".qa/project-dialog.png", fullPage: true });
 
   await page.getByRole("button", { name: "下一步" }).click();
   await page.getByText("请输入项目名称。", { exact: true }).waitFor();
   await page.getByText("请说明这个项目要解决的问题。", { exact: true }).waitFor();
   await page.getByText("至少选择或填写一项主要技术。", { exact: true }).waitFor();
+  await page.waitForTimeout(60);
+  if (await page.evaluate(() => document.activeElement?.id !== "project-name")) throw new Error("Project validation did not focus the first invalid field.");
 
   await page.getByLabel(/项目名称/).fill("客户服务门户");
   await page.getByLabel(/主要技术/).fill("TypeScript, React, PostgreSQL");
@@ -113,6 +162,7 @@ async function flowNewProject(browser) {
   await page.getByRole("button", { name: "隐私", exact: true }).click();
   await page.getByRole("button", { name: /基本个人资料/ }).click();
   await page.getByText("明确收集目的、保存期限、访问和删除路径", { exact: false }).waitFor();
+  await page.screenshot({ path: ".qa/project-quality-step.png", fullPage: true });
   await page.getByRole("button", { name: "下一步" }).click();
   await page.getByText("QUALITY_ATTRIBUTE_SCENARIOS.md", { exact: true }).waitFor();
   await assertNoHorizontalOverflow(page, "project wizard");
@@ -130,10 +180,11 @@ async function flowNewProject(browser) {
   await page.getByLabel("系统必须提供的行为 1").fill("已登录客户可以导出只属于自己的订单。");
 
   await page.getByRole("button", { name: /验收标准/ }).click();
-  await page.getByRole("button", { name: "添加场景" }).click();
-  await page.getByPlaceholder("已知什么前提").fill("客户已登录且有订单");
-  await page.getByPlaceholder("发生什么操作").fill("客户选择导出订单");
-  await page.getByPlaceholder("应观察到什么结果").fill("下载文件只包含该客户的订单");
+  await addAcceptanceScenario(page, { context: "客户已登录且有订单", action: "客户选择导出订单", expected: "下载文件只包含该客户的订单" });
+  await addAcceptanceScenario(page, { context: "客户没有任何订单", action: "客户选择导出订单", expected: "系统生成带表头的空文件并明确提示无记录" });
+  await addAcceptanceScenario(page, { context: "导出服务暂时不可用", action: "客户请求导出", expected: "页面提示稍后重试且不会生成损坏文件" });
+  await addAcceptanceScenario(page, { context: "客户尝试导出其他账户订单", action: "请求携带其他客户标识", expected: "系统拒绝请求并记录安全事件" });
+  await addAcceptanceScenario(page, { context: "现有订单查询仍可使用", action: "上线导出功能后查询订单", expected: "查询结果和权限行为保持不变" });
 
   await page.getByRole("button", { name: /质量与边界/ }).click();
   await page.getByRole("button", { name: "确认这些要求" }).click();
@@ -148,19 +199,20 @@ async function flowNewProject(browser) {
   await page.getByRole("heading", { name: "工程运行" }).waitFor();
   await page.getByText("14", { exact: true }).first().waitFor();
   await assertNoHorizontalOverflow(page, "new project run");
+  await assertDesktopShellGeometry(page, "new project run");
   await page.screenshot({ path: ".qa/product-new-run.png", fullPage: true });
   await context.close();
   return { name: "new-project-lifecycle", passed: true, errors };
 }
 
 async function flowFailure(browser) {
-  const context = await browser.newContext({ viewport: { width: 1200, height: 900 }, locale: "zh-CN" });
+  const context = await browser.newContext({ viewport: { width: 1200, height: 900 }, locale: "zh-CN", serviceWorkers: "block" });
   const page = await context.newPage();
   page.setDefaultTimeout(15_000);
   const errors = collectBrowserErrors(page);
   await openDemo(page);
   await page.getByRole("button", { name: "运行历史", exact: true }).click();
-  await page.getByRole("button", { name: /^#1/ }).click();
+  await page.getByRole("button", { name: /^Run #1/ }).click();
   await page.getByRole("heading", { name: "工程运行" }).waitFor();
   await page.getByText("成功登录后计数器未重置", { exact: true }).waitFor();
   await page.getByRole("button", { name: /测试/ }).click();
@@ -170,7 +222,7 @@ async function flowFailure(browser) {
 }
 
 async function flowProviderAndRunner(browser) {
-  const context = await browser.newContext({ viewport: { width: 1180, height: 900 }, locale: "zh-CN" });
+  const context = await browser.newContext({ viewport: { width: 1180, height: 900 }, locale: "zh-CN", serviceWorkers: "block" });
   const page = await context.newPage();
   page.setDefaultTimeout(15_000);
   const errors = collectBrowserErrors(page);
@@ -197,13 +249,42 @@ async function flowProviderAndRunner(browser) {
 }
 
 async function flowMobile(browser) {
-  const context = await browser.newContext({ viewport: { width: 390, height: 844 }, locale: "zh-CN" });
+  const context = await browser.newContext({ viewport: { width: 390, height: 844 }, locale: "zh-CN", serviceWorkers: "block" });
   const page = await context.newPage();
   page.setDefaultTimeout(15_000);
   const errors = collectBrowserErrors(page);
   await openDemo(page);
   await assertNoHorizontalOverflow(page, "mobile overview");
   await page.screenshot({ path: ".qa/product-mobile.png", fullPage: true });
+
+  const menuButton = page.getByRole("button", { name: "打开导航" });
+  await menuButton.click();
+  if (await menuButton.getAttribute("aria-expanded") !== "true") throw new Error("Mobile menu does not expose its expanded state.");
+  if (!await page.locator("main").evaluate((element) => (element).inert)) throw new Error("Background content remains interactive while mobile navigation is open.");
+  await page.keyboard.press("Escape");
+  await page.waitForTimeout(60);
+  if (!await menuButton.evaluate((element) => element === document.activeElement)) throw new Error("Mobile menu did not restore focus to its opener.");
+  await menuButton.click();
+  await page.locator("aside").getByRole("button", { name: "运行", exact: true }).click();
+  await page.getByRole("heading", { name: "工程运行" }).waitFor();
+  await assertNoHorizontalOverflow(page, "mobile run");
+
+  await page.getByRole("button", { name: "打开导航" }).click();
+  await page.locator("aside").getByRole("button", { name: "检查", exact: true }).click();
+  await page.getByRole("heading", { name: "检查", exact: true }).waitFor();
+  await assertNoHorizontalOverflow(page, "mobile checks");
+
+  await page.getByRole("button", { name: "打开导航" }).click();
+  await page.locator("aside").getByRole("button", { name: "工件与证据", exact: true }).click();
+  await page.getByRole("heading", { name: "工件与证据", exact: true }).waitFor();
+  await assertNoHorizontalOverflow(page, "mobile evidence");
+
+  await page.getByRole("button", { name: "打开导航" }).click();
+  await page.locator("aside").getByRole("button", { name: "发布", exact: true }).click();
+  await page.getByRole("heading", { name: "发布准备度" }).waitFor();
+  await page.waitForTimeout(260);
+  await assertNoHorizontalOverflow(page, "mobile release");
+  await page.screenshot({ path: ".qa/product-mobile-release.png", fullPage: true });
   await context.close();
   return { name: "mobile", passed: true, errors };
 }

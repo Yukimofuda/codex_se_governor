@@ -142,7 +142,12 @@ test("builds a deterministic release manifest with SHA-256 evidence", async () =
 });
 
 test("responsive and reduced-motion policies are present", async () => {
-  const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
+  const baseCss = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
+  const productCss = await readFile(new URL("../app/product-ui.css", import.meta.url), "utf8");
+  const appShell = await readFile(new URL("../app/components/AppShell.tsx", import.meta.url), "utf8");
+  const projectDialog = await readFile(new URL("../app/components/CreateProjectDialog.tsx", import.meta.url), "utf8");
+  const releasePage = await readFile(new URL("../app/components/pages/ReleasePage.tsx", import.meta.url), "utf8");
+  const css = `${baseCss}\n${productCss}`;
   assert.match(css, /@media \(max-width: 1080px\)/);
   assert.match(css, /@media \(max-width: 760px\)/);
   assert.match(css, /@media \(min-width: 1680px\)/);
@@ -150,6 +155,16 @@ test("responsive and reduced-motion policies are present", async () => {
   assert.match(css, /\.run-layout/);
   assert.match(css, /\.requirement-layout/);
   assert.match(css, /\.sidebar-backdrop/);
+  assert.match(productCss, /--control-height:\s*40px/);
+  assert.match(productCss, /--radius:\s*8px/);
+  assert.doesNotMatch(productCss, /letter-spacing:\s*-/);
+  assert.match(productCss, /\.dialog-content\s*\{[^}]*background:\s*#fff/);
+  assert.match(productCss, /\.sidebar\s*\{[^}]*min-width:\s*var\(--sidebar\)/);
+  assert.match(appShell, /aria-controls="workspace-sidebar"/);
+  assert.match(appShell, /inert=\{mobileOpen \? true : undefined\}/);
+  assert.match(projectDialog, /aria-describedby=\{errors\.name \? "project-name-error" : undefined\}/);
+  assert.doesNotMatch(projectDialog, /role="tab"/);
+  assert.match(releasePage, /onOpenStage\(run\.id, stage\)/);
 });
 
 test("provider endpoints reject local and private network targets", () => {

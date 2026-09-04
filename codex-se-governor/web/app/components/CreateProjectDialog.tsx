@@ -16,7 +16,7 @@ import {
   UserRoundCheck,
   X,
 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import {
   choiceById,
   defaultQualityProfile,
@@ -119,6 +119,13 @@ export function CreateProjectDialog({ open, language, onOpenChange, onCreate }: 
   const [qualitySection, setQualitySection] = useState<"security" | "privacy" | "reliability" | "performance">("security");
   const [draft, setDraft] = useState<ProjectDraft>(initialDraft);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const nameRef = useRef<HTMLInputElement>(null);
+  const stackRef = useRef<HTMLInputElement>(null);
+  const descriptionRef = useRef<HTMLTextAreaElement>(null);
+  const repositoryRef = useRef<HTMLInputElement>(null);
+  const branchRef = useRef<HTMLInputElement>(null);
+  const localWorkspaceRef = useRef<HTMLInputElement>(null);
+  const customChecksRef = useRef<HTMLFieldSetElement>(null);
   const update = (patch: Partial<ProjectDraft>) => {
     setDraft((current) => ({ ...current, ...patch }));
     for (const key of Object.keys(patch)) setErrors((current) => ({ ...current, [key]: "" }));
@@ -137,8 +144,21 @@ export function CreateProjectDialog({ open, language, onOpenChange, onCreate }: 
   };
   const validate = () => {
     const next: Record<string, string> = {};
-    for (const field of validateProjectDraft(draft, step)) next[field] = messages[field];
+    const invalidFields = validateProjectDraft(draft, step);
+    for (const field of invalidFields) next[field] = messages[field];
     setErrors(next);
+    if (invalidFields.length) {
+      const targets: Record<string, HTMLElement | null> = {
+        name: nameRef.current,
+        stack: stackRef.current,
+        description: descriptionRef.current,
+        repository: repositoryRef.current,
+        branch: branchRef.current,
+        localWorkspaceName: localWorkspaceRef.current,
+        customRequiredChecks: customChecksRef.current,
+      };
+      requestAnimationFrame(() => targets[invalidFields[0]]?.focus());
+    }
     return Object.keys(next).length === 0;
   };
   const next = () => {
@@ -199,14 +219,14 @@ export function CreateProjectDialog({ open, language, onOpenChange, onCreate }: 
               ].map((option) => <label key={option.id} className={`source-option ${draft.source === option.id ? "selected" : ""}`}><input type="radio" name="source" checked={draft.source === option.id} onChange={() => update({ source: option.id as ProjectDraft["source"], executionTarget: option.id === "local-codex" ? "local-codex" : option.id === "github-public" ? "evidence-import" : "hosted-assist" })} /><option.icon /><span><b>{text(language, option.zh, option.en)}</b><small>{text(language, option.noteZh, option.noteEn)}</small></span><Check /></label>)}
             </fieldset>
             <div className="form-grid two">
-              <label><span>{text(language, "项目名称", "Project name")} *</span><input value={draft.name} onChange={(event) => update({ name: event.target.value })} placeholder={text(language, "例如：客户服务门户", "Example: Customer support portal")} aria-invalid={Boolean(errors.name)} />{errors.name && <small className="field-error">{errors.name}</small>}</label>
-              <label><span>{text(language, "主要技术", "Primary stack")} *</span><input value={draft.stack.join(", ")} onChange={(event) => update({ stack: event.target.value.split(",").map((item) => item.trim()).filter(Boolean) })} placeholder="TypeScript, React, PostgreSQL" aria-invalid={Boolean(errors.stack)} />{errors.stack && <small className="field-error">{errors.stack}</small>}</label>
+              <label htmlFor="project-name"><span>{text(language, "项目名称", "Project name")} *</span><input ref={nameRef} id="project-name" value={draft.name} onChange={(event) => update({ name: event.target.value })} placeholder={text(language, "例如：客户服务门户", "Example: Customer support portal")} aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? "project-name-error" : undefined} />{errors.name && <small id="project-name-error" className="field-error">{errors.name}</small>}</label>
+              <label htmlFor="project-stack"><span>{text(language, "主要技术", "Primary stack")} *</span><input ref={stackRef} id="project-stack" value={draft.stack.join(", ")} onChange={(event) => update({ stack: event.target.value.split(",").map((item) => item.trim()).filter(Boolean) })} placeholder="TypeScript, React, PostgreSQL" aria-invalid={Boolean(errors.stack)} aria-describedby={errors.stack ? "project-stack-error" : undefined} />{errors.stack && <small id="project-stack-error" className="field-error">{errors.stack}</small>}</label>
             </div>
-            <label><span>{text(language, "这个项目解决什么问题", "What problem does this project solve")} *</span><textarea rows={3} value={draft.description} onChange={(event) => update({ description: event.target.value })} placeholder={text(language, "例如：让客户在一个入口查询订单并提交售后申请。", "Example: Give customers one place to view orders and request support.")} aria-invalid={Boolean(errors.description)} />{errors.description && <small className="field-error">{errors.description}</small>}</label>
+            <label htmlFor="project-description"><span>{text(language, "这个项目解决什么问题", "What problem does this project solve")} *</span><textarea ref={descriptionRef} id="project-description" rows={3} value={draft.description} onChange={(event) => update({ description: event.target.value })} placeholder={text(language, "例如：让客户在一个入口查询订单并提交售后申请。", "Example: Give customers one place to view orders and request support.")} aria-invalid={Boolean(errors.description)} aria-describedby={errors.description ? "project-description-error" : undefined} />{errors.description && <small id="project-description-error" className="field-error">{errors.description}</small>}</label>
             <div className="form-grid two">
               <label><span>{text(language, "软件类型", "Software type")}</span><select value={draft.softwareType} onChange={(event) => update({ softwareType: event.target.value })}>{["Web application", "Mobile application", "Server/API", "Desktop application", "Cloud service", "Embedded/IoT", "AI/Agent", "Library/SDK", "CLI"].map((value) => <option key={value}>{value}</option>)}</select></label>
-              {draft.source === "github-public" && <label><span>{text(language, "公开 GitHub 地址", "Public GitHub URL")} *</span><input value={draft.repository || ""} onChange={(event) => update({ repository: event.target.value })} placeholder="https://github.com/org/repo" aria-invalid={Boolean(errors.repository)} />{errors.repository && <small className="field-error">{errors.repository}</small>}</label>}
-              {draft.source === "local-codex" && <label><span>{text(language, "本地工作区名称", "Local workspace label")} *</span><input value={draft.localWorkspaceName || ""} onChange={(event) => update({ localWorkspaceName: event.target.value })} placeholder={text(language, "例如：customer-portal-local", "Example: customer-portal-local")} aria-invalid={Boolean(errors.localWorkspaceName)} />{errors.localWorkspaceName && <small className="field-error">{errors.localWorkspaceName}</small>}</label>}
+              {draft.source === "github-public" && <label htmlFor="project-repository"><span>{text(language, "公开 GitHub 地址", "Public GitHub URL")} *</span><input ref={repositoryRef} id="project-repository" value={draft.repository || ""} onChange={(event) => update({ repository: event.target.value })} placeholder="https://github.com/org/repo" aria-invalid={Boolean(errors.repository)} aria-describedby={errors.repository ? "project-repository-error" : undefined} />{errors.repository && <small id="project-repository-error" className="field-error">{errors.repository}</small>}</label>}
+              {draft.source === "local-codex" && <label htmlFor="project-local-workspace"><span>{text(language, "本地工作区名称", "Local workspace label")} *</span><input ref={localWorkspaceRef} id="project-local-workspace" value={draft.localWorkspaceName || ""} onChange={(event) => update({ localWorkspaceName: event.target.value })} placeholder={text(language, "例如：customer-portal-local", "Example: customer-portal-local")} aria-invalid={Boolean(errors.localWorkspaceName)} aria-describedby={errors.localWorkspaceName ? "project-local-workspace-error" : undefined} />{errors.localWorkspaceName && <small id="project-local-workspace-error" className="field-error">{errors.localWorkspaceName}</small>}</label>}
             </div>
           </div>}
 
@@ -214,7 +234,7 @@ export function CreateProjectDialog({ open, language, onOpenChange, onCreate }: 
             <div className="form-grid two">
               <label><span>{text(language, "当前阶段", "Current stage")}</span><select value={draft.lifecycleStage} onChange={(event) => update({ lifecycleStage: event.target.value as ProjectDraft["lifecycleStage"] })}><option value="discovery">{text(language, "需求探索", "Discovery")}</option><option value="development">{text(language, "开发中", "Development")}</option><option value="production">{text(language, "已上线", "Production")}</option><option value="maintenance">{text(language, "维护演化", "Maintenance")}</option></select></label>
               <label><span>{text(language, "团队规模", "Team size")}</span><select value={draft.teamSize} onChange={(event) => update({ teamSize: event.target.value as ProjectDraft["teamSize"] })}><option value="solo">1</option><option value="small">2-5</option><option value="medium">6-20</option><option value="large">20+</option></select></label>
-              <label><span>{text(language, "默认分支", "Default branch")} *</span><input value={draft.branch} onChange={(event) => update({ branch: event.target.value })} aria-invalid={Boolean(errors.branch)} />{errors.branch && <small className="field-error">{errors.branch}</small>}</label>
+              <label htmlFor="project-branch"><span>{text(language, "默认分支", "Default branch")} *</span><input ref={branchRef} id="project-branch" value={draft.branch} onChange={(event) => update({ branch: event.target.value })} aria-invalid={Boolean(errors.branch)} aria-describedby={errors.branch ? "project-branch-error" : undefined} />{errors.branch && <small id="project-branch-error" className="field-error">{errors.branch}</small>}</label>
               <label><span>{text(language, "发布方式", "Release strategy")}</span><select value={draft.releaseStrategy} onChange={(event) => update({ releaseStrategy: event.target.value as ProjectDraft["releaseStrategy"] })}><option value="manual">{text(language, "人工发布", "Manual release")}</option><option value="staged">{text(language, "分阶段发布", "Staged release")}</option><option value="continuous">{text(language, "持续交付", "Continuous delivery")}</option></select></label>
             </div>
             <fieldset className="process-picker"><legend>{text(language, "开发流程", "Delivery process")}</legend><ChoiceCards language={language} choices={processChoices} selected={draft.processModel || "agile"} onSelect={(id: ProcessModel) => update({ processModel: id })} /></fieldset>
@@ -228,7 +248,7 @@ export function CreateProjectDialog({ open, language, onOpenChange, onCreate }: 
               ["privacy", UserRoundCheck, text(language, "隐私", "Privacy")],
               ["reliability", ShieldCheck, text(language, "可靠性", "Reliability")],
               ["performance", Gauge, text(language, "性能", "Performance")],
-            ] as const).map(([id, Icon, label]) => <button type="button" key={id} className={qualitySection === id ? "active" : ""} onClick={() => setQualitySection(id)}><Icon />{label}</button>)}</nav>
+            ] as const).map(([id, Icon, label]) => <button type="button" aria-pressed={qualitySection === id} key={id} className={qualitySection === id ? "active" : ""} onClick={() => setQualitySection(id)}><Icon />{label}</button>)}</nav>
             <div className="quality-config">
               <div>
                 {qualitySection === "security" && <ChoiceCards language={language} choices={securityChoices} selected={quality.security} onSelect={(id: SecurityProfile) => updateQuality({ security: id })} />}
@@ -242,7 +262,7 @@ export function CreateProjectDialog({ open, language, onOpenChange, onCreate }: 
 
           {step === 4 && <div className="project-step review-step">
             <fieldset className="policy-picker-v2"><legend>{text(language, "治理强度", "Governance level")}</legend>{policies.map((item) => <label key={item.id} className={draft.policyProfile === item.id ? "selected" : ""}><input type="radio" name="policy" checked={draft.policyProfile === item.id} onChange={() => update({ policyProfile: item.id as PolicyProfile })} /><span><b>{item.name}</b><small>{item.id === "strict" ? text(language, "警告会阻止发布；增加集成、依赖和独立安全审批。", "Warnings block release; integration, dependency, and independent security approval are added.") : item.id === "custom" ? text(language, "自行选择机器检查；需求、测试、安全和发布证据仍不可移除。", "Choose machine checks; requirements, testing, security, and release evidence remain mandatory.") : text(language, "适合常规产品迭代；失败阻止发布，警告需要负责人处理。", "For normal product work; failures block release and owners must address warnings.")}</small></span><Check /></label>)}</fieldset>
-            {draft.policyProfile === "custom" && <fieldset className="custom-checks"><legend>{text(language, "强制机器检查", "Mandatory machine checks")}</legend>{checkChoices.map(([id, label]) => <label key={id}><input type="checkbox" checked={draft.customRequiredChecks?.includes(id) || false} onChange={(event) => update({ customRequiredChecks: event.target.checked ? [...new Set([...(draft.customRequiredChecks || []), id])] : (draft.customRequiredChecks || []).filter((item) => item !== id) })} />{label}</label>)}{errors.customRequiredChecks && <small className="field-error">{errors.customRequiredChecks}</small>}</fieldset>}
+            {draft.policyProfile === "custom" && <fieldset ref={customChecksRef} tabIndex={-1} className="custom-checks" aria-invalid={Boolean(errors.customRequiredChecks)} aria-describedby={errors.customRequiredChecks ? "project-custom-checks-error" : undefined}><legend>{text(language, "强制机器检查", "Mandatory machine checks")}</legend>{checkChoices.map(([id, label]) => <label key={id}><input type="checkbox" checked={draft.customRequiredChecks?.includes(id) || false} onChange={(event) => update({ customRequiredChecks: event.target.checked ? [...new Set([...(draft.customRequiredChecks || []), id])] : (draft.customRequiredChecks || []).filter((item) => item !== id) })} />{label}</label>)}{errors.customRequiredChecks && <small id="project-custom-checks-error" className="field-error">{errors.customRequiredChecks}</small>}</fieldset>}
             <div className="governance-preview">
               <div><span className="preview-icon"><FileCheck2 /></span><p><small>{text(language, "将建立", "Will create")}</small><strong>{artifacts.length}</strong>{text(language, " 类工程工件", " artifact types")}</p></div>
               <div><span className="preview-icon"><Gauge /></span><p><small>{text(language, "将要求", "Will require")}</small><strong>{[...new Set([...policy.requiredChecks, ...checks])].length}</strong>{text(language, " 项检查", " checks")}</p></div>

@@ -12,7 +12,8 @@ import { recordText, stageText, text } from "../workspace-types";
 
 const artifactStages = new Set(["user-story", "analysis", "design", "risk-quality", "documentation", "retrospective"]);
 
-export function RunPage({ language, workspace, project, navigate, localRunnerConfigured, onSelectRun, onAttestImplementation, onExecuteCodex, onCancelCodex, onRetry }: WorkspacePageProps & {
+export function RunPage({ language, workspace, project, navigate, initialStageId, localRunnerConfigured, onSelectRun, onAttestImplementation, onExecuteCodex, onCancelCodex, onRetry }: WorkspacePageProps & {
+  initialStageId?: string;
   localRunnerConfigured: boolean;
   onSelectRun: (run: WorkflowRun) => void;
   onAttestImplementation: (run: WorkflowRun, reference: string) => void;
@@ -22,7 +23,7 @@ export function RunPage({ language, workspace, project, navigate, localRunnerCon
 }) {
   const runs = useMemo(() => workspace.runs.filter((item) => item.projectId === project?.id).sort((a, b) => b.startedAt.localeCompare(a.startedAt)), [workspace.runs, project?.id]);
   const run = runs.find((item) => item.id === workspace.activeRunId) || runs[0];
-  const [selectedStageId, setSelectedStageId] = useState(run?.stages.find((stage) => stage.key === run.currentStage)?.id || run?.stages[0]?.id || "");
+  const [selectedStageId, setSelectedStageId] = useState(initialStageId || run?.stages.find((stage) => stage.key === run.currentStage)?.id || run?.stages[0]?.id || "");
   const [reference, setReference] = useState("");
   const [executionConfirmed, setExecutionConfirmed] = useState(false);
   const [runnerBusy, setRunnerBusy] = useState(false);
@@ -48,7 +49,7 @@ export function RunPage({ language, workspace, project, navigate, localRunnerCon
   };
 
   return <div className="run-workspace">
-    <PageHeader eyebrow={`${project.name} / Run #${run.sequence}`} title={text(language, "工程运行", "Engineering run")} description={`${run.commit || text(language, "等待实现引用", "Awaiting implementation reference")} · ${new Date(run.startedAt).toLocaleString(language === "zh" ? "zh-CN" : "en-US")}`} actions={<><StatusBadge status={run.status} />{run.kind === "recorded-demo" && <SourceBadge source="recorded-demo" />}{run.status === "failed" && run.kind === "workspace" && <button className="primary-button" onClick={() => onRetry(run)}><RotateCcw />{text(language, "建立修复运行", "Create correction run")}</button>}</>} />
+    <PageHeader eyebrow={`${project.name} / Run #${run.sequence}`} title={text(language, "工程运行", "Engineering run")} description={`${run.commit || text(language, "等待实现引用", "Awaiting implementation reference")} · ${new Date(run.startedAt).toLocaleString(language === "zh" ? "zh-CN" : "en-US")}`} actions={<><StatusBadge status={run.status} language={language} />{run.kind === "recorded-demo" && <SourceBadge source="recorded-demo" language={language} />}{run.status === "failed" && run.kind === "workspace" && <button className="primary-button" onClick={() => onRetry(run)}><RotateCcw />{text(language, "建立修复运行", "Create correction run")}</button>}</>} />
 
     <div className="run-summary-bar">
       <div><span>{text(language, "当前阶段", "Current stage")}</span><strong>{stageText(language, run.stages.find((item) => item.key === run.currentStage) || run.stages[0])}</strong></div>
@@ -62,11 +63,11 @@ export function RunPage({ language, workspace, project, navigate, localRunnerCon
 
     <div className="run-master-detail">
       <nav className="run-stage-nav" aria-label={text(language, "运行阶段", "Run stages")}>
-        {run.stages.map((item, index) => <button key={item.id} className={`${item.id === stage.id ? "active" : ""} ${item.key === run.currentStage ? "current" : ""}`} onClick={() => setSelectedStageId(item.id)}><span className="stage-index">{item.status === "passed" ? <Check /> : String(index + 1).padStart(2, "0")}</span><div><b>{stageText(language, item)}</b><small>{item.key === run.currentStage ? text(language, "当前阶段", "Current stage") : item.status === "passed" ? text(language, "证据已完成", "Evidence complete") : item.status === "failed" ? text(language, "需要修复", "Needs correction") : text(language, "尚未开始", "Not started")}</small></div><StatusBadge status={item.status} /></button>)}
+        {run.stages.map((item, index) => <button key={item.id} className={`${item.id === stage.id ? "active" : ""} ${item.key === run.currentStage ? "current" : ""}`} onClick={() => setSelectedStageId(item.id)} aria-current={item.key === run.currentStage ? "step" : undefined} aria-pressed={item.id === stage.id}><span className="stage-index">{item.status === "passed" ? <Check /> : String(index + 1).padStart(2, "0")}</span><div><b>{stageText(language, item)}</b><small>{item.key === run.currentStage ? text(language, "当前阶段", "Current stage") : item.status === "passed" ? text(language, "证据已完成", "Evidence complete") : item.status === "failed" ? text(language, "需要修复", "Needs correction") : text(language, "尚未开始", "Not started")}</small></div><StatusBadge status={item.status} language={language} /></button>)}
       </nav>
 
       <section className="stage-workbench">
-        <header className="stage-workbench-head"><div><span className="section-label">Stage {run.stages.findIndex((item) => item.id === stage.id) + 1}</span><h2>{stageText(language, stage)}</h2><p>{definition ? text(language, definition.purpose.zh, definition.purpose.en) : stage.decision}</p></div><div className="badge-row"><ActorBadge actor={stage.actor} /><StatusBadge status={stage.status} /></div></header>
+        <header className="stage-workbench-head"><div><span className="section-label">{text(language, "阶段", "Stage")} {run.stages.findIndex((item) => item.id === stage.id) + 1}</span><h2>{stageText(language, stage)}</h2><p>{definition ? text(language, definition.purpose.zh, definition.purpose.en) : stage.decision}</p></div><div className="badge-row"><ActorBadge actor={stage.actor} language={language} /><StatusBadge status={stage.status} language={language} /></div></header>
 
         <div className="stage-contract">
           <div><span>{text(language, "开始前需要", "Input")}</span><p>{stage.input ? recordText(language, stage.input) : "—"}</p></div>
@@ -78,7 +79,7 @@ export function RunPage({ language, workspace, project, navigate, localRunnerCon
         {stage.failureReason && <div className="stage-failure"><b>{text(language, "为什么停止", "Why it stopped")}</b><p>{recordText(language, stage.failureReason)}</p></div>}
 
         {implementationPending && <section className="execution-panel">
-          <div className="execution-panel-head"><div><span className="section-label">Codex CLI</span><h3>{text(language, "执行已批准的工程计划", "Execute the approved engineering plan")}</h3></div><StatusBadge status={run.status === "running" ? "running" : "pending"} /></div>
+          <div className="execution-panel-head"><div><span className="section-label">Codex CLI</span><h3>{text(language, "执行已批准的工程计划", "Execute the approved engineering plan")}</h3></div><StatusBadge status={run.status === "running" ? "running" : "pending"} language={language} /></div>
           {project.executionTarget === "local-codex" ? <>
             <div className="execution-facts"><p><CheckCircle2 />{text(language, "Codex 只在启动 runner 时指定的目录内工作。", "Codex works only in the folder selected when the runner starts.")}</p><p><CheckCircle2 />{text(language, "输入包含已确认需求、14 阶段计划和治理策略。", "Input includes the confirmed requirement, 14-stage plan, and governance policy.")}</p><p><CheckCircle2 />{text(language, "运行结束后仍需导入构建、测试和安全检查结果。", "Build, test, and security results must still be imported after execution.")}</p></div>
             {!localRunnerConfigured ? <button className="primary-button" onClick={() => navigate("settings")}>{text(language, "连接本地 runner", "Connect local runner")}<ArrowRight /></button> : run.status === "running" ? <button className="danger-button" onClick={() => void onCancelCodex(run)}><CircleStop />{text(language, "停止本地运行", "Stop local run")}</button> : <><label className="execution-confirm"><input type="checkbox" checked={executionConfirmed} onChange={(event) => setExecutionConfirmed(event.target.checked)} /><span>{text(language, "我已检查需求与计划，并确认目标代码目录可以写入。", "I reviewed the requirement and plan and confirm that the target code folder may be modified.")}</span></label><button className="primary-button" disabled={!executionConfirmed || runnerBusy} onClick={() => void execute()}><Play />{runnerBusy ? text(language, "Codex 正在执行…", "Codex is running…") : text(language, "开始 Codex 实现", "Start Codex implementation")}</button></>}
@@ -91,9 +92,9 @@ export function RunPage({ language, workspace, project, navigate, localRunnerCon
         {stage.key === "release" && <div className="stage-action"><div><ShieldCheck /><span><b>{text(language, "根据当前证据计算发布判断", "Calculate release readiness from current evidence")}</b><small>{text(language, "未知、未运行和草稿不会计为通过。", "Unknown, not-run, and draft states never count as passed.")}</small></span></div><button className="primary-button" onClick={() => navigate("release")}>{text(language, "查看发布", "Open release")}<ArrowRight /></button></div>}
 
         <div className="stage-linked-data">
-          <section><header><h3>{text(language, "本阶段工件", "Stage artifacts")}</h3><span>{stageArtifacts.length}</span></header>{stageArtifacts.length ? <ul>{stageArtifacts.map((item) => <li key={item.id}><span><b>{item.fileName}</b><small>{item.status}</small></span><StatusBadge status={item.status === "draft" ? "pending" : "passed"} /></li>)}</ul> : <div className="inline-empty"><Clock3 /><span>{text(language, "没有关联工件", "No linked artifact")}</span></div>}</section>
-          <section><header><h3>{text(language, "本阶段检查", "Stage checks")}</h3><span>{stageChecks.length}</span></header>{stageChecks.length ? <ul>{stageChecks.map((item) => <li key={item.id}><span><b>{recordText(language, item.label)}</b><small>{recordText(language, item.summary)}</small></span><StatusBadge status={item.status} /></li>)}</ul> : <div className="inline-empty"><Clock3 /><span>{text(language, "没有检查结果", "No check result")}</span></div>}</section>
-          <section><header><h3>{text(language, "关联证据", "Evidence")}</h3><span>{stageEvidence.length}</span></header>{stageEvidence.length ? <ul>{stageEvidence.map((item) => <li key={item.id}><span><b>{recordText(language, item.title)}</b><small>{recordText(language, item.summary)}</small></span><SourceBadge source={item.source} /></li>)}</ul> : <div className="inline-empty"><Clock3 /><span>{text(language, "没有证据记录", "No evidence record")}</span></div>}</section>
+          <section><header><h3>{text(language, "本阶段工件", "Stage artifacts")}</h3><span>{stageArtifacts.length}</span></header>{stageArtifacts.length ? <ul>{stageArtifacts.map((item) => <li key={item.id}><span><b>{item.fileName}</b><small>{item.status}</small></span><StatusBadge status={item.status === "draft" ? "pending" : "passed"} language={language} /></li>)}</ul> : <div className="inline-empty"><Clock3 /><span>{text(language, "没有关联工件", "No linked artifact")}</span></div>}</section>
+          <section><header><h3>{text(language, "本阶段检查", "Stage checks")}</h3><span>{stageChecks.length}</span></header>{stageChecks.length ? <ul>{stageChecks.map((item) => <li key={item.id}><span><b>{recordText(language, item.label)}</b><small>{recordText(language, item.summary)}</small></span><StatusBadge status={item.status} language={language} /></li>)}</ul> : <div className="inline-empty"><Clock3 /><span>{text(language, "没有检查结果", "No check result")}</span></div>}</section>
+          <section><header><h3>{text(language, "关联证据", "Evidence")}</h3><span>{stageEvidence.length}</span></header>{stageEvidence.length ? <ul>{stageEvidence.map((item) => <li key={item.id}><span><b>{recordText(language, item.title)}</b><small>{recordText(language, item.summary)}</small></span><SourceBadge source={item.source} language={language} /></li>)}</ul> : <div className="inline-empty"><Clock3 /><span>{text(language, "没有证据记录", "No evidence record")}</span></div>}</section>
         </div>
       </section>
     </div>

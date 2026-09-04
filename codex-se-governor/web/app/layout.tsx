@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "./product-ui.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://codex-se-governor-app.yukikana0108.chatgpt.site"),
@@ -20,9 +21,9 @@ export const metadata: Metadata = {
     title: "SE Governor",
   },
   icons: {
-    icon: "/favicon.svg",
+    icon: "/governor-app-icon.png",
     shortcut: "/favicon.svg",
-    apple: "/favicon.svg",
+    apple: "/governor-app-icon.png",
   },
   openGraph: {
     title: "Codex SE Governor",

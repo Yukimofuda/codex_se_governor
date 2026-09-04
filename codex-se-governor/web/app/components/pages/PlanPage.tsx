@@ -53,7 +53,7 @@ export function PlanPage({ language, workspace, project, navigate, onGenerate, o
 
   return <div className="plan-workspace">
     <PageHeader eyebrow={`${project.name} / ${requirement.id}`} title={text(language, "工程计划", "Engineering plan")} description={requirement.title} actions={<>
-      <StatusBadge status={plan.status === "approved" ? "passed" : "pending"} label={plan.status === "approved" ? text(language, "已批准", "Approved") : text(language, "待审核", "Review required")} />
+      <StatusBadge status={plan.status === "approved" ? "passed" : "pending"} label={plan.status === "approved" ? text(language, "已批准", "Approved") : text(language, "待审核", "Review required")} language={language} />
       {canEdit && !editing && <button className="secondary-button" onClick={beginEdit}><Pencil />{text(language, "编辑阶段", "Edit stages")}</button>}
       {canEdit && !editing && <button className="icon-button" onClick={onGenerate} title={text(language, "恢复建议计划", "Restore suggested plan")} aria-label={text(language, "恢复建议计划", "Restore suggested plan")}><RefreshCw /></button>}
       {editing ? <><button className="secondary-button" onClick={cancel}><X />{text(language, "取消", "Cancel")}</button><button className="primary-button" disabled={Boolean(invalidCount)} onClick={save}><Save />{text(language, "保存修改", "Save changes")}</button></> : canEdit ? <button className="primary-button" disabled={Boolean(invalidCount)} onClick={() => onApprove(plan)}><Check />{text(language, "批准此计划", "Approve plan")}</button> : !existingRun && plan.status === "approved" ? <button className="primary-button" onClick={() => onStartRun(plan)}><Play />{text(language, "开始治理运行", "Start governed run")}</button> : existingRun ? <button className="secondary-button" onClick={() => navigate("run")}>{text(language, "查看运行", "Open run")}<ArrowRight /></button> : null}
@@ -68,11 +68,11 @@ export function PlanPage({ language, workspace, project, navigate, onGenerate, o
 
     <div className="plan-master-detail">
       <nav className="plan-stage-nav" aria-label={text(language, "计划阶段", "Plan stages")}>
-        {activePlan?.phases.map((item, index) => <button key={item.id} className={phase?.id === item.id ? "active" : ""} onClick={() => setSelectedPhaseId(item.id)}><span>{String(index + 1).padStart(2, "0")}</span><div><b>{phaseLabel(language, item.id, item.name)}</b><small>{item.tasks[0]?.expectedOutput}</small></div><StatusBadge status={item.tasks[0]?.status || "pending"} /></button>)}
+        {activePlan?.phases.map((item, index) => <button key={item.id} className={phase?.id === item.id ? "active" : ""} aria-pressed={phase?.id === item.id} onClick={() => setSelectedPhaseId(item.id)}><span>{String(index + 1).padStart(2, "0")}</span><div><b>{phaseLabel(language, item.id, item.name)}</b><small>{item.tasks[0]?.expectedOutput}</small></div><StatusBadge status={item.tasks[0]?.status || "pending"} language={language} /></button>)}
       </nav>
 
       {phase && task && <section className="plan-stage-inspector">
-        <header><div><span className="section-label">{text(language, "阶段", "Stage")} {activePlan!.phases.findIndex((item) => item.id === phase.id) + 1}</span><h2>{phaseLabel(language, phase.id, phase.name)}</h2><p>{definition ? text(language, definition.purpose.zh, definition.purpose.en) : task.title}</p></div><ActorBadge actor={task.owner} /></header>
+        <header><div><span className="section-label">{text(language, "阶段", "Stage")} {activePlan!.phases.findIndex((item) => item.id === phase.id) + 1}</span><h2>{phaseLabel(language, phase.id, phase.name)}</h2><p>{definition ? text(language, definition.purpose.zh, definition.purpose.en) : task.title}</p></div><ActorBadge actor={task.owner} language={language} /></header>
         <div className="plan-stage-fields">
           <label><span>{text(language, "本阶段要完成的工作", "Work to complete")}</span>{editing ? <textarea rows={3} value={task.title} onChange={(event) => setTask({ title: event.target.value })} /> : <p>{task.title}</p>}</label>
           <label><span>{text(language, "开始前需要", "Required input")}</span>{editing ? <textarea rows={3} value={task.input} onChange={(event) => setTask({ input: event.target.value })} /> : <p>{task.input}</p>}</label>

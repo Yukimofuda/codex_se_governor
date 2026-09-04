@@ -5,7 +5,7 @@ import { buildArtifactDrafts, compileCodexExecutionBrief } from "../domain/artif
 import { defaultQualityProfile, qualityScenariosForProject } from "../domain/course-policy";
 import { createPlan, createRun, importValidationManifest, makeId, projectPolicy, releaseReadiness } from "../domain/governance";
 import { demoArtifacts, demoChecks, demoEvidence, demoPlan, demoProject, demoRelease, demoRequirement, demoRuns, initialWorkspace } from "../domain/demo";
-import type { Decision, EngineeringArtifact, Evidence, ExecutionPlan, Language, PolicyProfile, Project, Requirement, ValidationManifestInput, WorkflowRun, WorkspaceState } from "../domain/model";
+import type { Decision, EngineeringArtifact, Evidence, ExecutionPlan, Language, PolicyProfile, Project, Requirement, ValidationManifestInput, WorkflowRun, WorkflowStage, WorkspaceState } from "../domain/model";
 import { clearWorkspace, loadWorkspace, saveWorkspace } from "../lib/storage";
 import { cancelLocalRunnerRun, readLocalRunnerRun, startLocalRunner, type LocalRunnerConfig } from "../lib/local-runner";
 import { AppShell } from "./AppShell";
@@ -84,6 +84,7 @@ export default function ProductWorkspace() {
   const [theme, setTheme] = useState<Theme>("system");
   const [createOpen, setCreateOpen] = useState(false);
   const [notice, setNotice] = useState("");
+  const [focusedStageId, setFocusedStageId] = useState("");
   const [localRunner, setLocalRunner] = useState<LocalRunnerConfig>({ endpoint: "http://127.0.0.1:4777", token: "" });
 
   useEffect(() => {
@@ -127,6 +128,7 @@ export default function ProductWorkspace() {
   const selectProject = (id: string) => {
     const latestRun = workspace.runs.filter((item) => item.projectId === id).sort((a, b) => b.startedAt.localeCompare(a.startedAt))[0];
     updateWorkspace((current) => ({ ...current, activeProjectId: id, activeRunId: latestRun?.id || "", onboardingComplete: Boolean(id) }));
+    setFocusedStageId(latestRun?.stages.find((stage) => stage.key === latestRun.currentStage)?.id || "");
   };
   const createProject = (draft: Omit<Project, "id" | "createdAt" | "updatedAt">) => {
     const timestamp = new Date().toISOString();
@@ -208,7 +210,15 @@ export default function ProductWorkspace() {
     startRun(plan, sequence);
     flash(language === "zh" ? `已建立修复运行 #${sequence}` : `Correction run #${sequence} created`);
   };
-  const selectRun = (run: WorkflowRun) => updateWorkspace((current) => ({ ...current, activeRunId: run.id }));
+  const selectRun = (run: WorkflowRun) => {
+    setFocusedStageId(run.stages.find((stage) => stage.key === run.currentStage)?.id || run.stages[0]?.id || "");
+    updateWorkspace((current) => ({ ...current, activeRunId: run.id }));
+  };
+  const openRunStage = (runId: string, stage: WorkflowStage) => {
+    updateWorkspace((current) => ({ ...current, activeRunId: runId }));
+    setFocusedStageId(stage.id);
+    navigate("run");
+  };
   const attestImplementation = (run: WorkflowRun, reference: string) => {
     const timestamp = new Date().toISOString();
     const evidence: Evidence = { id: `${run.id}-implementation-${Date.now()}`, runId: run.id, type: "diff", title: "Implementation reference", source: "attested", createdAt: timestamp, summary: reference, content: `Implementation reference: ${reference}`, artifactName: "IMPLEMENTATION_REFERENCE.txt" };
@@ -358,13 +368,13 @@ export default function ProductWorkspace() {
   if (view === "projects") page = <ProjectsPage {...common} onCreate={() => setCreateOpen(true)} onSelect={selectProject} />;
   else if (view === "requirements") page = <RequirementsPage key={workspace.requirements.find((item) => item.projectId === project?.id)?.id || project?.id || "none"} {...common} onCreate={newRequirement} onSave={saveRequirement} onAssist={assistRequirement} />;
   else if (view === "plan") page = <PlanPage {...common} onGenerate={generatePlan} onApprove={approvePlan} onSave={savePlan} onStartRun={startRun} />;
-  else if (view === "run") page = <RunPage key={workspace.activeRunId || project?.id || "none"} {...common} localRunnerConfigured={Boolean(localRunner.token.trim())} onSelectRun={selectRun} onAttestImplementation={attestImplementation} onExecuteCodex={executeWithLocalCodex} onCancelCodex={cancelLocalCodex} onRetry={retryRun} />;
+  else if (view === "run") page = <RunPage key={`${workspace.activeRunId || project?.id || "none"}:${focusedStageId}`} {...common} initialStageId={focusedStageId} localRunnerConfigured={Boolean(localRunner.token.trim())} onSelectRun={selectRun} onAttestImplementation={attestImplementation} onExecuteCodex={executeWithLocalCodex} onCancelCodex={cancelLocalCodex} onRetry={retryRun} />;
   else if (view === "checks") page = <ChecksPage {...common} onImportManifest={importManifest} onSaveAdoption={saveAdoption} />;
   else if (view === "evidence") page = <EvidencePage {...common} onSaveArtifact={saveArtifact} />;
-  else if (view === "release") page = <ReleasePage {...common} onGenerate={generateRelease} onApprove={approveRelease} />;
+  else if (view === "release") page = <ReleasePage {...common} onGenerate={generateRelease} onApprove={approveRelease} onOpenStage={openRunStage} />;
   else if (view === "history") page = <HistoryPage {...common} onSelectRun={selectRun} />;
   else if (view === "settings") page = <SettingsPage {...common} localRunner={localRunner} onLocalRunner={setLocalRunner} onPolicyChange={changePolicy} onClearWorkspace={resetWorkspace} theme={theme} onTheme={setTheme} />;
-  else page = <OverviewPage {...common} onOpenDemo={() => selectProject(demoProject.id)} onCreateProject={() => setCreateOpen(true)} onSelectRun={(id) => updateWorkspace((current) => ({ ...current, activeRunId: id }))} />;
+  else page = <OverviewPage {...common} onOpenDemo={() => selectProject(demoProject.id)} onCreateProject={() => setCreateOpen(true)} onSelectRun={(id) => { const run = workspace.runs.find((item) => item.id === id); if (run) selectRun(run); }} onOpenStage={openRunStage} />;
 
   return <>
     <AppShell view={view} language={language} projects={workspace.projects} activeProjectId={workspace.activeProjectId} onNavigate={navigate} onSelectProject={selectProject} onCreateProject={() => setCreateOpen(true)} onNewRequirement={newRequirement} onLanguage={setLanguage}>

@@ -54,14 +54,18 @@ export const demoRequirement: Requirement = {
   nonFunctional: ["NFR-001 The control must not add more than 30 ms to the p95 login response time."],
   constraints: ["Use the existing cache service; do not add a new runtime dependency."],
   acceptanceCriteria: [
-    "AC-001 The sixth failed attempt within ten minutes is rejected.",
-    "AC-002 A successful login resets the account failure counter.",
-    "AC-003 Responses do not reveal whether the account exists.",
+    "AC-001 A normal login below the threshold remains available.",
+    "AC-002 The sixth failed attempt within ten minutes is rejected.",
+    "AC-003 A cache outage does not expose account details and follows the documented failure policy.",
+    "AC-004 Responses do not reveal whether the account exists.",
+    "AC-005 A successful login resets the account failure counter.",
   ],
   acceptanceDetails: [
-    { id: "AC-001", kind: "boundary", context: "five failed attempts occur within ten minutes", action: "a sixth attempt is submitted", expected: "the attempt is rejected for the configured cooling period" },
-    { id: "AC-002", kind: "regression", context: "an account has previous failures", action: "the user signs in successfully", expected: "the account failure counter is reset" },
-    { id: "AC-003", kind: "security", context: "an unknown or known account is submitted", action: "authentication fails", expected: "the public response does not disclose account existence" },
+    { id: "AC-001", kind: "normal", context: "an account is below the configured failure threshold", action: "the user submits valid credentials", expected: "authentication completes without an added lockout" },
+    { id: "AC-002", kind: "boundary", context: "five failed attempts occur within ten minutes", action: "a sixth attempt is submitted", expected: "the attempt is rejected for the configured cooling period" },
+    { id: "AC-003", kind: "failure", context: "the counter store is unavailable", action: "a login attempt is evaluated", expected: "the documented failure policy is applied without revealing account details" },
+    { id: "AC-004", kind: "security", context: "an unknown or known account is submitted", action: "authentication fails", expected: "the public response does not disclose account existence" },
+    { id: "AC-005", kind: "regression", context: "an account has previous failures", action: "the user signs in successfully", expected: "the account failure counter is reset" },
   ],
   qualityScenarios: [
     { id: "QS-SEC-001", attribute: "security", title: "Enumeration-resistant throttling", condition: "Repeated attempts target an account or source address", expectedResponse: "Apply the same public response and bounded throttling policy", verification: "Security review and adversarial tests", source: "project-profile", status: "confirmed" },
@@ -111,7 +115,7 @@ export const demoChecks: Check[] = [
 export const demoEvidence: Evidence[] = [
   { id: "EVD-DEMO-CONTEXT", runId: "RUN-DEMO-002", type: "artifact", title: "Project context", source: "recorded-demo", createdAt: timestamp, summary: "Web API, account data, staged release, strict governance.", content: "Software type: Web API\nSecurity: account data\nReliability: business critical\nProcess: agile", artifactName: "PROJECT_CONTEXT.md" },
   { id: "EVD-DEMO-REQ", runId: "RUN-DEMO-002", type: "requirement", title: "Confirmed requirement snapshot", source: "recorded-demo", createdAt: timestamp, summary: "Requirement, constraints and acceptance criteria approved.", content: JSON.stringify(demoRequirement, null, 2), artifactName: "REQUIREMENTS.json" },
-  { id: "EVD-DEMO-STORY", runId: "RUN-DEMO-002", type: "artifact", title: "User story", source: "recorded-demo", createdAt: "2026-08-28T09:31:20.000Z", summary: "Account-holder outcome and three acceptance criteria confirmed.", content: "As an account holder, I want repeated password attempts limited so that my account is harder to attack.", artifactName: "USER_STORY.md" },
+  { id: "EVD-DEMO-STORY", runId: "RUN-DEMO-002", type: "artifact", title: "User story", source: "recorded-demo", createdAt: "2026-08-28T09:31:20.000Z", summary: "Account-holder outcome and five acceptance scenarios confirmed.", content: "As an account holder, I want repeated password attempts limited so that my account is harder to attack.", artifactName: "USER_STORY.md" },
   { id: "EVD-DEMO-ANALYSIS", runId: "RUN-DEMO-002", type: "artifact", title: "Domain analysis", source: "recorded-demo", createdAt: "2026-08-28T09:31:28.000Z", summary: "Account, source-address, rolling-window and proxy trust boundaries analyzed.", content: "Entities: Account, AttemptWindow\nBoundaries: Login endpoint, trusted proxy\nFailure mode: legitimate-user lockout", artifactName: "ANALYSIS.md" },
   { id: "EVD-DEMO-DESIGN", runId: "RUN-DEMO-002", type: "artifact", title: "Design and ADR", source: "recorded-demo", createdAt: "2026-08-28T09:31:36.000Z", summary: "Existing cache service selected with feature-flag rollback.", content: "Decision: reuse the existing cache service.\nAlternative rejected: database counter.\nRollback: disable the feature flag.", artifactName: "ADR.md" },
   { id: "EVD-DEMO-RISK", runId: "RUN-DEMO-002", type: "artifact", title: "Risk and quality review", source: "recorded-demo", createdAt: "2026-08-28T09:31:44.000Z", summary: "Lockout, proxy spoofing and latency risks have owners and tests.", content: "R-001 legitimate-user lockout\nR-002 untrusted proxy header\nR-003 cache latency", artifactName: "RISK_REGISTER.md" },
