@@ -6,6 +6,7 @@ import { checkRepositoryPaths } from "../../lib/governance.mjs";
 import { fetchPublicGithubTree } from "../../lib/repository";
 import { inspectZip } from "../../lib/zip.mjs";
 import type { ValidationManifestInput, WorkflowRun } from "../../domain/model";
+import { selectedRun } from "../../domain/workspace-context";
 import { EmptyState } from "../ui/EmptyState";
 import { PageHeader } from "../ui/PageHeader";
 import { ActorBadge, StatusBadge } from "../ui/StatusBadge";
@@ -18,8 +19,7 @@ export function ChecksPage({ language, workspace, project, navigate, onImportMan
   onImportManifest: (run: WorkflowRun, input: ValidationManifestInput) => void;
   onSaveAdoption: (run: WorkflowRun, preview: AdoptionPreview) => void;
 }) {
-  const runs = workspace.runs.filter((item) => item.projectId === project?.id).sort((a, b) => b.startedAt.localeCompare(a.startedAt));
-  const run = runs.find((item) => item.id === workspace.activeRunId) || runs[0];
+  const run = selectedRun(workspace);
   const checks = useMemo(() => workspace.checks.filter((item) => item.runId === run?.id), [workspace.checks, run?.id]);
   const [selectedId, setSelectedId] = useState(checks[0]?.id || "");
   const selected = checks.find((item) => item.id === selectedId) || checks[0];

@@ -3,6 +3,7 @@
 import { ArrowRight, Check, GitPullRequestArrow, Pencil, Play, RefreshCw, Save, ShieldAlert, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { lifecycleBlueprint } from "../../domain/course-policy";
+import { selectedRequirement } from "../../domain/workspace-context";
 import type { ExecutionPlan, PlanTask, WorkflowStage } from "../../domain/model";
 import { EmptyState } from "../ui/EmptyState";
 import { PageHeader } from "../ui/PageHeader";
@@ -28,7 +29,7 @@ export function PlanPage({ language, workspace, project, navigate, onGenerate, o
   onSave: (plan: ExecutionPlan) => void;
   onStartRun: (plan: ExecutionPlan) => void;
 }) {
-  const requirement = workspace.requirements.filter((item) => item.projectId === project?.id).sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))[0];
+  const requirement = selectedRequirement(workspace);
   const plan = workspace.plans.find((item) => item.projectId === project?.id && item.requirementId === requirement?.id);
   const [selectedPhaseId, setSelectedPhaseId] = useState(plan?.phases[0]?.id || "context");
   const [editing, setEditing] = useState(false);

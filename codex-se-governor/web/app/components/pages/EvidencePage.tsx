@@ -3,6 +3,7 @@
 import { Archive, Check, Download, Eye, FilePenLine, FileSearch, PackageOpen, Save } from "lucide-react";
 import { useMemo, useState } from "react";
 import type { EngineeringArtifact, EvidenceSource } from "../../domain/model";
+import { selectedRequirement, selectedRun } from "../../domain/workspace-context";
 import { createZip } from "../../lib/zip.mjs";
 import { EmptyState } from "../ui/EmptyState";
 import { MarkdownPreview } from "../ui/MarkdownPreview";
@@ -47,8 +48,9 @@ function ArtifactEditor({ language, artifact, readOnly, onSave }: { language: Wo
 
 export function EvidencePage({ language, workspace, project, navigate, onSaveArtifact }: WorkspacePageProps & { onSaveArtifact: (artifact: EngineeringArtifact, confirm?: boolean) => void }) {
   const [mode, setMode] = useState<"artifacts" | "evidence">("artifacts");
-  const run = workspace.runs.find((item) => item.id === workspace.activeRunId) || workspace.runs.filter((item) => item.projectId === project?.id).sort((a, b) => b.startedAt.localeCompare(a.startedAt))[0];
-  const artifacts = useMemo(() => workspace.artifacts.filter((item) => item.projectId === project?.id).sort((a, b) => a.stageKey.localeCompare(b.stageKey) || a.fileName.localeCompare(b.fileName)), [workspace.artifacts, project?.id]);
+  const run = selectedRun(workspace);
+  const requirement = selectedRequirement(workspace);
+  const artifacts = useMemo(() => workspace.artifacts.filter((item) => item.projectId === project?.id && item.requirementId === requirement?.id).sort((a, b) => a.stageKey.localeCompare(b.stageKey) || a.fileName.localeCompare(b.fileName)), [workspace.artifacts, project?.id, requirement?.id]);
   const evidence = useMemo(() => workspace.evidence.filter((item) => item.runId === run?.id), [workspace.evidence, run?.id]);
   const [selectedArtifactId, setSelectedArtifactId] = useState(artifacts[0]?.id || "");
   const [selectedEvidenceId, setSelectedEvidenceId] = useState(evidence[0]?.id || "");

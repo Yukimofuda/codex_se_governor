@@ -4,6 +4,7 @@ import { ArrowRight, Check, CheckCircle2, CircleStop, Clock3, FileClock, Play, R
 import { useMemo, useState } from "react";
 import { lifecycleBlueprint } from "../../domain/course-policy";
 import type { WorkflowRun } from "../../domain/model";
+import { selectedRun } from "../../domain/workspace-context";
 import { EmptyState } from "../ui/EmptyState";
 import { PageHeader } from "../ui/PageHeader";
 import { ActorBadge, SourceBadge, StatusBadge } from "../ui/StatusBadge";
@@ -22,7 +23,7 @@ export function RunPage({ language, workspace, project, navigate, initialStageId
   onRetry: (run: WorkflowRun) => void;
 }) {
   const runs = useMemo(() => workspace.runs.filter((item) => item.projectId === project?.id).sort((a, b) => b.startedAt.localeCompare(a.startedAt)), [workspace.runs, project?.id]);
-  const run = runs.find((item) => item.id === workspace.activeRunId) || runs[0];
+  const run = selectedRun(workspace);
   const [selectedStageId, setSelectedStageId] = useState(initialStageId || run?.stages.find((stage) => stage.key === run.currentStage)?.id || run?.stages[0]?.id || "");
   const [reference, setReference] = useState("");
   const [executionConfirmed, setExecutionConfirmed] = useState(false);

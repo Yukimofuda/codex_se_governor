@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { buildArtifactDrafts, compileCodexExecutionBrief } from "../domain/artifacts";
 import { defaultQualityProfile, qualityScenariosForProject } from "../domain/course-policy";
+import { selectedRequirement, selectRequirementContext } from "../domain/workspace-context";
 import { createPlan, createRun, importValidationManifest, makeId, projectPolicy, releaseReadiness } from "../domain/governance";
 import { demoArtifacts, demoChecks, demoEvidence, demoPlan, demoProject, demoRelease, demoRequirement, demoRuns, initialWorkspace } from "../domain/demo";
 import type { Decision, EngineeringArtifact, Evidence, ExecutionPlan, Language, PolicyProfile, Project, Requirement, ValidationManifestInput, WorkflowRun, WorkflowStage, WorkspaceState } from "../domain/model";
@@ -34,7 +35,7 @@ function withCurrentDemo(workspace: WorkspaceState): WorkspaceState {
     plans: [demoPlan, ...workspace.plans.filter((item) => item.projectId !== demoProject.id)],
     runs: [...demoRuns, ...workspace.runs.filter((item) => item.projectId !== demoProject.id)],
     checks: [...demoChecks, ...workspace.checks.filter((item) => !item.id.startsWith("CHK-DEMO"))],
-    evidence: [...demoEvidence, ...workspace.evidence.filter((item) => !item.id.startsWith("EVD-DEMO"))],
+    evidence: [...demoEvidence, ...workspace.evidence.filter((item) => !item.id.startsWith("EVD-DEMO")).map((item) => item.source === "verified" && item.summary.endsWith("result imported from validation-results.json") ? { ...item, source: "imported" as const } : item)],
     releases: [demoRelease, ...workspace.releases.filter((item) => item.runId !== "RUN-DEMO-002")],
     artifacts: [...demoArtifacts, ...(workspace.artifacts || []).filter((item) => item.projectId !== demoProject.id)],
   };
@@ -84,6 +85,9 @@ export default function ProductWorkspace() {
   const [theme, setTheme] = useState<Theme>("system");
   const [createOpen, setCreateOpen] = useState(false);
   const [notice, setNotice] = useState("");
+  const [saveProblem, setSaveProblem] = useState(false);
+  const [loadProblem, setLoadProblem] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [focusedStageId, setFocusedStageId] = useState("");
   const [localRunner, setLocalRunner] = useState<LocalRunnerConfig>({ endpoint: "http://127.0.0.1:4777", token: "" });
 
@@ -100,7 +104,7 @@ export default function ProductWorkspace() {
       const migrated = migrateWorkspace(stored);
       if (migrated) setWorkspace(migrated);
       setReady(true);
-    }).catch(() => setReady(true));
+    }).catch(() => { setLoadProblem(true); setReady(true); });
   }, []);
 
   useEffect(() => {
@@ -111,10 +115,20 @@ export default function ProductWorkspace() {
   }, [theme, language]);
 
   useEffect(() => {
-    if (!ready) return;
-    const timer = setTimeout(() => void saveWorkspace(workspace), 180);
-    return () => clearTimeout(timer);
-  }, [workspace, ready]);
+    if (!ready || loadProblem) return;
+    let cancelled = false;
+    const timer = setTimeout(() => {
+      void saveWorkspace(workspace).then(() => { if (!cancelled) { setSaveProblem(false); setSaving(false); } }).catch(() => { if (!cancelled) { setSaveProblem(true); setSaving(false); } });
+    }, 180);
+    return () => { cancelled = true; clearTimeout(timer); };
+  }, [workspace, ready, loadProblem]);
+
+  useEffect(() => {
+    if (!saving && !saveProblem) return;
+    const preventLostChanges = (event: BeforeUnloadEvent) => { event.preventDefault(); };
+    window.addEventListener("beforeunload", preventLostChanges);
+    return () => window.removeEventListener("beforeunload", preventLostChanges);
+  }, [saving, saveProblem]);
 
   const project = useMemo(() => workspace.projects.find((item) => item.id === workspace.activeProjectId), [workspace.projects, workspace.activeProjectId]);
   const navigate = (target: ViewId) => {
@@ -123,31 +137,39 @@ export default function ProductWorkspace() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
   const flash = (message: string) => { setNotice(message); setTimeout(() => setNotice(""), 3200); };
-  const updateWorkspace = (transform: (current: WorkspaceState) => WorkspaceState) => setWorkspace((current) => transform(current));
+  const updateWorkspace = (transform: (current: WorkspaceState) => WorkspaceState) => { setSaving(true); setWorkspace((current) => transform(current)); };
 
   const selectProject = (id: string) => {
     const latestRun = workspace.runs.filter((item) => item.projectId === id).sort((a, b) => b.startedAt.localeCompare(a.startedAt))[0];
-    updateWorkspace((current) => ({ ...current, activeProjectId: id, activeRunId: latestRun?.id || "", onboardingComplete: Boolean(id) }));
+    updateWorkspace((current) => ({ ...current, activeProjectId: id, activeRequirementId: latestRun?.requirementId || "", activeRunId: latestRun?.id || "", onboardingComplete: Boolean(id) }));
     setFocusedStageId(latestRun?.stages.find((stage) => stage.key === latestRun.currentStage)?.id || "");
   };
   const createProject = (draft: Omit<Project, "id" | "createdAt" | "updatedAt">) => {
     const timestamp = new Date().toISOString();
     const next: Project = normalizeProject({ ...draft, id: makeId("project"), createdAt: timestamp, updatedAt: timestamp });
-    updateWorkspace((current) => ({ ...current, projects: [next, ...current.projects], activeProjectId: next.id, activeRunId: "", onboardingComplete: true }));
+    updateWorkspace((current) => ({ ...current, projects: [next, ...current.projects], activeProjectId: next.id, activeRequirementId: "", activeRunId: "", onboardingComplete: true }));
     setCreateOpen(false); navigate("requirements"); flash(language === "zh" ? "项目已创建" : "Project created");
   };
   const newRequirement = () => {
     if (!project) { setCreateOpen(true); return; }
     const requirement = emptyRequirement(project);
-    updateWorkspace((current) => ({ ...current, requirements: [requirement, ...current.requirements] }));
+    updateWorkspace((current) => ({ ...current, requirements: [requirement, ...current.requirements], activeRequirementId: requirement.id, activeRunId: "" }));
     navigate("requirements");
   };
+  const selectRequirement = (id: string) => {
+    updateWorkspace((current) => selectRequirementContext(current, id));
+    setFocusedStageId("");
+  };
+  const saveDraft = (requirement: Requirement) => updateWorkspace((current) => ({
+    ...current, requirements: current.requirements.map((item) => item.id === requirement.id ? requirement : item),
+  }));
   const saveRequirement = (requirement: Requirement) => {
     updateWorkspace((current) => {
       const owner = current.projects.find((item) => item.id === requirement.projectId);
-      const artifacts = requirement.status === "confirmed" && owner
+      const existing = current.artifacts.filter((item) => item.requirementId === requirement.id);
+      const artifacts = requirement.status === "confirmed" && owner && !existing.length
         ? buildArtifactDrafts(owner, requirement)
-        : current.artifacts.filter((item) => item.requirementId === requirement.id);
+        : existing;
       return {
         ...current,
         requirements: [requirement, ...current.requirements.filter((item) => item.id !== requirement.id)],
@@ -177,8 +199,8 @@ export default function ProductWorkspace() {
   };
   const generatePlan = () => {
     if (!project) return;
-    const requirement = workspace.requirements.filter((item) => item.projectId === project.id && item.status === "confirmed").sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))[0];
-    if (!requirement) { navigate("requirements"); return; }
+    const requirement = selectedRequirement(workspace);
+    if (!requirement || requirement.status !== "confirmed") { navigate("requirements"); return; }
     updateWorkspace((current) => ({ ...current, plans: [createPlan(project, requirement), ...current.plans.filter((item) => item.requirementId !== requirement.id)] }));
   };
   const savePlan = (plan: ExecutionPlan) => {
@@ -200,6 +222,7 @@ export default function ProductWorkspace() {
       evidence: [contextEvidence, requirementEvidence, planEvidence, ...current.evidence],
       artifacts: current.artifacts.map((item) => item.requirementId === run.requirementId ? { ...item, runId: run.id } : item),
       activeRunId: run.id,
+      activeRequirementId: run.requirementId,
     }));
     navigate("run");
   };
@@ -212,10 +235,12 @@ export default function ProductWorkspace() {
   };
   const selectRun = (run: WorkflowRun) => {
     setFocusedStageId(run.stages.find((stage) => stage.key === run.currentStage)?.id || run.stages[0]?.id || "");
-    updateWorkspace((current) => ({ ...current, activeRunId: run.id }));
+    updateWorkspace((current) => ({ ...current, activeProjectId: run.projectId, activeRequirementId: run.requirementId, activeRunId: run.id }));
   };
   const openRunStage = (runId: string, stage: WorkflowStage) => {
-    updateWorkspace((current) => ({ ...current, activeRunId: runId }));
+    const targetRun = workspace.runs.find((item) => item.id === runId);
+    if (!targetRun) return;
+    updateWorkspace((current) => ({ ...current, activeProjectId: targetRun.projectId, activeRequirementId: targetRun.requirementId, activeRunId: runId }));
     setFocusedStageId(stage.id);
     navigate("run");
   };
@@ -366,21 +391,26 @@ export default function ProductWorkspace() {
   const common = { language, workspace, project, navigate };
   let page: React.ReactNode;
   if (view === "projects") page = <ProjectsPage {...common} onCreate={() => setCreateOpen(true)} onSelect={selectProject} />;
-  else if (view === "requirements") page = <RequirementsPage key={workspace.requirements.find((item) => item.projectId === project?.id)?.id || project?.id || "none"} {...common} onCreate={newRequirement} onSave={saveRequirement} onAssist={assistRequirement} />;
-  else if (view === "plan") page = <PlanPage {...common} onGenerate={generatePlan} onApprove={approvePlan} onSave={savePlan} onStartRun={startRun} />;
+  else if (view === "requirements") page = <RequirementsPage key={selectedRequirement(workspace)?.id || project?.id || "none"} {...common} onCreate={newRequirement} onSelect={selectRequirement} onDraft={saveDraft} onSave={saveRequirement} onAssist={assistRequirement} />;
+  else if (view === "plan") page = <PlanPage key={selectedRequirement(workspace)?.id || "none"} {...common} onGenerate={generatePlan} onApprove={approvePlan} onSave={savePlan} onStartRun={startRun} />;
   else if (view === "run") page = <RunPage key={`${workspace.activeRunId || project?.id || "none"}:${focusedStageId}`} {...common} initialStageId={focusedStageId} localRunnerConfigured={Boolean(localRunner.token.trim())} onSelectRun={selectRun} onAttestImplementation={attestImplementation} onExecuteCodex={executeWithLocalCodex} onCancelCodex={cancelLocalCodex} onRetry={retryRun} />;
   else if (view === "checks") page = <ChecksPage {...common} onImportManifest={importManifest} onSaveAdoption={saveAdoption} />;
   else if (view === "evidence") page = <EvidencePage {...common} onSaveArtifact={saveArtifact} />;
   else if (view === "release") page = <ReleasePage {...common} onGenerate={generateRelease} onApprove={approveRelease} onOpenStage={openRunStage} />;
   else if (view === "history") page = <HistoryPage {...common} onSelectRun={selectRun} />;
   else if (view === "settings") page = <SettingsPage {...common} localRunner={localRunner} onLocalRunner={setLocalRunner} onPolicyChange={changePolicy} onClearWorkspace={resetWorkspace} theme={theme} onTheme={setTheme} />;
-  else page = <OverviewPage {...common} onOpenDemo={() => selectProject(demoProject.id)} onCreateProject={() => setCreateOpen(true)} onSelectRun={(id) => { const run = workspace.runs.find((item) => item.id === id); if (run) selectRun(run); }} onOpenStage={openRunStage} />;
+  else page = <OverviewPage {...common} onSelectProject={selectProject} onCreateProject={() => setCreateOpen(true)} onNewRequirement={newRequirement} onOpenRequirement={(id) => { selectRequirement(id); navigate("requirements"); }} onSelectRun={(id) => { const run = workspace.runs.find((item) => item.id === id); if (run) selectRun(run); }} onOpenStage={openRunStage} />;
 
   return <>
-    <AppShell view={view} language={language} projects={workspace.projects} activeProjectId={workspace.activeProjectId} onNavigate={navigate} onSelectProject={selectProject} onCreateProject={() => setCreateOpen(true)} onNewRequirement={newRequirement} onLanguage={setLanguage}>
-      {!ready ? <div className="app-loading"><span /><p>{language === "zh" ? "正在打开工作区…" : "Opening workspace…"}</p></div> : page}
+    <AppShell view={view} language={language} projects={workspace.projects} activeProjectId={workspace.activeProjectId} storageStatus={loadProblem || saveProblem ? "failed" : !ready ? "loading" : saving ? "saving" : "saved"} onNavigate={navigate} onSelectProject={selectProject} onCreateProject={() => setCreateOpen(true)} onNewRequirement={newRequirement} onLanguage={setLanguage}>
+      {saveProblem && <div className="save-error" role="alert"><span>{textForSaveError(language)}</span><button className="secondary-button" onClick={() => void saveWorkspace(workspace).then(() => setSaveProblem(false)).catch(() => setSaveProblem(true))}>{language === "zh" ? "重试保存" : "Retry save"}</button></div>}
+      {!ready ? <div className="app-loading"><span /><p>{language === "zh" ? "正在打开工作区…" : "Opening workspace…"}</p></div> : loadProblem ? <div className="save-error" role="alert"><span>{language === "zh" ? "无法读取浏览器中的项目。未覆盖任何已保存数据。" : "Could not read saved projects. Existing data has not been overwritten."}</span><button className="secondary-button" onClick={() => window.location.reload()}>{language === "zh" ? "重新加载" : "Reload"}</button></div> : page}
     </AppShell>
     <CreateProjectDialog open={createOpen} language={language} onOpenChange={setCreateOpen} onCreate={createProject} />
     {notice && <div className="toast" role="status">{notice}</div>}
   </>;
+}
+
+function textForSaveError(language: Language) {
+  return language === "zh" ? "浏览器保存失败。请重试，关闭页面前请先导出重要文件。" : "Browser storage failed. Retry saving and export important files before closing this page.";
 }

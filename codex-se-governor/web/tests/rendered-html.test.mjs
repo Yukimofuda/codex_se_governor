@@ -23,10 +23,9 @@ test("server-renders the governance workspace", async () => {
   const html = await response.text();
   assert.match(html, /<title>Codex SE Governor \| AI 软件工程治理工作区<\/title>/i);
   assert.match(html, /Codex SE Governor/);
-  assert.match(html, /Engineering governance workspace/);
-  assert.match(html, /需求/);
-  assert.match(html, /工作流/);
-  assert.match(html, /证据/);
+  assert.match(html, /workspace-content/);
+  assert.match(html, /所有项目/);
+  assert.match(html, /设置/);
   assert.match(html, /manifest\.webmanifest/);
   assert.match(html, /og-governor\.png/);
   assert.doesNotMatch(html, />Local-first</i);

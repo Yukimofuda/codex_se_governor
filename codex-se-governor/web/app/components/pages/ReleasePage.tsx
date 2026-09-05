@@ -1,6 +1,7 @@
 import { AlertTriangle, Archive, Check, CheckCircle2, Download, ShieldAlert } from "lucide-react";
 import { projectPolicy } from "../../domain/governance";
 import type { ReleaseManifest, WorkflowRun, WorkflowStage, WorkStatus } from "../../domain/model";
+import { selectedRun } from "../../domain/workspace-context";
 import { EmptyState } from "../ui/EmptyState";
 import { PageHeader } from "../ui/PageHeader";
 import { StatusBadge } from "../ui/StatusBadge";
@@ -17,7 +18,7 @@ function downloadManifest(manifest: ReleaseManifest) {
 }
 
 export function ReleasePage({ language, workspace, project, navigate, onGenerate, onApprove, onOpenStage }: WorkspacePageProps & { onGenerate: (run: WorkflowRun) => void; onApprove: (run: WorkflowRun) => void; onOpenStage: (runId: string, stage: WorkflowStage) => void }) {
-  const run = workspace.runs.find((item) => item.id === workspace.activeRunId) || workspace.runs.filter((item) => item.projectId === project?.id).sort((a, b) => b.startedAt.localeCompare(a.startedAt))[0];
+  const run = selectedRun(workspace);
   const manifest = workspace.releases.find((item) => item.runId === run?.id);
   if (!project) return <EmptyState icon={Archive} title={text(language, "先选择项目", "Select a project")} description={text(language, "发布判断必须来自一个项目的运行证据。", "A release decision must come from one project's run evidence.")} actions={<button className="primary-button" onClick={() => navigate("projects")}>{text(language, "查看项目", "View projects")}</button>} />;
   if (!run) return <div><PageHeader eyebrow={project.name} title={text(language, "没有可评估的运行", "No run to evaluate")} description={text(language, "完成需求和计划并开始运行后，才能计算发布准备度。", "Complete requirements and planning and start a run before calculating release readiness.")} /><EmptyState icon={Archive} title={text(language, "先开始工程运行", "Start an engineering run first")} description={text(language, "发布页只汇总当前运行的实际工件、检查和决定。", "Release summarizes only the current run's actual artifacts, checks, and decisions.")} actions={<button className="primary-button" onClick={() => navigate("plan")}>{text(language, "查看计划", "Open plan")}</button>} /></div>;

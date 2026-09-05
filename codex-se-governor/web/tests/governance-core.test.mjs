@@ -155,7 +155,9 @@ test("responsive and reduced-motion policies are present", async () => {
   assert.match(css, /\.run-layout/);
   assert.match(css, /\.requirement-layout/);
   assert.match(css, /\.sidebar-backdrop/);
-  assert.match(productCss, /--control-height:\s*40px/);
+  assert.match(productCss, /--control-height:\s*36px/);
+  assert.match(productCss, /@media \(max-width: 820px\)[\s\S]*--control-height:\s*44px/);
+  assert.match(productCss, /\.home-columns\s*\{[^}]*minmax\(0, 1fr\)/);
   assert.match(productCss, /--radius:\s*8px/);
   assert.doesNotMatch(productCss, /letter-spacing:\s*-/);
   assert.match(productCss, /\.dialog-content\s*\{[^}]*background:\s*#fff/);
@@ -191,7 +193,8 @@ test("domain workflow preserves actor, evidence, and release semantics", () => {
   assert.equal(createRun(plan, "2026-09-04T00:00:00.000Z", 3).sequence, 3);
   const imported = importValidationManifest({ validators: [{ validator: "build", status: "pass", duration_seconds: 1.2 }] }, run);
   assert.equal(imported.checks[0].status, "passed");
-  assert.equal(imported.evidence[0].source, "verified");
+  assert.equal(imported.evidence[0].source, "imported");
+  assert.equal(JSON.parse(imported.evidence[0].content).validator, "build");
   const release = releaseReadiness(imported.run, imported.checks, imported.evidence);
   assert.equal(release.status, "blocked");
   assert.ok(release.blockers.some((item) => item.includes("Testing")));
@@ -218,9 +221,10 @@ test("validation results update their real stages and policy gates release", () 
   assert.equal(imported.run.currentStage, "release");
   assert.deepEqual(new Set(imported.checks.map((check) => check.key)), new Set(["build", "unit-tests", "security-review", "policy-check"]));
   const beforeApproval = releaseReadiness(imported.run, imported.checks, imported.evidence);
-  assert.deepEqual(beforeApproval.blockers, ["Release owner approval is required."]);
+  assert.deepEqual(beforeApproval.blockers, ["No verified validation evidence is attached to this run.", "Release owner approval is required."]);
   const approved = releaseReadiness(imported.run, imported.checks, imported.evidence, "run-1", undefined, [{ id: "decision-1", runId: imported.run.id, type: "release-approval", actor: "human", decision: "approved", reason: "Owner reviewed the evidence.", createdAt: "2026-09-04T00:10:00.000Z" }]);
-  assert.equal(approved.status, "ready");
+  assert.equal(approved.status, "blocked");
+  assert.deepEqual(approved.blockers, ["No verified validation evidence is attached to this run."]);
 });
 
 test("demo data is centralized and explicitly marked as recorded", async () => {

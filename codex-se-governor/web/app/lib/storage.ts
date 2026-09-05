@@ -36,7 +36,9 @@ export async function saveWorkspace<T>(workspace: T): Promise<void> {
       db.close();
       resolve();
     };
-    transaction.onerror = () => reject(transaction.error);
+    const fail = () => { db.close(); reject(transaction.error || new Error("Workspace save aborted")); };
+    transaction.onerror = fail;
+    transaction.onabort = fail;
   });
 }
 

@@ -1,6 +1,6 @@
 export type Language = "zh" | "en";
 export type ActorKind = "deterministic" | "ai" | "human" | "external";
-export type EvidenceSource = "verified" | "local-runner" | "recorded-demo" | "attested" | "ai-assisted" | "cached" | "unknown";
+export type EvidenceSource = "verified" | "imported" | "local-runner" | "recorded-demo" | "attested" | "ai-assisted" | "cached" | "unknown";
 export type WorkStatus = "passed" | "failed" | "warning" | "running" | "pending" | "skipped" | "not-run" | "unknown";
 export type RequirementStatus = "draft" | "confirmed";
 export type PlanStatus = "draft" | "approved";
@@ -256,6 +256,7 @@ export type WorkspaceState = {
   releases: ReleaseManifest[];
   artifacts: EngineeringArtifact[];
   activeProjectId: string;
+  activeRequirementId?: string;
   activeRunId: string;
   onboardingComplete: boolean;
 };

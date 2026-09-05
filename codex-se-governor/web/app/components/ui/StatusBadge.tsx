@@ -30,6 +30,7 @@ export function ActorBadge({ actor, language = "en" }: { actor: ActorKind; langu
 
 const sourceLabels: Record<EvidenceSource, { zh: string; en: string }> = {
   verified: { zh: "已验证结果", en: "Verified result" },
+  imported: { zh: "导入结果", en: "Imported result" },
   "local-runner": { zh: "本机 Runner", en: "Local runner" },
   "recorded-demo": { zh: "录制示例", en: "Recorded demo" },
   attested: { zh: "用户确认", en: "User attestation" },

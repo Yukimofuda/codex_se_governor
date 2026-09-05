@@ -158,17 +158,21 @@ function stageForCategory(category: Check["category"], label: string): WorkflowS
   return "validation";
 }
 
-function canonicalCheckKey(name: string, category: Check["category"]): string {
-  const value = name.toLowerCase().replaceAll("_", "-");
-  if (value.includes("integration") && (value.includes("test") || value.includes("pytest"))) return "integration-tests";
-  if (value.includes("test") || value.includes("pytest")) return "unit-tests";
-  if (value.includes("dependency") || value.includes("audit")) return "dependency-audit";
-  if (value.includes("security") || value.includes("secret")) return "security-review";
-  if (value.includes("type") && (value.includes("check") || value.includes("tsc"))) return "type-check";
-  if (value.includes("lint")) return "lint";
-  if (value.includes("build")) return "build";
-  if (category === "policy" || value.includes("se-gate")) return "policy-check";
-  return value.replace(/[^a-z0-9-]+/g, "-").replace(/^-+|-+$/g, "") || "quality-check";
+function canonicalCheckKey(name: string): string {
+  const value = name.toLowerCase().replaceAll("_", "-").replace(/[^a-z0-9-]+/g, "-").replace(/^-+|-+$/g, "");
+  // Check categories must not collapse distinct policy IDs; only exact legacy aliases may do so.
+  switch (value) {
+    case "pytest":
+    case "tests-unit":
+      return "unit-tests";
+    case "tests-integration":
+      return "integration-tests";
+    case "se-gate":
+    case "validate-traceability":
+      return "policy-check";
+    default:
+      return value || "quality-check";
+  }
 }
 
 export function importValidationManifest(
@@ -192,17 +196,17 @@ export function importValidationManifest(
       runId: run.id,
       type: category === "test" ? "test" : category === "security" ? "security" : "validation",
       title: `${label} result`,
-      source: "verified",
+      source: "imported",
       createdAt: timestamp,
       summary: `${normalizeStatus(record.status)} result imported from validation-results.json`,
-      content: JSON.stringify(record.evidence || { errors: record.errors || [], warnings: record.warnings || [] }, null, 2),
+      content: JSON.stringify(record, null, 2),
       artifactName: "validation-results.json",
     });
     return {
       id: `${run.id}-check-${index + 1}`,
       runId: run.id,
       stageId: targetStage.id,
-      key: canonicalCheckKey(label, category),
+      key: canonicalCheckKey(label),
       label,
       category,
       actor: "deterministic",
